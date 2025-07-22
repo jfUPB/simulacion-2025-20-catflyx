@@ -25,7 +25,7 @@ La forma en que se dispersan las partículas al recibir las ondas sonoras.
 ###
 1. En un caso, se podría utilizar en pantallas verdes para ciertas partes de la animación. Es decir, según la pantalla (se pueden poner de diferentes colores para separar las secciones), poner un arte generativo diferente en esta o texturas.
 2. Otro caso, un sistema que permita deformar ciertas partes de la animación según un algoritmo. (Un deformamiento tridimensional o simplemente de extension o achicamiento de la imágen)
-3. Un último caso, ...
+3. Un último caso, combinar arte generativo con una animación pre hecha, de tal forma que el arte generativo siga alguna especie de ruta que la ayude a conectarse con la animación.
 
 ## Actividad 03
 Analicemos juntos el código del ejemplo Example 0.1: A Traditional Random Walk del [texto guía](https://natureofcode.com/random/#example-01-a-traditional-random-walk).
@@ -146,22 +146,54 @@ class Walker {
 ###
 - Antes de ejecutar el código, escribe en tu bitácora qué esperas que suceda.
 ###
+`background(random(200),10);` En esta parte, quería intentar que pareciera que el fondo cambia de tonalidad cada que se ejecute la función draw(). Así, como que lo hiciera con difuminado para que el walker pareciera que dejara una estela.
+###
+` walker.show();
+  walker.step();
+  walker2.show();
+  walker2.step();` Que se dibujara uno encima del otro varias veces antes que se volviera a ejecutar la función draw().
+###
+`this.x++; this.x++; this.y++; this.y++;` Dupliqué estos comandos para intentar que se movieran más rápido y fuera más intersante la simulación.
 ###
 - Ejecuta el código y escribe en tu bitácora qué sucedió realmente.
 ###
+Sucedió gran parte de lo que predije, aunque obtuve resultados que no esperaba, principalmente en la función draw().
 ###
 - Ocurrió lo que esperabas? ¿Por qué crees que sí o por qué crees que no?
 ###
+Más o menos si, aunque a la hora de ver cómo los walker 1 y 2 dejaban una estela ocurrió algo muchos más interesante de lo que planié, recordándome a la estructura de un bismuto. Pondría mis errores en que desconozco bastante este lenguaje de programación.
 ###
 
 ## Actividad 04
+###
+###
 
+## Actividad 05
+###
+###
 
+## Actividad 06
+###
+###
 
+## Actividad 07
+###
+###
 
+## Actividad 08
+###
+###
 
+## Actividad 09
+###
+###
 
+## Actividad 10
+###
+###
 
-
+## Actividad 11
+###
+###
 
 
