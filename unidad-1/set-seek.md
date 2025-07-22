@@ -162,21 +162,104 @@ Sucedió gran parte de lo que predije, aunque obtuve resultados que no esperaba,
 - Ocurrió lo que esperabas? ¿Por qué crees que sí o por qué crees que no?
 ###
 Más o menos si, aunque a la hora de ver cómo los walker 1 y 2 dejaban una estela ocurrió algo muchos más interesante de lo que planié, recordándome a la estructura de un bismuto. Pondría mis errores en que desconozco bastante este lenguaje de programación.
-###
 
 ## Actividad 04
+# Distribuciones de probabilidad
+Analicemos juntos y detenidamente [este](https://p5js.org/reference/p5/randomGaussian/) ejemplo.
 ###
+- En tus propias palabras cuál es la diferencia entre una distribución uniforme y una no uniforme de números aleatorios.
 ###
+En una distribución uniforme, en este caso de números aleatorios, sería cuando cada número tiene la misma probabilidad de ser seleccionado. Es decir, como las caras de un dado, en donde cada número tiene la probabilidad de 1/6 de ser el seleccionado. Por otro lado, en una no uniforme, pueden existir diferentes porcentajes para que aparezca cada número. Por ejemplo, el 2 tiene un 10%, y el 3 un 15%.
+###
+- Modifica el código de la caminata aleatoria para que utilice una distribución no uniforme, favoreciendo el movimiento hacia la derecha.
+``` js
+let walker;
+
+function setup() {
+  createCanvas(640, 540);
+  walker = new Walker();
+  background('rgb(179,61,104)');
+}
+
+function draw() {
+  background(200,70);
+  walker.show();
+  walker.step();
+  //
+  walker.show();
+  walker.step();
+  //
+  walker.show();
+  walker.step();
+  //
+  walker.show();
+  walker.step();
+  //
+  walker.show();
+  walker.step();
+  //
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    stroke(0);
+    circle(this.x, this.y, 15);
+  }
+
+  step() {
+    const choice = floor(random((randomGaussian(1.5, 0.5)), 4));
+    // const choice = floor(random(randomGaussian(1.5, 0.5), 4)); Tiende a la izquierda
+    if (choice == 0) {
+      this.x++; this.x++;
+    } else if (choice == 1) {
+      this.x--; this.x--;
+    } else if (choice == 2) {
+      this.y++; this.y++;
+    } else {
+      this.y--; this.y--;
+    }
+  }
+  
+}
+```
+Solo logré que "tendiese" a la izquierda, a pesar que en teoría debería ir a la derecha.
 
 ## Actividad 05
+# Distribución Normal
+Analicemos juntos y detenidamente este ejemplo.
+
+- Crea un nuevo sketch en p5.js que represente una distribución normal.
 ###
+..
 ###
+- Copia el código en tu bitácora.
+###
+..
+###
+- Coloca en enlace a tu sketch en p5.js en tu bitácora.
+###
+..
+###
+- Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
+###
+..
 
 ## Actividad 06
+# Distribución personalizada: Lévy flight
+Analicemos juntos y detenidamente el concepto de Lévy flight.
+
 ###
 ###
 
 ## Actividad 07
+# Ruido Perlin
+Analicemos junto el concepto de ruido Perlin analizando la figura 0.4: “A graph of Perlin noise values over time (left) and of random noise values over time (right)”.
+
 ###
 ###
 
