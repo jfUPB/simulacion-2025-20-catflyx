@@ -231,52 +231,85 @@ Solo logré que "tendiese" a la izquierda, a pesar que en teoría debería ir a 
 
 ## Actividad 05
 # Distribución Normal
-Analicemos juntos y detenidamente este ejemplo.
-
+Analicemos juntos y detenidamente [este](https://natureofcode.com/random/#example-04-a-gaussian-distribution) ejemplo.
+###
+Una vez has entendido el concepto de distribución normal, vas a pensar en una nueva manera de visualizarlo.
+###
 - Crea un nuevo sketch en p5.js que represente una distribución normal.
-###
-..
-###
 - Copia el código en tu bitácora.
-###
-..
-###
+``` js
+function setup() {
+  createCanvas(700, 300); background('rgb(206,201,198)');
+}
+
+function draw() {
+  // background(220);
+    let x = random(620); let y = random(620);
+
+  noStroke();
+  fill(random(200), random(200), random(200), 10) //fill(0, 10);
+  circle(x, y, random(30)); // (x,y,z)
+}
+```
 - Coloca en enlace a tu sketch en p5.js en tu bitácora.
 ###
-..
+https://editor.p5js.org/catflyx/sketches/-8zjcepeD
 ###
 - Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
 ###
-..
+<img width="1919" height="587" alt="image" src="https://github.com/user-attachments/assets/e53cb4ed-92ab-4360-9509-8de55a254401" />
 
 ## Actividad 06
 # Distribución personalizada: Lévy flight
-Analicemos juntos y detenidamente el concepto de Lévy flight.
+Analicemos juntos y detenidamente el concepto de [Lévy flight](https://natureofcode.com/random/#a-custom-distribution-of-random-numbers).
+- Crea un nuevo sketch en p5.js donde modifiques uno de los ejemplos anteriores y adiciones de Lévy flight.
+###
+Ejemplo elegido:
+``` js
 
+```
+- Explica por qué usaste esta técnica y qué resultados esberabas obtener.
 ###
+...
 ###
+- Copia el código en tu bitácora.
+``` js
+
+```
+- Coloca en enlace a tu sketch en p5.js en tu bitácora.
+###
+...
+###
+- Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
+###
+...
 
 ## Actividad 07
 # Ruido Perlin
 Analicemos junto el concepto de ruido Perlin analizando la figura 0.4: “A graph of Perlin noise values over time (left) and of random noise values over time (right)”.
 
 ###
+...
 ###
 
 ## Actividad 08
 ###
+...
 ###
 
 ## Actividad 09
 ###
+...
 ###
 
 ## Actividad 10
 ###
+...
 ###
 
 ## Actividad 11
 ###
+...
 ###
 
 
