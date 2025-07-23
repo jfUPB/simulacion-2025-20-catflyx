@@ -99,9 +99,9 @@ class Walker {
   }
 }
 ```
-`versión 2 - wip`
+`versión 2`
 ###
-Tamaño del triángulo más variada, cambio de color manual.
+Tamaño del triángulo más variada, cambio de color al salto, arreglos estéticos pequeños.
 ###
 ``` js
 let walker;
@@ -122,7 +122,9 @@ function setup() {
 
 function draw() {
 if (jump){
-      walker.show2(); jump = false;
+      walker.show2(); 
+  r = random(200); g = random(200); b = random(200);
+  jump = false;
       } else{
       walker.show();
       }
@@ -138,12 +140,12 @@ class Walker {
 
   show() {
     noStroke();
-  fill(r, g, b, 50) //fill(0, 10);
+  fill(r, g, b, 30) //fill(0, 10);
   circle(this.x, this.y, random(20, 60));
 }
   show2() {
     noStroke();
-  fill(r, g, b, 80) //fill(0, 10);
+  fill(r, g, b, 100) //fill(0, 10);
     // triangle(200, 100, 300, 150, 250, 250);
     
 // Tamaño aleatorio para el lado del triángulo
@@ -165,12 +167,6 @@ class Walker {
   triangle(x1, y1, x2, y2, x3, y3);
 }
 
-  function keyPressed() {
-  if (key === 'c' || key === 'C') {
-    r = random(200); g = random(200); b = random(200);
-  }
-
-}  
   step() {
     let r = random(1);
     
@@ -183,19 +179,33 @@ class Walker {
     } else { // Si no hace el salto
   const choice = floor(random(4));
     if (choice == 0) {
-      this.x++;
+      this.x++; this.x++;
     } else if (choice == 1) {
-      this.x--;
+      this.x--; this.x--;
     } else if (choice == 2) {
-      this.y++;
+      this.y++; this.y++;
     } else {
-      this.y--;
+      this.y--; this.y--;
     }
   }
   }
 }
 ```
 `versión 3`
+###
+....
+###
+``` js
+
+```
+`versión 4`
+###
+....
+###
+``` js
+
+```
+`versión 5`
 ###
 ....
 ###
