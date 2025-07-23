@@ -351,21 +351,69 @@ https://editor.p5js.org/catflyx/sketches/A0xYmgViT
 ### Ruido Perlin
 Analicemos junto el concepto de [ruido Perlin](https://natureofcode.com/random/#a-smoother-approach-with-perlin-noise) analizando la figura 0.4: “A graph of Perlin noise values over time (left) and of random noise values over time (right)”.
 - Crea un nuevo sketch en p5.js donde los visualices.
-- Explica el concepto qué resultados esperabas obtener.
+- Explica el concepto, ¿qué resultados esperabas obtener?
 ###
-...
+Que el circulo se mueba de forma "smooth". Sin embargo, el circulo no se mueve a pesar de que el contador aumente en el código que hice.
 ###
 - Copia el código en tu bitácora.
+###
+Intento 1
 ``` js
+let t = 0; let t2 = 0;
 
+function setup() {
+  createCanvas(600, 600); background(220);
+}
+
+function draw() {
+  //let x = noise(100, width); let y = 10;
+  //circle(x, y, 16);
+  
+  let n = noise(t); let u = noise(t2);
+  print("n:" + n); print("n2:" + u);
+  t += 50; t2 += 100;
+  
+  stroke(0); circle(u, n, 16);
+}
+```
+Intento 2
+``` js
+let walker; let t = 0;
+
+function setup() {
+  createCanvas(640, 240);
+  walker = new Walker();
+  background(255);
+}
+
+function draw() { t += 100;
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    stroke(0);
+    circle(this.x, 100, 16);
+  }
+
+  step() {
+    this.x = noise(t);
+  }
+}
 ```
 - Coloca en enlace a tu sketch en p5.js en tu bitácora.
 ###
-...
+https://editor.p5js.org/catflyx/sketches/aFKh9c3Jp
 ###
 - Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
 ###
-...
+<img width="1884" height="705" alt="image" src="https://github.com/user-attachments/assets/2e5e40ef-f1dc-4fe4-9a09-613ffd947c55" />
 
 # Aplicación
 Vas a aplicar los conceptos con los que experimentaste en la fase de investigación para crear una aplicación de arte generativo interactivo en tiempo real.
