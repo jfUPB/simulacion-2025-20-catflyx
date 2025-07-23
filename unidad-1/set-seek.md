@@ -164,7 +164,7 @@ Sucedió gran parte de lo que predije, aunque obtuve resultados que no esperaba,
 Más o menos si, aunque a la hora de ver cómo los walker 1 y 2 dejaban una estela ocurrió algo muchos más interesante de lo que planié, recordándome a la estructura de un bismuto. Pondría mis errores en que desconozco bastante este lenguaje de programación.
 
 ## Actividad 04
-# Distribuciones de probabilidad
+### Distribuciones de probabilidad
 Analicemos juntos y detenidamente [este](https://p5js.org/reference/p5/randomGaussian/) ejemplo.
 ###
 - En tus propias palabras cuál es la diferencia entre una distribución uniforme y una no uniforme de números aleatorios.
@@ -230,7 +230,7 @@ class Walker {
 Solo logré que "tendiese" a la izquierda, a pesar que en teoría debería ir a la derecha.
 
 ## Actividad 05
-# Distribución Normal
+### Distribución Normal
 Analicemos juntos y detenidamente [este](https://natureofcode.com/random/#example-04-a-gaussian-distribution) ejemplo.
 ###
 Una vez has entendido el concepto de distribución normal, vas a pensar en una nueva manera de visualizarlo.
@@ -259,16 +259,99 @@ https://editor.p5js.org/catflyx/sketches/-8zjcepeD
 ###
 <img width="1919" height="587" alt="image" src="https://github.com/user-attachments/assets/e53cb4ed-92ab-4360-9509-8de55a254401" />
 
-## Actividad 06
-# Distribución personalizada: Lévy flight
+## Actividad 06 * No ví ejemplos
+### Distribución personalizada: Lévy flight
 Analicemos juntos y detenidamente el concepto de [Lévy flight](https://natureofcode.com/random/#a-custom-distribution-of-random-numbers).
 - Crea un nuevo sketch en p5.js donde modifiques uno de los ejemplos anteriores y adiciones de Lévy flight.
+- Explica por qué usaste esta técnica y qué resultados esperabas obtener.
 ###
-Ejemplo elegido:
+Tomando el ejemplo del walker.Primero, quería que este cambiase de color constantemente, y crearle algo de transparencia sin borrar los trazos anteriores. Después, hice los cambios relevantes, con la idea de que el cuadrado "salte" de forma aleatoria a una nueva zona del lienzo. Con otros agregados.
+###
+- Copia el código en tu bitácora.
 ``` js
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
 
+let walker;
+
+let a; let s; let d;
+
+function setup() {
+  createCanvas(640, 540);
+  walker = new Walker();
+  background('rgb(164,148,145)');
+  
+  a = 200; s = 40; d = 120;
+}
+
+function draw() {
+  walker.stepnew();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    noStroke(); //stroke(0); 
+    fill(a, s, d, 85) //fill(0, 10);
+    square(this.x, this.y, random(5, 30));
+  }
+
+  stepnew() {
+    let r = random(1); let c = random(1);
+    
+    
+    if (r < 0.01) {
+  this.x = random(-100, 100);
+  this.y = random(-100, 100);
+
+    } else { // Si no hace el salto
+  const choice = floor(random(4));
+    if (choice == 0) {
+      this.x++;
+    } else if (choice == 1) {
+      this.x--;
+    } else if (choice == 2) {
+      this.y++;
+    } else {
+      this.y--;
+    }
+    }
+    
+    if (c < 1){
+      a = 200; s = 40; d = 120;
+    }
+    if (c < 0.1){
+      a = 40; s = 40; d = 200;
+    }
+    if (c < 0.01){
+      a = 200; s = 120; d = 40;
+    }
+    
+    }
+  
+    
+}
 ```
-- Explica por qué usaste esta técnica y qué resultados esberabas obtener.
+- Coloca en enlace a tu sketch en p5.js en tu bitácora.
+###
+https://editor.p5js.org/catflyx/sketches/A0xYmgViT
+###
+- Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
+###
+<img width="1855" height="802" alt="image" src="https://github.com/user-attachments/assets/fe07c852-ab3b-45f7-859a-60381aab92d7" />
+
+
+## Actividad 07
+### Ruido Perlin
+Analicemos junto el concepto de [ruido Perlin](https://natureofcode.com/random/#a-smoother-approach-with-perlin-noise) analizando la figura 0.4: “A graph of Perlin noise values over time (left) and of random noise values over time (right)”.
+- Crea un nuevo sketch en p5.js donde los visualices.
+- Explica el concepto qué resultados esperabas obtener.
 ###
 ...
 ###
@@ -284,32 +367,37 @@ Ejemplo elegido:
 ###
 ...
 
-## Actividad 07
-# Ruido Perlin
-Analicemos junto el concepto de ruido Perlin analizando la figura 0.4: “A graph of Perlin noise values over time (left) and of random noise values over time (right)”.
-
-###
-...
-###
+# Aplicación
+Vas a aplicar los conceptos con los que experimentaste en la fase de investigación para crear una aplicación de arte generativo interactivo en tiempo real.
 
 ## Actividad 08
+### Creación de obra generativa
+Vas a crear una obra generativa interactiva en tiempo real utilizando los conceptos de aleatoriedad que has aprendido en esta unidad.
+###
+Tu obra debe:
+- Usar al menos tres conceptos estudiados en esta unidad COMBINADOS de manera creativa y coherente.
+- Tu obra de ser interactiva y generativa en tiempo real. Puedes usar el mouse, el teclado o cualquier otro sensor de entrada para interactuar con la obra.
+# Concepto
+explicación
+# Código
+``` js
+
+```
 ###
 ...
 ###
+enlace
+###
+Selecciona una captura de pantalla
 
 ## Actividad 09
-###
+### Autoevaluación
 ...
-###
 
 ## Actividad 10
-###
+### Coevaluación
 ...
-###
 
 ## Actividad 11
-###
+### Feedback
 ...
-###
-
-
