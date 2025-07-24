@@ -193,10 +193,97 @@ class Walker {
 ```
 `versión 3`
 ###
-....
+Movimiento usando noise, modificación a la selección del color.
 ###
 ``` js
+let walker;
 
+let jump;
+
+let r, g, b; let t = 0; let t2 = 0;
+
+function setup() {
+  createCanvas(640, 540);
+  walker = new Walker();
+  jump = false;
+  
+  r = random(200); g = random(200); b = random(200);
+  
+  background('rgb(9,4,13)');
+}
+
+function draw() 
+{ t += random(-100, 400); t2 += random(-20, 200);
+ 
+if (jump){
+  r = random(random(100, 150)); 
+  g = random(random(50, 200)); 
+  b = random(random(170, 250));
+  
+      walker.show2(); 
+  
+  jump = false;
+      } else{
+      walker.show();
+      }
+  
+  walker.step();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+}
+
+  show() {
+    noStroke();
+  fill(r, g, b, 30) //fill(0, 10);
+  circle(this.x, this.y, random(20, 60));
+}
+  show2() {
+    noStroke();
+  fill(r, g, b, 100) //fill(0, 10);
+    // triangle(200, 100, 300, 150, 250, 250);
+    
+// Tamaño aleatorio para el lado del triángulo
+  let size = random(40, 120);
+  
+  // Altura del triángulo equilátero
+  let h = size * random(sqrt(1) / 2, sqrt(9) / 2);
+
+  // Definir los vértices relativos a (this.x, this.y) centrados
+  let x1 = this.x;
+  let y1 = this.y - (2 / 3) * h;
+
+  let x2 = this.x - size / 2;
+  let y2 = this.y + (1 / 3) * h;
+
+  let x3 = this.x + size / 2;
+  let y3 = this.y + (1 / 3) * h;
+
+  triangle(x1, y1, x2, y2, x3, y3);
+}
+
+  step() {
+    let r = random(1);
+    
+    
+    if (r < 0.01) {
+  this.x = random(0, 640);
+  this.y = random(-100, 100);
+      jump = true;
+
+    } else { // Si no hace el salto
+  const choice = floor(random(2));
+    if (choice == 0) {
+      this.x += noise(t) * 6; this.y += noise(t2) * 2;
+    } else if (choice == 1) {
+      this.y += noise(t2) * 8; this.x += noise(t) * 2;
+    }
+  }
+  }
+}
 ```
 `versión 4`
 ###
@@ -215,6 +302,6 @@ class Walker {
 ###
 ...
 ###
-enlace
+https://editor.p5js.org/catflyx/sketches/HnPJAllcJ
 ###
 Selecciona una captura de pantalla
