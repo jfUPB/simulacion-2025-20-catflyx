@@ -35,18 +35,16 @@ En este contexto, es cambiar la posición en donde se dibujará el siguiente `wa
 
 1. ¿Cuál fue el concepto más abstracto o difícil de “visualizar” para ti en esta unidad? ¿Qué hiciste para finalmente comprenderlo?
 ###
-...
+El uso de las coordenadas al hacer la caminata, pues, no tengo ninguna referencia visual de cómo funcionan las caminatas dentro del lienzo de p5.js. Esto no lo entendía hasta que el docente me explicó cómo se distribuyen, para hacer uso correcto de todo el lienzo cuando haga caminatas con el walker.
 ###
 2. Describe un momento durante el desarrollo de tu obra final (Actividad 08) en el que un “error” o un resultado inesperado te llevó a una idea creativa interesante.
 ###
-...
+Tuve siempre la idea de que mientras hiciese el tono de un trazo, este puediera variar en tono por si solo, como un espectro de rojos por ejemplo. Sin embargo, no lograba implementar esto por más que lo intentase, por lo que se me ocurrió una alternativa. Hice que esto se puediera hacer por desición propia del usuario. Icialmente con lo que planté antes, haciendo que el color cambie tenuemente entre un rango cada que se presionase una tecla, pero luego también agregue que los colores se vuelvan o más claros, o más oscura con otro par de teclas.
 ###
 3. Al combinar diferentes técnicas de aleatoriedad, ¿Cuál fue el mayor desafío? ¿La interacción entre los sistemas, el control de los parámetros, el rendimiento?
 ###
-...
+La interacción entre los sistemas, pues quería que muchas cosas se pudiesen hacer con variables internas de las funciones, obligándome a definir en varias de estas variables globales que cambiasen según ciertas condiciones. Esto lo hice con la dirección, color y forma del trazo.
 ###
 4. Si tuvieras que empezar la Actividad 08 de nuevo, ¿Qué harías de manera diferente basándote en lo que sabes ahora?
 ###
-...
-
-
+Tal vez probaría más uso de las diferentes formas que se pueden dibujar, y hacer que el movimiento sea menos predecible cuando realiza el noise().
