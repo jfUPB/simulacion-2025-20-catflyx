@@ -48,3 +48,47 @@ La interacción entre los sistemas, pues quería que muchas cosas se pudiesen ha
 4. Si tuvieras que empezar la Actividad 08 de nuevo, ¿Qué harías de manera diferente basándote en lo que sabes ahora?
 ###
 Tal vez probaría más uso de las diferentes formas que se pueden dibujar, y hacer que el movimiento sea menos predecible cuando realiza el noise().
+
+## Actividad 10
+### Coevaluación
+1. Encuentra un compañero de trabajo.
+###
+Esteban Puerta
+###
+2. Intercambien las URLs de sus bitácoras de aprendizaje.
+###
+URL de mi compañero: https://github.com/jfUPB/simulacion-2025-20-LS1653
+###
+3. Dirígete a la entrada de la Actividad 08: creación de obra generativa de tu compañero. Lee su concepto, interactúa con su sketch y analiza su código.
+###
+4. Basándote en la rúbrica para la actividad 08 evalúa el trabajo del compañero y escribe un comentario de retroalimentación constructiva. Esto lo harás en tu bitácora de aprendizaje.
+###
+Todo esta bien, diría que el único defecto notable es el rendimiento (el programa se congela algunas veces), y que tal vez el cambio de formas en el trazo es poco notable, pero la aplicación de conceptos, aleatoriedad y la interactividad están muy bien implementadas e interesantes.
+###
+5. Conversa con tu compañero sobre su obra y tu feedback. Escucha sus reflexiones y comparte tus propias ideas.
+-b
+
+## Actividad 11
+### Feedback
+Responde a las siguientes preguntas con total sinceridad. No hay respuestas correctas o incorrectas.
+###
+1. *Continuar*: ¿Qué actividad, ejemplo o explicación de esta unidad te resultó más reveladora o útil para tu aprendizaje? ¿Qué deberíamos mantener sí o sí?
+###
+El uso de condicionales para definir ciertos eventos dentro del trabajo generativo.
+###
+2. *Dejar de hacer*: ¿Hubo alguna actividad o concepto que te pareció redundante, confuso o menos útil? ¿Hay algo que eliminarías o cambiarías por completo?
+###
+Distribuciones usando `randomGaussian()`, me pareció poco interesante y práctico a la hora de aplicarlo.
+###
+3. *Empezar a hacer*: ¿Qué te faltó en esta unidad? ¿Quizás más ejemplos de artistas, más desafíos técnicos, más teoría? ¿Qué idea tienes para hacerla mejor?
+###
+Más teoría o ejemplos más claros, algunas veces es difícil entender el lenguaje o el funcionamiento de ciertos temas a primera vista.
+###
+4. *Balance Teoría-Práctica*: ¿Cómo sentiste el equilibrio entre analizar los ejemplos del texto guía y ponerte a programar tus propios sketches? Explica tu respuesta.
+###
+Extraño, algunos los comprendí rápido, pero la mayoría me dejaban con más dudas que respuestas al intentar aplicarlos conmigo mismo, y luego compararlos con los ejemplos.
+###
+5. *Comentario Adicional*: ¿Hay algo más que quieras compartir sobre tu experiencia en esta unidad?
+###
+Me gustó el resultado final que pude alcanzar, a pesar de mis dificultades para comprender el código en ciertas secciones.
+
