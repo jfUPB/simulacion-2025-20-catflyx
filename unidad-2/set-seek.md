@@ -96,25 +96,98 @@ function draw() {
     console.log("Only once");
 }
 ```
-¿Qué resultado esperas obtener en el programa anterior?
+- ¿Qué resultado esperas obtener en el programa anterior?
 ###
-...
+Se crea un vector position, el cual se imprime en la consola. Posteriormente, se usa la función `playingVector();`, para modificar los componentes en `x` y `y` de `position`, y se vuelve a imprimir en la consola. El programa solo se ejecuta una vez por el `noLoop();`.
 ###
-¿Qué resultado obtuviste?
+- ¿Qué resultado obtuviste?
 ###
-...
+Sucecidió lo planteado arriba, solo que el `noLoop();` lo que hace es que se detenga la ejecución de específicamente la función `draw()`, no de todo el programa.
 ###
-Recuerda los conceptos de paso por valor y paso por referencia en programación. Muestra ejemplos de este concepto en javascript.
+- Recuerda los conceptos de *paso por valor* y *paso por referencia* en programación. Muestra ejemplos de este concepto en javascript.
 ###
-...
+Estos conceptos se pueden resumir en:
 ###
-¿Qué tipo de paso se está realizando en el código?
+**Paso por valor:** Al entregarse una variable a una función para cambiar su valor, este cambio solo se toma en cuenta *dentro de la función*. Es decir, una vez esta se termine de ejecutar, el valor que tenía la variable seguirá siendo el mismo. Ejemplo:
 ###
-...
+``` js
+let num;
+
+function setup() {
+    createCanvas(400, 400);
+  
+    num = 5;
+    console.log("fuera de función 1:", num);
+  
+    cambiarValor(num); 
+  console.log("fuera de función 2:", num);
+    
+    noLoop();
+}
+
+function cambiarValor(x) {
+  x += 10;
+  console.log("dentro de función:", x);
+}
+
+```
+**Paso por referencia:** Al entregarse una variable a una función para cambiar su valor, este cambio si se toma en cuenta una vez acabe la función. Es decir, una vez esta se termine de ejecutar, el valor que tenía la variable se habrá modificado. En el caso de Javascript, las variables "primitivas" no se pueden pasar por referencia, por lo que es necesario usar objetos, arrays o funciones. Ejemplo:
+``` js
+let nums;
+
+function setup() {
+    createCanvas(400, 400);
+  
+    nums = [1, 2, 3];
+    console.log("fuera de función 1:", nums);
+  
+    cambiarValor(nums); 
+  console.log("fuera de función 2:", nums);
+    
+    noLoop();
+}
+
+function cambiarValor(x) {
+  x[0] += 10;
+  console.log("dentro de función:", x);
+}
+```
 ###
-¿Qué aprendiste?
+Al final se imprimen los mismos números en todos los casos.
 ###
-...
+- ¿Qué tipo de paso se está realizando en el código?
+``` js
+//Modificación superficial para verificar
+
+let position;
+
+function setup() {
+    createCanvas(400, 400);
+    position = createVector(6,9);
+    console.log("1: ", position.toString());
+    playingVector(position);
+    console.log("3: ", position.toString());
+    noLoop();
+}
+
+function playingVector(v){
+    v.x = 20;
+    v.y = 30;
+  
+  console.log("2: ", position.toString());
+}
+
+function draw() {
+    background(220);
+    console.log("Only once");
+}
+```
+Paso por referencia, pues al imprimir los datos fuera de la función, estos siguen manteniendo los cambios.
+<img width="449" height="111" alt="image" src="https://github.com/user-attachments/assets/8f345e2f-99f8-47db-8f74-fe95c931c327" />
+###
+- ¿Qué aprendiste?
+###
+Recordé que eran los pasos por referencia y por valor textualmente, y aprendí a modificar los componentes de una variable que almacena la dirección de un vector.
 
 ## Actividad 04
 ### Explora posibilidades
