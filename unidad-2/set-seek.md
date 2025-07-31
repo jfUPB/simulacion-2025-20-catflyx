@@ -195,32 +195,32 @@ Vamos a darle una mirada a la clase p5.Vector [aquí](https://p5js.org/reference
 ###
 - ¿Para qué sirve el método `mag()`? Nota que hay otro método llamado `magSq()`. ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?
 ###
-...
+El método `mag()` sirve para calcular la magnitud de un vector en dos dimensiones, es decir, solo se usan los componentes `x` y `y`. Por otro lado, `magSq()` hace esto mismo, solo que calcula la magnitud del vector al *cuadrado*. A la hora de la verdad, entendería que el `magSq()` se usa para situaciones más específicas, por lo que diría que el `mag()` es el más eficiente y versatil en usos.
 ###
 - ¿Para qué sirve el método `normalize()`?
 ###
-...
+Escala los componentes del objeto del vector para que su magnitud sea igual a 1.
 ###
 - Te encuentras con un periodista en la calle y te pregunta ¿Para qué sirve el método `dot()`? ¿Qué le responderías en un frase?
 ###
-...
+Que calcula el producto punto entre dos vectores.
 ###
-- El método `dot()` tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas?
+- El método `dot()` tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas? *
 ###
 ...
 ###
 - Ahora el mismo periodista curioso de antes te pregunta si le puedes dar una intuición geométrica acerca del producto cruz. Entonces te pregunta ¿Cuál es la interpretación geométrica del 
-producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.
+producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante. *
 ###
-...
+La interpretación geométrica es xxxx, siendo que, su magnitud es el área del paralelogramo formado por los dos vectores originales, y su orientación apunta afuera del plano creado por estos.
 ###
 - ¿Para que te puede servir el método `dist()`?
 ###
-...
+Sirve para calcular la distancia entre dos puntos que son representados con vectores.
 ###
 - ¿Para qué sirven los métodos `normalize()` y `limit()`?
 ###
-...
+`normalize()` escala los componentes del objeto del vector para que su magnitud sea igual a 1, y `limit()` limita la magnitud de un vector usando un valor máximo que este establece.
 
 ## Actividad 05 - Viernes
 
