@@ -328,14 +328,29 @@ Flecha interpolada **|✓|**, Colores interpolados **|✓|**, Vector verde **|�
 Esta está compuesta por dos partes: La línea y la punta. Para la línea se usa un `stroke()`, para el cual se usan los componentes en `x` y `y` para ser dibujada, además de definir su rotación con el método `heading()`. La punta por otro lado, se contruye dibujando un triángulo, que toma de referencia una variable previamente definida llamada `arrowSize`.
 
 ## Actividad 06
-
-
-
-
-
+### Motion 101
+En la sección del texto guía llamada [Motion with vectors](https://natureofcode.com/vectors/#motion-with-vectors), el autor propone un marco de movimiento llamado motion 101. Así mismo, el [ejemplo 1.7](https://natureofcode.com/vectors/#example-17-motion-101-velocity) muetra cómo se aplica este marco en un ejemplo simple.
+###
+- Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
+###
+...
+###
+- ¿Cómo se aplica motion 101 en el ejemplo?
+###
+...
 
 ## Actividad 07
-
-
-
-
+### Experimentando con la aceleración
+En el libro proponen una regla (que eventualmente se rompe cuando conviene):
+###
+*"The goal for programming motion is to come up with an algorithm for calculating acceleration and then let the trickle-down effect work its magic."*
+###
+Para investigador el significado de esta frase te propone que construyas un experimento donde analices cómo se comporta un objeto en movimiento con:
+###
+- Aceleración constante.
+- Aceleración aleatoria.
+- Aceleración hacia el mouse.
+###
+¿Qué observaste cuando usas cada una de las aceleraciones propuestas?
+###
+...
