@@ -258,7 +258,57 @@ function drawArrow(base, vec, myColor) {
 ```
 Hay que modificarlo para generar el resultado indicado:
 ``` js
+let inter = 0; let back = false;
 
+function setup() {
+    createCanvas(500, 500);
+}
+
+function draw() {
+    background('rgb(173,169,162)');
+
+    let v0 = createVector(50, 50);
+    let v1 = createVector(350, 0);
+    let v2 = createVector(0, 350);
+    let v3 = p5.Vector.lerp(v1, v2, inter);
+    
+  let o = p5.Vector.add(v0, v1); //origen
+  let d = p5.Vector.add(v0, v2); //destino
+  let dir = p5.Vector.sub(d, o); //dirección
+  
+    drawArrow(v0, v1, 'rgb(182,2,2)');
+    drawArrow(v0, v2, 'rgb(51,51,177)');
+    drawArrow(v0, v3, lerpColor('rgb(182,2,2)', 'rgb(51,51,177)', inter)); 
+  //Interpolación color
+    drawArrow(o, dir, '#4CAF50');
+  
+  if (inter >= 1){ //Pa#539555venga y vuelva
+        back = true;
+      } else if (inter <= 0){
+        back = false;
+      }
+  
+  if (back){
+        inter -= 0.01;
+      } else {
+        inter += 0.01;
+      }
+  console.log("interpolación: ", inter, " - Modo: ", back); //Comprobador
+}
+
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(3);
+    fill(myColor);
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    pop();
+}
 ``` 
 - Analiza cómo funciona el método `lerp()`.
 - Nota que además de la interpolación lineal de vectores, también puedes hacer interpolación lineal de colores con el método `lerpColor()`.
@@ -266,14 +316,16 @@ Hay que modificarlo para generar el resultado indicado:
 Dedica un tiempo a estudiar cómo se dibuja una flecha en el método `drawArrow()`.
 ###
 - El código que genera el resultado que te pedí.
-Flecha interpolada **|✓|**, Colores interpolados **|X|**, Vector verde **|X|**.
+###
+Flecha interpolada **|✓|**, Colores interpolados **|✓|**, Vector verde **|✓|**.
+###
 - ¿Cómo funciona `lerp()` y `lerpColor()`.
 ###
-...
+`lerp()` es una función que permite *interpolar* dos componentes entre sí, siendo el caso de `lerpColor()`, interpolando dos colores (definidos en orden) y luego poniendo qué tanto se interpolarán, siendo valores de 0 a 1.
 ###
 - ¿Cómo se dibuja una flecha usando `drawArrow()`?
 ###
-...
+Esta está compuesta por dos partes: La línea y la punta. Para la línea se usa un `stroke()`, para el cual se usan los componentes en `x` y `y` para ser dibujada, además de definir su rotación con el método `heading()`. La punta por otro lado, se contruye dibujando un triángulo, que toma de referencia una variable previamente definida llamada `arrowSize`.
 
 ## Actividad 06
 
