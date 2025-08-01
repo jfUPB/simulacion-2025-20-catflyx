@@ -205,18 +205,18 @@ Escala los componentes del objeto del vector para que su magnitud sea igual a 1.
 ###
 Que calcula el producto punto entre dos vectores.
 ###
-- El método `dot()` tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas? *
+- El método `dot()` tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas?
 ###
-...
+En la **instancia**, lo que hace es que realiza el producto punto a partir de uno de los dos vectores, osea, desde un objeto vector. Por ejemplo, al usarlo de esta forma `v1.dot(v2);`, se realizará el producto punto desde el vector 1 (v1), con entre v1 y v2. Por otro lado, en la **estática**, se forma un tercer vector usando el producto punto entre v1 y v2, sin que se tome referencia directa de ninguno de estos. Por ejemplo, en `p5.Vector.dot(v1, v2);`, se realizará lo dicho, siendo que como ahora están ambos dentros del parentesis, se calculará el producto punto con estos dos para hacer el tercero.
 ###
 - Ahora el mismo periodista curioso de antes te pregunta si le puedes dar una intuición geométrica acerca del producto cruz. Entonces te pregunta ¿Cuál es la interpretación geométrica del 
-producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante. *
+producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.
 ###
-La interpretación geométrica es xxxx, siendo que, su magnitud es el área del paralelogramo formado por los dos vectores originales, y su orientación apunta afuera del plano creado por estos.
+La interpretación geométrica es algo similar a un triangulo, pues, se forma un vector perpendicular al plano que se forma a partir de los dos vectores; siendo que, su magnitud es el área del paralelogramo formado por los dos vectores originales, y su orientación apunta afuera del plano creado por estos.
 ###
-- ¿Para que te puede servir el método `dist()`?
+- ¿Para qué te puede servir el método `dist()`?
 ###
-Sirve para calcular la distancia entre dos puntos que son representados con vectores.
+Sirve para calcular la distancia entre dos puntos que son representados con vectores, lo cual puede llevar a usarse para movimientos de cierta forma, coordinados, entre ambos vectores.
 ###
 - ¿Para qué sirven los métodos `normalize()` y `limit()`?
 ###
