@@ -222,8 +222,68 @@ Sirve para calcular la distancia entre dos puntos que son representados con vect
 ###
 `normalize()` escala los componentes del objeto del vector para que su magnitud sea igual a 1, y `limit()` limita la magnitud de un vector usando un valor máximo que este establece.
 
-## Actividad 05 - Viernes
+## Actividad 05
+### ¿Interpolamos?
+Vas a tomar como inspiración este ejemplo de la referencia de p5.js:
+``` js
+function setup() {
+    createCanvas(100, 100);
+}
+
+function draw() {
+    background(200);
+
+    let v0 = createVector(50, 50);
+    let v1 = createVector(30, 0);
+    let v2 = createVector(0, 30);
+    let v3 = p5.Vector.lerp(v1, v2, 0.5);
+    drawArrow(v0, v1, 'red');
+    drawArrow(v0, v2, 'blue');
+    drawArrow(v0, v3, 'purple');
+}
+
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(3);
+    fill(myColor);
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    pop();
+}
+```
+Hay que modificarlo para generar el resultado indicado:
+``` js
+
+``` 
+- Analiza cómo funciona el método `lerp()`.
+- Nota que además de la interpolación lineal de vectores, también puedes hacer interpolación lineal de colores con el método `lerpColor()`.
+###
+Dedica un tiempo a estudiar cómo se dibuja una flecha en el método `drawArrow()`.
+###
+- El código que genera el resultado que te pedí.
+Flecha interpolada **|✓|**, Colores interpolados **|X|**, Vector verde **|X|**.
+- ¿Cómo funciona `lerp()` y `lerpColor()`.
+###
+...
+###
+- ¿Cómo se dibuja una flecha usando `drawArrow()`?
+###
+...
 
 ## Actividad 06
 
+
+
+
+
+
 ## Actividad 07
+
+
+
+
