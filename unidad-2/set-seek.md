@@ -333,11 +333,11 @@ En la sección del texto guía llamada [Motion with vectors](https://natureofcod
 ###
 - Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
 ###
-...
+Usar el velocity para así cambiar la posición del objeto de forma continua y por así decirlo, *smooth*, como si se usara un ruido de Perlin; usando `velocity` y `position` respectivamente para estos datos. De igual forma, su interpretación geométrica sería una función (gráfica), en donde se presenta una línea horizontal recta sin ningún tipo de ondulación, siendo que, la aceleración sería igual a 0 y la velocidad cte, creando un movimiento homogeéneo sea cual sea la dirección.
 ###
 - ¿Cómo se aplica motion 101 en el ejemplo?
 ###
-...
+Este se usa para mover el objeto, en este caso llamado `mover`, para que el circulo se mueva diagonalmente hacia la izquierda; y al llegar al límite inferior del canvas, ser transportada a un punto más cercano a la parte izquierda del canvas (una distancia predeterminada), para que continue con la moción anterior. Esto hasta que llegue al límite izquierdo y se devuelva al límite derecho para repetir el proceso.
 
 ## Actividad 07
 ### Experimentando con la aceleración
@@ -354,3 +354,4 @@ Para investigador el significado de esta frase te propone que construyas un expe
 ¿Qué observaste cuando usas cada una de las aceleraciones propuestas?
 ###
 ...
+
