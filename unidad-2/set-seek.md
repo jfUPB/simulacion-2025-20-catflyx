@@ -337,7 +337,9 @@ Usar el velocity para así cambiar la posición del objeto de forma continua y p
 ###
 - ¿Cómo se aplica motion 101 en el ejemplo?
 ###
-Este se usa para mover el objeto, en este caso llamado `mover`, para que el circulo se mueva diagonalmente hacia la izquierda; y al llegar al límite inferior del canvas, ser transportada a un punto más cercano a la parte izquierda del canvas (una distancia predeterminada), para que continue con la moción anterior. Esto hasta que llegue al límite izquierdo y se devuelva al límite derecho para repetir el proceso.
+Este se usa para mover el objeto, en este caso llamado `mover`, para que el circulo se mueva de tal forma que elija aleatoriamente: una posición, la dirección, y la velocidad con la que se trasladará; y al llegar al límite del canvas (en cualquiera de estos), ser transportada a un punto relativamente cercano en la dirección prestablecida, para que continue con la moción anterior. Esto hasta que llegue al límite izquierdo o derecho, y se devuelva al límite opuesto para repetir el proceso. 
+###
+Cabe agregar, que cada que se ejecuta el programa las variables mencionadas serán diferentes (posición,dirección y velocidad), pero si solo se le deja correr, estás mantendrán los mismos valores siempre, a excepción de la posición que se va actualizando según la velocidad o si ha tocado o no el límite del canvas.
 
 ## Actividad 07
 ### Experimentando con la aceleración
@@ -353,5 +355,8 @@ Para investigador el significado de esta frase te propone que construyas un expe
 ###
 ¿Qué observaste cuando usas cada una de las aceleraciones propuestas?
 ###
-...
-
+**Aceleración constante:** Al ser `a = cte`, la velocidad va en *aumento* cada segundo. Es decir, mientras más corra el programa, más rápido el `mover` será.
+###
+**Aceleración aleatoria:** Tanto la velocidad y la aceleración no siguen ningún patrón, pues como la aceleración es aleatoria, la velocidad también lo es, afectando directamente a la posición. Esto crea un movimiento más errático en el `mover`.
+###
+**Aceleración hacia el mouse:** Aquí la aceleración se definirá por la posición del mouse, es decir, dependiendo de la distancia y dirección a la está el mouse y el `mover`, la aceleración variará. Es por esto que se ve como "desacelera", ya que al tener que cambiar de dirección abruptamente genera una especie de conbinación negativa de los vectores, dejando la velocidad en valores cercanos a cero, así como disminuyendo la aceleración por unos instantes. Esto genera un movimiento más orgánico y predecible en el `mover`.
