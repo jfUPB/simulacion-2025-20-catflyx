@@ -658,7 +658,6 @@ class Bouncer {
     pop();
   }
 }
-}
 ```
 `Versión 4`
 ###
@@ -680,6 +679,7 @@ https://editor.p5js.org/catflyx/sketches/LjO0Gb2Rg
 ###
 - Una captura de pantalla representativa de tu pieza de arte generativo.
 ###
+
 
 
 
