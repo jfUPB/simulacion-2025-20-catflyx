@@ -10,7 +10,7 @@ El código de la aplicación.
 # Concepto
 - Describe el concepto de tu obra generativa.
 ###
-Hacer un "pincel" usando el `mover`, de tal forma que este siga el mouse con una aceleración definida por la distancia. De igual forma, hacer que al presionar ciertas teclas este pueda cambiar su modo de aceleración, sin dejar de seguir el mouse en ciertos modos. Ya usando conceptos de la unidad anterior, hacer que de *saltos* aleatorios hacia el centro del canvas, así como que exista otro `mover` independiente el cual tendrá un trazo usando una forma distinta, así como usará otro método de aceleración. Esta última también podrá modificarse en ciertos aspectos mientras el programa corre.
+Hacer un "pincel" usando el `mover`, de tal forma que este siga el mouse con una aceleración definida por la distancia; los cuales serán dos. De igual forma, hacer que al presionar ciertas teclas este pueda cambiar su modo de aceleración, sin dejar de seguir el mouse en ciertos modos. Ya usando conceptos de la unidad anterior, hacer que de *saltos* aleatorios hacia el centro del canvas, así como que exista otros dos `mover` independientes los cuales tendrán un trazo usando una forma distinta, así como usará otro método de aceleración. Esta última también podrá modificarse en ciertos aspectos mientras el programa corre.
 ###
 - ¿Cómo piensas aplicar el marco MOTION 101 y por qué?
 ###
@@ -659,26 +659,14 @@ class Bouncer {
   }
 }
 ```
-`Versión 4`
-###
-...
-###
-``` js
-
-```
-`Versión 5`
-###
-...
-###
-``` js
-
-```
 - Un enlace al proyecto en el editor de p5.js.
 ###
 https://editor.p5js.org/catflyx/sketches/LjO0Gb2Rg
 ###
 - Una captura de pantalla representativa de tu pieza de arte generativo.
 ###
+<img width="806" height="604" alt="image" src="https://github.com/user-attachments/assets/53b2fb12-adea-4f89-ae79-dd904623fb54" />
+
 
 
 
