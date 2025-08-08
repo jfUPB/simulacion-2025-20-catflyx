@@ -66,8 +66,6 @@ Sí, en especial el uso de los triangulos me parece que le da un toque llamativo
 Sí lo cumple, diría que el único que me parece irrelevante es el de agregar un nuevo orbiter.
 ###
 4. Conversa con tu compañero sobre tu feedback.
-###
-...
 
 ## Actividad 11
 ### Feedback
@@ -92,5 +90,6 @@ Sí, aunque me hubiera gustado que alguna actividad implementera mejor el cómo 
 5. **Comentario adicional:** ¿Algo más que quieras compartir sobre tu experiencia en esta unidad?
 ###
 Lo que ya mencioné en otros puntos, de resto me parece todo perfecto.
+
 
 
