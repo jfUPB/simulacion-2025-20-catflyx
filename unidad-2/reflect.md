@@ -49,23 +49,21 @@ Esteban Puerta - https://github.com/jfUPB/simulacion-2025-20-LS1653
 ###
 3. En tu propia bitácora, escribe una retroalimentación constructiva para tu compañero, evaluando:
 ###
-...
-###
 - **Claridad del Concepto:** ¿La obra visual refleja la intención descrita?
 ###
-...
+Sí, cumple con todo lo descrito en la idea planteada.
 ###
 - **Implementación Técnica:** ¿Se aplica correctamente el marco MOTION 101? ¿Es el código legible y está bien estructurado?
 ###
-...
+No veo mucho de la utilización del position y velocity, y tampoco la aceleración, pero el código en su mayoría está extructurado correctamente.
 ###
 - **Creatividad del Algoritmo:** ¿El algoritmo de aceleración es interesante y genera un comportamiento único?
 ###
-...
+Sí, en especial el uso de los triangulos me parece que le da un toque llamativo.
 ###
 - **Calidad de la Interactividad:** ¿La interacción es intuitiva y tiene un impacto significativo en la obra?
 ###
-...
+Sí lo cumple, diría que el único que me parece irrelevante es el de agregar un nuevo orbiter.
 ###
 4. Conversa con tu compañero sobre tu feedback.
 ###
@@ -94,4 +92,5 @@ Sí, aunque me hubiera gustado que alguna actividad implementera mejor el cómo 
 5. **Comentario adicional:** ¿Algo más que quieras compartir sobre tu experiencia en esta unidad?
 ###
 Lo que ya mencioné en otros puntos, de resto me parece todo perfecto.
+
 
