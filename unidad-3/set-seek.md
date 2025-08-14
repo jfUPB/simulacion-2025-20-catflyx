@@ -79,11 +79,11 @@ class Mover {
 ```
 Ahora, considera que en un frame actúan sobre este elemento dos fuerzas: `viento` y `gravedad`. Por tanto, en ese frame aplicarás las dos fuerzas:
 ``` js
-mover.applyForce(wind);
+mover.applyForce(wind); //Viento
 ```
 y luego:
 ``` js
-mover.applyForce(gravity);
+mover.applyForce(gravity); //Gravedad
 ```
 Finalmente, en el método applyForce de la clase Mover tendrás algo como:
 ``` js
@@ -95,15 +95,15 @@ Y listo ¿Cierto? (No olvides que queremos calcular la aceleración en cada fram
 ###
 1. ¿Qué problema le ves a este planteamiento?
 ###
-...
+No estamos sumando las fuerzas de `gravity` y `wind` antes de igualar la aceleración a estas. O al menos, no se ve explícitamente en este planteamiento.
 ###
 2. ¿Qué solución propones?
 ###
-...
+antes de `this.acceleration = force;`, sumar las fuerzas de `gravity` y `wind`, para que `force` = `gravity` + `wind`.
 ###
 3. ¿Cómo lo implementarías en p5.js?
 ###
-...
+Si son variables, sería sumarlas antes en la misma función `applyForce(force)`. Aunque se necesitaría que esta acepte más de dos variables.
 
 ## Actividad 06
 ### La fuerza neta debe ser acumulativa
@@ -125,7 +125,7 @@ applyForce(force) {
 ###
 Te diste cuenta qué pasó aquí con respecto a la actividad anterior? Vuelve a mirar.
 ###
-...
+Ahora en vez de igualr la aceleración a `force`, se le suma con la función `.add()`.
 ###
 Entonces en cada frame, la aceleración se calcula como la sumatoria de todas las fuerzas que actúan sobre un objeto:
 ###
@@ -144,15 +144,15 @@ update() {
 ```
 Pero calma. Notaste algo raro al final de `update()`?
 ###
-...
+La función `.mult(0)`
 ###
 - ¿Por qué es necesario multiplicar la aceleración por cero en cada frame?
 ###
-...
+¿Para que sea igual a 0?
 ###
-- ¿Por qué se multiplica por cero justo al final de `update()`?
+- ¿Por qué se multiplica por cero *justo al final* de `update()`?
 ###
-...
+Para que la sumatoria de fuerzas sea igual a cero también, o hacer la velocidad constante.
 
 ## Actividad 07
 ### En mi mundo los pixeles si tienen masa
@@ -231,5 +231,6 @@ Copia el código.
 ```
 Captura una imagen representativa de tu ejemplo.
 ###
+
 
 
