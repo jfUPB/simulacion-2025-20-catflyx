@@ -18,7 +18,7 @@ Exploremos juntos el siguiente capítulo del texto guía que trabajaremos. Se tr
 
 ## Actividad 04
 ### Marco Motion 101
-Rerpasemo rápido de qué se trata:
+Repasemos rápido de qué se trata:
 ``` js
 let mover;
 
@@ -52,7 +52,7 @@ update() {
 .
 .
 ```
-
+Usamos la función `update()` para actualizar los vectores que almacenan el `position` y `velocity`, usando las funciones `.add()` para sumarlos, y otras para tareas que ayuden a controlar el `mover` en el canvas.
 
 ## Actividad 05
 ### ¿Y qué relación tiene esto de las leyes de Newton con al arte generativo?
@@ -231,4 +231,5 @@ Copia el código.
 ```
 Captura una imagen representativa de tu ejemplo.
 ###
+
 
