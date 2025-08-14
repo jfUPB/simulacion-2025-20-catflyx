@@ -59,17 +59,11 @@ update() {
 Antes de comenzar, disfruta esta simulación donde puedes experimentar de manera creativa las leyes de la atracción. Ahora si, volviendo al lío de Monte Pío (pero no tanto).
 ###
 La ecuación vectorial de la segunda ley de Newton se expresa como:
-###
 <img width="140" height="56" alt="image" src="https://github.com/user-attachments/assets/dc93b0cd-a516-443c-be1f-e73eef1fb4dc" />
-###
 Donde:
-###
 <img width="750" height="283" alt="image" src="https://github.com/user-attachments/assets/6d72877a-3062-433a-ae2a-0d144a44a77f" />
-###
 Y lo siguiente lo dejaré a tu criterio, finalmente tu eres quien toma las decisiones en tu mundo de arte generativo ¿Qué tal si la `masa` es igual a 1? Yo no veo por qué no, finalmente, en el mundo de los pixeles el artista manda (¿O no?).
-###
 <img width="114" height="50" alt="image" src="https://github.com/user-attachments/assets/dd1d14e5-2a2f-4bca-8e08-e8e11718bd9e" />
-###
 Entonces ya tenemos la relación. En la unidad anterior tu definías en cada frame de la simulación un algoritmo para la aceleración. Ahora, la aceleración en cada frame la calcularemos como la influencia de todas las fuerzas sobre nuestros elementos gráficos.
 ###
 Si volvemos a nuestro texto guía: "The Nature of code", verás que un elemento gráfica que se mueva en el canvas tendrá mínimo estas propiedades:
@@ -237,3 +231,4 @@ Copia el código.
 ```
 Captura una imagen representativa de tu ejemplo.
 ###
+
