@@ -219,7 +219,7 @@ Por **referencia** se pasa la dirección del vector directamente, es decir, se u
 ### Modelando fuerzas
 En tu mundo de pixeles tu puedes crear las fuerzas o las puedes modelar.
 ###
-Vamos a probar con lo segundo, modelar una fuerza. Ve a la sección Modeling forces del texto guía.
+Vamos a probar con lo segundo, modelar una fuerza. Ve a la sección [Modeling forces](https://natureofcode.com/forces/#modeling-a-force) del texto guía.
 ###
 Inventa tres obras generativas interactivas, uno para cada una de las siguientes fuerzas:
 ###
@@ -264,6 +264,7 @@ Inventa tres obras generativas interactivas, uno para cada una de las siguientes
 ### Resistencia del aire y de fluidos
 
 ### Atracción gravitacional
+
 
 
 
