@@ -229,22 +229,42 @@ Inventa tres obras generativas interactivas, uno para cada una de las siguientes
 -------------------------------------------------------
 1. Explica cómo modelaste cada fuerza.
 ###
-...
+- Fricción: 
+- Resistencia del aire y de fluidos: 
+- Atracción gravitacional:
 ###
-Conceptualmente cómo se relaciona la fuerza con la obra generativa.
+2. Conceptualmente cómo se relaciona la fuerza con la obra generativa.
 ###
-...
+- Fricción: 
+- Resistencia del aire y de fluidos: 
+- Atracción gravitacional:
 ###
-Copia el enlace a tu ejemplo en p5.js.
+3. Copia el enlace a tu ejemplo en p5.js.
 ###
-...
+- [Fricción](https://editor.p5js.org/catflyx/sketches/tpp5_-BYw)
+- [Resistencia del aire y de fluidos](https://editor.p5js.org/catflyx/sketches/dELj-5yTb)
+- [Atracción gravitacional](https://editor.p5js.org/catflyx/sketches/J8-fCUekI)
 ###
-Copia el código.
+4. Copia el código.
+### Fricción
 ``` js
 
 ```
-Captura una imagen representativa de tu ejemplo.
-###
+### Resistencia del aire y de fluidos
+``` js
+
+```
+### Atracción gravitacional
+``` js
+
+```
+5. Captura una imagen representativa de tu ejemplo.
+### Fricción
+
+### Resistencia del aire y de fluidos
+
+### Atracción gravitacional
+
 
 
 
