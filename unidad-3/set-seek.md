@@ -125,7 +125,7 @@ applyForce(force) {
 ###
 Te diste cuenta qué pasó aquí con respecto a la actividad anterior? Vuelve a mirar.
 ###
-Ahora en vez de igualr la aceleración a `force`, se le suma con la función `.add()`.
+Ahora en vez de igualar la aceleración a `force`, se le suma con la función `.add()`.
 ###
 Entonces en cada frame, la aceleración se calcula como la sumatoria de todas las fuerzas que actúan sobre un objeto:
 ###
@@ -153,12 +153,14 @@ La función `.mult(0)`
 - ¿Por qué se multiplica por cero *justo al final* de `update()`?
 ###
 Para que la sumatoria de fuerzas sea igual a cero también, o hacer la velocidad constante.
+###
+*Con ayuda del profe:* Esto se hace para "refrescar" la información de la aceleración, pues, una vez se haya calculado la velocidad con esta y en consecuencia la posición, hay que calcular una nueva aceleración para el siguiente frame. Es por esto que la volvemos cero multiplicandola por cero.
 
 ## Actividad 07
 ### En mi mundo los pixeles si tienen masa
 Como en tu mundo los pixeles tienen masa, entonces, ¿Qué pasa si en un frame actúan sobre un objeto dos fuerzas? ¿Cómo calculas la aceleración resultante?
 ###
-...
+Con la fórmula de sumatoria de fuerzas igua a masa * aceleración, pero moviendo las variables. Esto quedaría de tal forma que: aceleración es igual a sumatoria de fuerzas sobre masa.
 ``` js
 mover.applyForce(wind);
 mover.applyForce(gravity);
@@ -174,9 +176,21 @@ applyForce(force) {
 ###
 *¿Qué ves raro?*
 ###
-...
+¿No se sumaron las fuerzas antes de dividirlas?
 ###
-(Recuerda, ¿Cuándo se pasa algo a un función por valor y cuándo por referencia? En este caso, force es objeto de la clase p5.Vector, es decir, es un objeto que se pasa por referencia. ¿Qué implica esto?)
+**(Recuerda, ¿Cuándo se pasa algo a un función por valor y cuándo por referencia? En este caso, force es objeto de la clase p5.Vector, es decir, es un objeto que se pasa por referencia. ¿Qué implica esto?)**
+###
+Tocaba hacer una "copia" de force para dividirlo.
+``` js
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acceleration.add(f);
+  }
+}
+```
+O por ejemplo en este caso del libro, crear un nuevo vector e igualargo a una variable que almacene el resultado, y que este último sea el que se use en la aceleración. O hacer un vector que alaceme estos valores, para luego refrescarlo al final de la función.
+###
+Pero en conclusión, es hacerlo por **valor**.
 
 ## Actividad 08
 ### Paso por valor y paso por referencia
@@ -187,19 +201,19 @@ let friction = this.velocity;
 ```
 1. ¿Cuál es la diferencia entre las dos líneas?
 ###
-...
+En la primera se iguala la fricción a una copia de `velocity` (por valor), mientras que en la segunda se le pasa el vector original (por referencia).
 ###
 2. ¿Qué podría salir mal con `let friction = this.velocity;`?
 ###
-...
+Se puede estar modificando el vector de `velocity` inconscientemente.
 ###
 3. De nuevo, toca repasar. ¿Cuál es la diferencia entre copiar por **VALOR** y por **REFERENCIA**?
 ###
-...
+Por **referencia** se pasa la dirección del vector directamente, es decir, se utiliza el vector y puede modificarse en consecuencia. Mientras que en **valor**, se usa una copia del vector, evitando cualquier cambio indeseado en el vector original.
 ###
 4. En el fragmento de código ¿Cuándo es por **VALOR** y cuándo por **REFERENCIA**.
 ###
-...
+`let friction = this.velocity.copy();` es por valor, `let friction = this.velocity;` es por referencia.
 
 ## Actividad 09
 ### Modelando fuerzas
@@ -231,6 +245,7 @@ Copia el código.
 ```
 Captura una imagen representativa de tu ejemplo.
 ###
+
 
 
 
