@@ -322,15 +322,15 @@ Inventa tres obras generativas interactivas, uno para cada una de las siguientes
 -------------------------------------------------------
 1. Explica cómo modelaste cada fuerza.
 ###
-- Fricción: 
-- Resistencia del aire y de fluidos: 
-- Atracción gravitacional:
+- *Fricción:*  Hice que al dar click en el canvas, se aplique fricción.
+- *Resistencia del aire y de fluidos:*  
+- *Atracción gravitacional:* 
 ###
 2. Conceptualmente cómo se relaciona la fuerza con la obra generativa.
 ###
-- Fricción: Hace que cambie de sentido, y disminuye su velocidad al tener el "freno" de la fricción. Esto permite diferente cercaría en los aros que se se dibujan continuamente.
-- Resistencia del aire y de fluidos: 
-- Atracción gravitacional:
+- *Fricción:* Hace que cambie de sentido, y disminuye su velocidad al tener el "freno" de la fricción. Esto permite diferente cercaría en los aros que se se dibujan continuamente.
+- *Resistencia del aire y de fluidos:*  
+- *Atracción gravitacional:* 
 ###
 3. Copia el enlace a tu ejemplo en p5.js.
 ###
@@ -461,6 +461,7 @@ class Mover {
 ### Resistencia del aire y de fluidos
 
 ### Atracción gravitacional
+
 
 
 
