@@ -9,7 +9,7 @@ Vas a diseñar e implementar una obra generativa interactiva en tiempo real insp
 - Debe ser interactiva.
 - Debes usar al menos dos algoritmos diferentes de la unidad 1, además de random.
 ###
-
+Una obra donde existan alrededor de 5-7 `movers` que orbitarán un objeto con masa superior, el cual podrá ser arrastrado con el mouse. También, estos movers tendrán variables que pueden ser modificadas por el usuario. De igual forma, habrán otras masas que seguirán una trayectoria con noise en el lienzo, y las mismas tendrán sus propios "satélites". Estas buscarán tener un movimiento en arco de ida y vuelta. Por último, el lienzo se pintará constantemente con opacidad.
 ###
 2. Explica cómo modelaste el problema de los n-cuerpos en tu obra.
 ###
@@ -24,5 +24,6 @@ https://editor.p5js.org/catflyx/sketches/-dtaUlNS4
 
 ```
 5. Captura una imagen representativa de tu ejemplo.
+
 
 
