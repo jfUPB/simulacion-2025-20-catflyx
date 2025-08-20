@@ -328,7 +328,7 @@ Inventa tres obras generativas interactivas, uno para cada una de las siguientes
 ###
 2. Conceptualmente cómo se relaciona la fuerza con la obra generativa.
 ###
-- Fricción: 
+- Fricción: Hace que cambie de sentido, y disminuye su velocidad al tener el "freno" de la fricción. Esto permite diferente cercaría en los aros que se se dibujan continuamente.
 - Resistencia del aire y de fluidos: 
 - Atracción gravitacional:
 ###
@@ -341,7 +341,111 @@ Inventa tres obras generativas interactivas, uno para cada una de las siguientes
 4. Copia el código.
 ### Fricción
 ``` js
+let mover;
 
+// contador para vectores
+let cv;
+
+//Para la fricción
+let c; let friction;
+
+let r, g, b;
+
+function setup() {
+  createCanvas(240, 640); background(255);
+  // Create the Mover object.
+  mover = new Mover();
+  
+  r = 0; g = 0; b = 0;
+  
+  cv = createVector(-0.001, 0.01);
+}
+
+function draw() { //background(255);
+  cv.x *= 1.01; cv.y *= 1.01;
+  this.acceleration = cv;
+  
+  if (acceleration.x < 0.1){
+    acceleration.x++;
+      }
+  if (acceleration.y < 0.1){
+    acceleration.y++;
+      }  
+  if (acceleration.z < 0.1){
+    acceleration.z++;
+      }  
+  
+  if (key === 'e' || key === 'E'){ //Colorear
+    r = random(0, 250); g = random(0, 250); b = random(0, 250);
+      }
+  if (key === 'd' || key === 'D'){ //Negro otra vez
+    r = 0; g = 0; b = 0;
+      }
+  
+  // Call methods on the Mover object.
+  mover.update();
+  mover.checkEdges();
+  mover.show();
+}
+
+function mousePressed() {
+  c = 0.1;
+  friction = mover.velocity.copy();
+  friction.mult(-1);
+  friction.setMag(c);
+  
+  mover.applyForce(friction);
+}
+
+
+
+// CLASE MOVER
+
+class Mover {
+  constructor() {
+    // The object has two vectors: position and velocity.
+    this.position = createVector(random(width), random(height));
+    this.velocity = createVector(random(-2, 2), random(-2, 2));
+    
+    this.acceleration = createVector(-0.001, 0.01);
+    
+    this.topSpeed = 10;
+  }
+
+  update() {
+    this.velocity.add(this.acceleration); this.velocity.limit(this.topSpeed);
+    
+    this.position.add(this.velocity);
+    
+    this.velocity.add(this.friction);
+  }
+
+  show() {
+    stroke(r, g, b);
+    //strokeWeight(2);
+    //fill(127);
+    circle(this.position.x, this.position.y, 38);
+  }
+  
+    applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acceleration.add(f); //console.log("aceleración: ", acceleration);
+  }
+
+  checkEdges() {
+    if (this.position.x >= (width)) {
+      this.position.x = random(0, 240);
+    } else if (this.position.x < 0) {
+      this.position.x = width;
+    }
+
+    if (this.position.y >= (height)) {
+      this.position.y = random(0, 640);
+    } else if (this.position.y < 0) {
+      this.position.y = height;
+    }
+  }
+}
 ```
 ### Resistencia del aire y de fluidos
 ``` js
@@ -357,6 +461,7 @@ Inventa tres obras generativas interactivas, uno para cada una de las siguientes
 ### Resistencia del aire y de fluidos
 
 ### Atracción gravitacional
+
 
 
 
