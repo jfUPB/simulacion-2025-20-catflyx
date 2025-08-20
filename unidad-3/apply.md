@@ -3,7 +3,7 @@
 _________________________________________________________________________________________________________________________________________________________________________________________
 ## Actividad 10
 ### El problema de los n-cuerpos
-Vas a diseñar e implementar una obra generativa interactiva en tiempo real inspirada en el problema de los n-cuerpos. En el texto guía tienes una sección que te puede ayudar a entender cómo modelar este problema, pero la idea es que uses tu creatividad para crear algo diferente basado en ese concepto y en las *esculturas cinéticas de Alexander Calder*.
+Vas a diseñar e implementar una obra generativa interactiva en tiempo real inspirada en [el problema de los n-cuerpos](https://natureofcode.com/forces/#the-n-body-problem). En el texto guía tienes una sección que te puede ayudar a entender cómo modelar este problema, pero la idea es que uses tu creatividad para crear algo diferente basado en ese concepto y en las *esculturas cinéticas de Alexander Calder*.
 # Concepto
 1. Diseña e implementa tu obra generativa interactiva en tiempo real.
 - Debe ser interactiva.
@@ -24,4 +24,5 @@ https://editor.p5js.org/catflyx/sketches/-dtaUlNS4
 
 ```
 5. Captura una imagen representativa de tu ejemplo.
+
 
