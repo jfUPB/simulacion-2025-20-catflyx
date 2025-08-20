@@ -231,13 +231,13 @@ Inventa tres obras generativas interactivas, uno para cada una de las siguientes
 ###
 - *Fricción:*  Hice que al dar click en el canvas, se aplique fricción.
 - *Resistencia del aire y de fluidos:*  Hice que diferentes movers tuvieran que reaccionar a varios líquidos.
-- *Atracción gravitacional:* 
+- *Atracción gravitacional:* Hice que el atractor se moviera constantemente.
 ###
 2. Conceptualmente cómo se relaciona la fuerza con la obra generativa.
 ###
 - *Fricción:* Hace que cambie de sentido, y disminuye su velocidad al tener el "freno" de la fricción. Esto permite diferente cercaría en los aros que se se dibujan continuamente.
 - *Resistencia del aire y de fluidos:*  Hace que el trazo tarde más o menos en realizarse si está dentro o no del líquido actual, el cual puede tener cualquier altura. Esto más tonos azulados, crea un efecto interesante al ejecutarse.
-- *Atracción gravitacional:* 
+- *Atracción gravitacional:* Usa el movimiento "errático" del mover que orbita el atractor para crear trazos únicos e impredecibles de cierta forma.
 ###
 3. Copia el enlace a tu ejemplo en p5.js.
 ###
@@ -519,14 +519,140 @@ class Liquid {
 ```
 ### Atracción gravitacional
 ``` js
+// A Mover and an Attractor
+let mover;
+let attractor;
 
+// Gravitational constant (for global scaling)
+let G = 1;
+
+let r, val = 1;
+
+function setup() {
+  createCanvas(640, 240); background(5);
+  mover = new Mover(300, 50, 0.5);
+  attractor = new Attractor();
+}
+
+function draw() {
+  
+  let force = attractor.attract(mover);
+  mover.applyForce(force);
+  mover.update();
+
+  attractor.update();
+  attractor.show();
+  mover.show();
+}
+
+function keyPressed(){
+  if (key === 'f' || key === 'F'){
+    square(random(0, 640), random(0, 240), random(2, 10)); // square(x, y, s);
+  }
+  
+  if (key === 'x' || key === 'X'){
+    val += 0.1;
+  }
+  if (key === 'z' || key === 'Z'){
+    val -= 0.1;
+  }
+  if (val < 0.02){
+      val = 1;
+      }
+  
+  console.log("val: ", val);
+}
+
+// ------------------ CLASE MOVER -------------------------------------
+
+class Mover {
+  constructor(x, y, mass) {
+    this.mass = mass;
+    this.radius = mass * 8;
+    this.position = createVector(x, y);
+    this.velocity = createVector(1, 0);
+    this.acceleration = createVector(0, 0);
+  }
+  // Newton's 2nd law: F = M * A
+  // or A = F / M
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acceleration.add(f);
+  }
+
+  update() {
+    // Velocity changes according to acceleration
+    this.velocity.add(this.acceleration);
+    // position changes by velocity
+    this.position.add(this.velocity);
+    // We must clear acceleration each frame
+    this.acceleration.mult(0);
+  }
+
+  show() {
+    fill(255, 80);
+    circle(this.position.x, this.position.y, this.radius * 2);
+  }
+}
+
+
+
+// ------------------ CLASE ATRACTOR -------------------------------------
+
+class Attractor {
+  constructor() {
+    this.position = createVector(width / 2, height / 2);
+    this.mass = 20;
+    this.dragOffset = createVector(0, 0);
+    this.dragging = false;
+    this.rollover = false;
+  }
+
+  attract(mover) {
+    // Calculate direction of force
+    let force = p5.Vector.sub(this.position, mover.position);
+    // Distance between objects
+    let distance = force.mag();
+    // Limiting the distance to eliminate "extreme" results for very close or very far objects
+    distance = constrain(distance, 5, 25);
+
+    // Calculate gravitional force magnitude
+    let strength = (G * this.mass * mover.mass) / (distance * distance);
+    // Get force vector --> magnitude * direction
+    force.setMag(strength);
+    return force;
+  }
+
+  // Method to display
+  show() {
+    fill(50);
+    circle(this.position.x, this.position.y, this.mass * 2);
+  }
+  
+  update() {
+    r = random(val);
+    
+    if (r < 0.01){
+          this.position.x = random(0, 640);
+          this.position.y = random(240, 0);
+        }
+    
+    this.position.x += random(0, 2);
+    this.position.y += random(0, 2);
+  }
+}
 ```
 5. Captura una imagen representativa de tu ejemplo.
 ### Fricción
+<img width="276" height="719" alt="image" src="https://github.com/user-attachments/assets/280dc62b-9630-4698-be30-53edb0095d30" />
 
 ### Resistencia del aire y de fluidos
+<img width="731" height="720" alt="image" src="https://github.com/user-attachments/assets/05e05190-bcc8-432d-8c2b-d43f396e8539" />
 
 ### Atracción gravitacional
+<img width="721" height="280" alt="image" src="https://github.com/user-attachments/assets/b0367d09-79f9-49af-b2c8-23b287bd66d3" />
+
+
 
 
 
