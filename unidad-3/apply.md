@@ -20,7 +20,9 @@ Hice que siempre se cree un cuerpo con una masa superior. Es decir, puse un rang
 https://editor.p5js.org/catflyx/sketches/-dtaUlNS4
 ###
 4. Copia el código.
+###
 `Versión 1`
+###
 El fondo y las esferas cambian a una paleta preestablecida para parecerse a la de Alexander Calder. De igual forma, para evitar que los cuerpos se alejen del canvas, se crea un objeto con masa que siempre será superior.
 ``` js
 let movers1 = []; //orbiters
@@ -196,6 +198,7 @@ class Body {
 }
 ```
 `Versión 2`
+###
 Correcciones menores y agregados, y ahora al hacer click en el canvas, el "sol" se mueve a esa posición.
 ``` js
 let movers1 = []; //orbiters
@@ -397,6 +400,7 @@ class Body {
 }
 ```
 `Versión 3`
+###
 Dandoles formas más orgánicas a los círculos, y haciendo que con `c` se pueda volver a seleccionar los colores interpolados en cada orbe y el sol, y lo mismo pero con la forma usando `s`.
 ``` js
 let movers1 = []; //orbiters
@@ -641,6 +645,7 @@ class Body {
 }
 ```
 `Versión 4`
+###
 Correciones de funcionamiento y estéticas, ahora se crean unos `arcs` con un salto de lévy, los cuales se les puede cambiar el color con `x`,y definen su posición con un `randomGaussian()`.
 ``` js
 let movers1 = []; //orbiters
@@ -994,6 +999,7 @@ class Arcs {
 ```
 5. Captura una imagen representativa de tu ejemplo.
 <img width="952" height="389" alt="image" src="https://github.com/user-attachments/assets/c6e4eb6f-6ae9-4641-8d52-0f44286c4298" />
+
 
 
 
