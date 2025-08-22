@@ -998,7 +998,9 @@ class Arcs {
 }
 ```
 5. Captura una imagen representativa de tu ejemplo.
-<img width="952" height="389" alt="image" src="https://github.com/user-attachments/assets/c6e4eb6f-6ae9-4641-8d52-0f44286c4298" />
+<img width="943" height="383" alt="image" src="https://github.com/user-attachments/assets/c59fdf76-0286-47a1-afa7-26bee4f6585a" />
+
+
 
 
 
