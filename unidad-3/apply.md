@@ -15,6 +15,7 @@ Una obra donde existan alrededor de 4-5 `movers` que orbitarán un objeto con ma
 ###
 Hice que siempre se cree un cuerpo con una masa superior. Es decir, puse un rango de masa a los demás cuerpos que nunca superará el de este. A este objeto me le refiero como "sol" en algunas partes del código. De igual forma, me aseguré que no haya forma que este escape del lienzo.
 ###
+# Código
 3. Copia el enlace a tu simulación en p5.js.
 ###
 https://editor.p5js.org/catflyx/sketches/-dtaUlNS4
@@ -997,8 +998,10 @@ class Arcs {
   }
 }
 ```
+# Resultado
 5. Captura una imagen representativa de tu ejemplo.
 <img width="943" height="383" alt="image" src="https://github.com/user-attachments/assets/c59fdf76-0286-47a1-afa7-26bee4f6585a" />
+
 
 
 
