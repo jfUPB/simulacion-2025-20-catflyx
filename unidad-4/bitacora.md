@@ -3,23 +3,18 @@
 ## Explicación conceptual de la obra
 
 * ¿Qué concepto de la unidad 4 y cómo lo aplicaste en la obra?
-> Tu respuesta aquí:
 > Los ángulos, amplitudes y dirección.
 
 * ¿Qué concepto de la unidad 3 y cómo lo aplicaste en la obra?
-> Tu respuesta aquí:
 > El uso de fuerzas y resistencia de fluídos.
 
 * ¿Qué concepto de la unidad 2 y cómo lo aplicaste en la obra?
-> Tu respuesta aquí:
 > La función Lerp(), marco 101, el uso de vectores en general y aceleración.
 
 * ¿Qué concepto de la unidad 1 y cómo lo aplicaste en la obra?
-> Tu respuesta aquí:
 > El random(), randomGaussian() y el la forma original de mover.
 
 ## ¿Cómo resolviste la interacción?
-> Tu respuesta aquí:
 > Hice que hubiesen dos paletas: Una fría y una cálida, y que se pinte el fondo y lo demás según la seleccionada; esto con la letra f. De igual forma, el usuario es el que agrega las "burbujas" en donde se usará la resistencia de fluídos; esto con la letra j.
 
 ## Enlace a la obra en el editor de p5.js
@@ -250,6 +245,7 @@ function keyPressed() {
 
 ## Captura de pantalla representativa
 <img width="718" height="540" alt="image" src="https://github.com/user-attachments/assets/3472ead1-9476-428b-b2f2-0500ff851303" />
+
 
 
 
