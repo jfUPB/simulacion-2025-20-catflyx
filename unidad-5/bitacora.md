@@ -19,8 +19,6 @@ Además te pediré que hagas los siguientes experimentos y los reportes en tu bi
 `an Array of Particles`
 ####
 Concepto: ...
-####
-...
 ``` js
 let particles = [];
 
@@ -89,8 +87,6 @@ class Particle {
 `a System of Systems`
 ####
 Concepto: ...
-####
-...
 ``` js
 let emitters = [];
 
@@ -179,8 +175,6 @@ class Particle {
 `a Particle System with Inheritance and Polymorphism`
 ####
 Concepto: ...
-####
-...
 ``` js
 let emitter;
 
@@ -285,8 +279,6 @@ class Confetti extends Particle {
 `a Particle System with Forces`
 ####
 Concepto: ...
-####
-...
 ``` js
 let emitter;
 
@@ -384,8 +376,6 @@ class Emitter {
 `a Particle System with a Repeller`
 ####
 Concepto: ...
-####
-...
 ``` js
 // One ParticleSystem
 let emitter;
@@ -619,5 +609,6 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ```
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
+
 
 
