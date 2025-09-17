@@ -18,7 +18,7 @@ Además te pediré que hagas los siguientes experimentos y los reportes en tu bi
 ####
 `an Array of Particles`
 ####
-Concepto: ...
+Concepto: Salto de lévy y randomGaussian() (U1)
 ``` js
 let particles = [];
 
@@ -514,7 +514,7 @@ class Repeller {
 ####
 3. Explica qué concepto aplicaste, cómo lo aplicaste y por qué.
 ####
-- **simulación 1:** ...
+- **simulación 1:** Cuando se crea una partícula, tiene dos nuevos factores. Tiene un salto de lévy que define su vector de velocidad usando `random()`, así como cada partícula tiene un tiempo de vida diferente de tal forma que, `randomGaussian(255.0, 100.0);` controla la longevidad de la partícula.
 - **simulación 2:** ...
 - **simulación 3:** ...
 - **simulación 4:** ...
@@ -534,7 +534,79 @@ Códigos modificados...
 ####
 `an Array of Particles`
 ``` js
+let particles = []; let r;
 
+function setup() {
+  createCanvas(640, 240);
+}
+
+function draw() {
+  background(100);
+  particles.push(new Particle(width / 2, 20));
+
+  // Looping through backwards to delete
+  for (let i = particles.length - 1; i >= 0; i--) {
+    let particle = particles[i];
+    particle.run();
+    if (particle.isDead()) {
+      //remove the particle
+      particles.splice(i, 1);
+    }
+  }
+}
+
+// -------------------- CLASE PARTICLE --------------------
+
+class Particle {
+  constructor(x, y) {
+    r = random(1);
+    
+    if (r < 0.01) {
+      this.velocity = createVector(random(-5, 5), random(-2, 0));
+      console.log("Salto");
+      
+    } else{
+      this.velocity = createVector(random(-1, 1), random(-1, 0));
+      
+    }
+    
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0);
+    this.lifespan = randomGaussian(255.0, 100.0);
+  }
+
+  run() {
+    let gravity = createVector(0, 0.05);
+    this.applyForce(gravity);
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  // Method to update position
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+    this.acceleration.mult(0);
+  }
+
+  // Method to display
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  // Is the particle still useful?
+  isDead() {
+    return (this.lifespan < 0.0);
+  }
+}
 ```
 `a System of Systems`
 ``` js
@@ -609,6 +681,7 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ```
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
+
 
 
 
