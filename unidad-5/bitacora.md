@@ -11,7 +11,7 @@ Dale una mirada al [capítulo sobre sistemas de partículas](https://natureofcod
 ####
 🧐🧪✍️ En tu bitácora responde a esta pregunta para cada una de las simulaciones: **¿Cómo se está gestionando la creación y la desaparción de las partículas y cómo se gestiona la memoria en cada una de las simulaciones?**
 ####
-...
+Cada partícula "nace" con un tiempo de vida predeterminado. En la función `update()`, se le resta un valor a este tiempo de vida. Otra función revisa si dicho tiempo llegó a cero, y una vez lo hace, se elimina la partícula. De esta forma el sistema mantiene a raya la cantidad de partículas activas.
 ####
 Además te pediré que hagas los siguientes experimentos y los reportes en tu bitácora:
 1. Vas a modificar *cada una de las simulaciones anteriores*, incluye en cada una al menos *un concepto de las unidades anteriores*, pero **no repitas concepto**, la idea es que repases al menos uno de cada unidad.
@@ -510,7 +510,7 @@ class Repeller {
 ####
 2. Vas a gestionar la creación y la desaparición de las partículas y la memoria. Explica *cómo* lo hiciste (aunque es posible que la simulación ya lo haga, trata de identificarlo de nuevo y explicarlo con tus palabras).
 ####
-...
+Cada partícula "nace" con un tiempo de vida predeterminado. En la función `update()`, se le resta un valor a este tiempo de vida. Otra función revisa si dicho tiempo llegó a cero, y una vez lo hace, se elimina la partícula. De esta forma el sistema mantiene a raya la cantidad de partículas activas. Por otro lado, este se puede variar usando tanto `random()` como `randomGaussian()`, para que este tiempo de vida varíe, pero siga siendo controlado.
 ####
 3. Explica qué concepto aplicaste, cómo lo aplicaste y por qué.
 ####
@@ -761,6 +761,15 @@ function keyPressed() {
 ####
 6. Captura de pantallas de cada una de las simulaciones con las imágenes que más te gusten como resultado de la ejecución de cada una de las simulaciones.
 ####
+`Simulación 1`
+<img width="719" height="269" alt="image" src="https://github.com/user-attachments/assets/4278244d-9651-4643-83d0-f1a684de3d8f" />
+`Simulación 2`
+<img width="724" height="270" alt="image" src="https://github.com/user-attachments/assets/a44e5028-7953-407f-9f34-553e1f1391d0" />
+`Simulación 3`
+
+`Simulación 4`
+
+`Simulación 5`
 
 
 ## Actividad 3
@@ -815,16 +824,3 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ```
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
-`Simulación 1`
-<img width="719" height="269" alt="image" src="https://github.com/user-attachments/assets/4278244d-9651-4643-83d0-f1a684de3d8f" />
-`Simulación 2`
-<img width="724" height="270" alt="image" src="https://github.com/user-attachments/assets/a44e5028-7953-407f-9f34-553e1f1391d0" />
-`Simulación 3`
-
-`Simulación 4`
-
-`Simulación 5`
-
-
-
-
