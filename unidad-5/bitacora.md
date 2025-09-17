@@ -18,7 +18,7 @@ Además te pediré que hagas los siguientes experimentos y los reportes en tu bi
 ####
 `an Array of Particles`
 ####
-Concepto: Salto de lévy y randomGaussian() (U1)
+**Concepto:** Salto de lévy y randomGaussian() (U1)
 ``` js
 let particles = [];
 
@@ -86,7 +86,7 @@ class Particle {
 ```
 `a System of Systems`
 ####
-Concepto: ...
+**Concepto:** ...
 ``` js
 let emitters = [];
 
@@ -174,7 +174,7 @@ class Particle {
 ```
 `a Particle System with Inheritance and Polymorphism`
 ####
-Concepto: ...
+**Concepto:** ...
 ``` js
 let emitter;
 
@@ -278,7 +278,7 @@ class Confetti extends Particle {
 ```
 `a Particle System with Forces`
 ####
-Concepto: ...
+**Concepto:** ...
 ``` js
 let emitter;
 
@@ -375,7 +375,7 @@ class Emitter {
 ```
 `a Particle System with a Repeller`
 ####
-Concepto: ...
+**Concepto:** ...
 ``` js
 // One ParticleSystem
 let emitter;
@@ -690,5 +690,6 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 `Simulación 4`
 
 `Simulación 5`
+
 
 
