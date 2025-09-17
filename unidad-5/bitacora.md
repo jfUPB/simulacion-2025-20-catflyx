@@ -86,7 +86,7 @@ class Particle {
 ```
 `a System of Systems`
 ####
-**Concepto:** ...
+**Concepto:** lerpColor() y Fuerza de viento (U2 y U3)
 ``` js
 let emitters = [];
 
@@ -515,7 +515,7 @@ class Repeller {
 3. Explica qué concepto aplicaste, cómo lo aplicaste y por qué.
 ####
 - **simulación 1:** Cuando se crea una partícula, tiene dos nuevos factores. Tiene un salto de lévy que define su vector de velocidad usando `random()`, así como cada partícula tiene un tiempo de vida diferente de tal forma que, `randomGaussian(255.0, 100.0);` controla la longevidad de la partícula.
-- **simulación 2:** ...
+- **simulación 2:** Cuando las partículas se crean, estas tienen dos colores predeterminados entre los cuales interpolar usando `lerpColor()`. Además, ahora hay una fuerza de viento constante que obliga a las partículas a moverse. Esta fuerza se puede modificar con `z` y `x`.
 - **simulación 3:** ...
 - **simulación 4:** ...
 - **simulación 5:** ...
@@ -610,7 +610,141 @@ class Particle {
 ```
 `a System of Systems`
 ``` js
+let emitters = [];
 
+let c1, c2, c3, bg;
+let inter, back; 
+let a, b;
+
+// Fuerza de viento inicial
+let windStrength = 0.05; 
+
+function setup() {
+  createCanvas(640, 240);
+  let text = createP("Click para agregar sistemas de partículas. Usa 'z' y 'x' para modificar el viento.");
+  
+  inter = 0; 
+  back = false;
+  
+  c1 = color(52, 153, 138); // cyan
+  c2 = color(52, 106, 153); // azul
+  c3 = color(127, 41, 85);  // negro
+  
+  bg = color(196, 70, 45); // fondo
+}
+
+function draw() {
+  background(bg);
+  
+  if (inter >= 1){ 
+    back = true;
+  } else if (inter <= 0){
+    back = false;
+  }
+  
+  if (back){
+    inter -= 0.02;
+  } else {
+    inter += 0.02;
+  }
+  
+  for (let emitter of emitters) {
+    emitter.run();
+    emitter.addParticle();
+  }
+
+  // Mostrar valor de viento en pantalla
+  fill(255);
+  noStroke();
+  textSize(14);
+  text("Viento: " + nf(windStrength, 1, 2), 10, height - 10);
+}
+
+function mousePressed() {
+  emitters.push(new Emitter(mouseX, mouseY));
+}
+
+// -------------------- CLASE EMITTER --------------------
+class Emitter {
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    this.particles.push(new Particle(this.origin.x, this.origin.y));
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      this.particles[i].run();
+      if (this.particles[i].isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// -------------------- CLASE PARTICLE --------------------
+class Particle {
+  constructor(x, y) {
+    let d = random(1);
+    
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0);
+    this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.lifespan = 255.0;
+    
+    if (d < 0.01) {
+      b = c1; a = c2;
+    } else {
+      a = c1; b = c2;
+    }
+  }
+
+  run() {
+    let gravity = createVector(0, 0.05);
+    this.applyForce(gravity);
+
+    // viento constante
+    let wind = createVector(windStrength, 0);
+    this.applyForce(wind);
+
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+    this.acceleration.mult(0);
+  }
+
+  show() {    
+    stroke(c3, this.lifespan);
+    strokeWeight(4);
+    fill(lerpColor(a, b, inter), this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+// -------------------- CONTROL DE VIENTO --------------------
+function keyPressed() {
+  if (key === 'z' || key === 'Z') {
+    windStrength = max(0, windStrength - 0.01); // nunca negativo
+  } else if (key === 'x' || key === 'X') {
+    windStrength += 0.01;
+  }
+}
 ```
 `a Particle System with Inheritance and Polymorphism`
 ``` js
@@ -684,12 +818,13 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 `Simulación 1`
 <img width="719" height="269" alt="image" src="https://github.com/user-attachments/assets/4278244d-9651-4643-83d0-f1a684de3d8f" />
 `Simulación 2`
-
+<img width="724" height="270" alt="image" src="https://github.com/user-attachments/assets/a44e5028-7953-407f-9f34-553e1f1391d0" />
 `Simulación 3`
 
 `Simulación 4`
 
 `Simulación 5`
+
 
 
 
