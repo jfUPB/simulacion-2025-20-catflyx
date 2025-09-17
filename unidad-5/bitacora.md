@@ -1,4 +1,4 @@
-<img width="719" height="269" alt="image" src="https://github.com/user-attachments/assets/180a4f29-b62f-47ca-82a8-58c805006e37" /># Evidencias de la unidad 5
+# Evidencias de la unidad 5
 _______________________________________________________________________________________________________________________________________________________________________________
 ## Actividad 2
 ### Revisa y repasa algunos conceptos
@@ -690,4 +690,5 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 `Simulación 4`
 
 `Simulación 5`
+
 
