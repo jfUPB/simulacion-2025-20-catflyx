@@ -174,7 +174,7 @@ class Particle {
 ```
 `a Particle System with Inheritance and Polymorphism`
 ####
-**Concepto:** ...
+**Concepto:** LerpColor() y movimiento de un péndulo (U2 y U4)
 ``` js
 let emitter;
 
@@ -516,7 +516,7 @@ Cada partícula "nace" con un tiempo de vida predeterminado. En la función `upd
 ####
 - **simulación 1:** Cuando se crea una partícula, tiene dos nuevos factores. Tiene un salto de lévy que define su vector de velocidad usando `random()`, así como cada partícula tiene un tiempo de vida diferente de tal forma que, `randomGaussian(255.0, 100.0);` controla la longevidad de la partícula.
 - **simulación 2:** Cuando las partículas se crean, estas tienen dos colores predeterminados entre los cuales interpolar usando `lerpColor()`. Además, ahora hay una fuerza de viento constante que obliga a las partículas a moverse. Esta fuerza se puede modificar con `z` y `x`.
-- **simulación 3:** ...
+- **simulación 3:** Hice que se creara un péndulo del cual se generarían las partículas, además de incentivar mejor lo del "confetti" con colores saturados tanto en el fondo como en la estrella que marca el final del péndulo y el origen de las partículas. Usando `lerpColor()` únicamente para el fondo. Y se puede mover el péndulo con el mouse.
 - **simulación 4:** ...
 - **simulación 5:** ...
 ####
@@ -748,7 +748,224 @@ function keyPressed() {
 ```
 `a Particle System with Inheritance and Polymorphism`
 ``` js
+let pendulum;
+let emitter;
+let bgC, inter, back;
 
+function setup() {
+  createCanvas(640, 240);
+  pendulum = new Pendulum(width / 2, 0, 170);
+  emitter = new Emitter(0, 0); // posición se actualizará al bob
+  
+  inter = 0; back = true;
+}
+
+function draw() {
+  bgC = lerpColor(color(245, 39, 70), color(39, 87, 245), inter);
+  bgC.setAlpha(30); // ajusta la transparencia
+  
+  background(bgC);
+
+  // Actualizar péndulo
+  pendulum.update();
+  pendulum.show();
+
+  // Sincronizar emisor con la posición del bob del péndulo
+  emitter.origin.set(pendulum.bob.x, pendulum.bob.y);
+
+  // Emitir partículas desde el bob
+  emitter.addParticle();
+  emitter.run();
+
+  pendulum.drag(); // interacción con mouse
+  
+    if (inter >= 1){ //venga y vuelva
+        back = true;
+      } else if (inter <= 0){
+        back = false;
+      }
+  
+  if (back){
+        inter -= 0.01;
+      } else {
+        inter += 0.01;
+      }  
+}
+
+function mousePressed() {
+  pendulum.clicked(mouseX, mouseY);
+}
+
+function mouseReleased() {
+  pendulum.stopDragging();
+}
+
+// -------------------- CLASE PENDULUM --------------------
+class Pendulum {
+  constructor(x, y, r) {
+    this.pivot = createVector(x, y);
+    this.bob = createVector();
+    this.r = r;
+    this.angle = PI / 4;
+
+    this.angleVelocity = 0.0;
+    this.angleAcceleration = 0.0;
+    this.damping = 0.995;
+    this.ballr = 24.0;
+  }
+
+  update() {
+    if (!this.dragging) {
+      let gravity = 0.4;
+      this.angleAcceleration = ((-1 * gravity) / this.r) * sin(this.angle);
+
+      this.angleVelocity += this.angleAcceleration;
+      this.angle += this.angleVelocity;
+
+      this.angleVelocity *= this.damping;
+    }
+  }
+
+  show() {
+    this.bob.set(this.r * sin(this.angle), this.r * cos(this.angle), 0);
+    this.bob.add(this.pivot);
+
+    stroke(0);
+    strokeWeight(2);
+    line(this.pivot.x, this.pivot.y, this.bob.x, this.bob.y);
+
+    // Dibujar la estrella deformada en vez del círculo
+    push();
+    translate(this.bob.x, this.bob.y);
+    fill(color(228, 255, 0), 180);
+    stroke(0);
+    strokeWeight(2);
+    irregularStar(0, 0, this.ballr * 0.5, this.ballr, 8); // estrella con 8 puntas
+    pop();
+  }
+
+  clicked(mx, my) {
+    let d = dist(mx, my, this.bob.x, this.bob.y);
+    if (d < this.ballr) {
+      this.dragging = true;
+    }
+  }
+
+  stopDragging() {
+    this.angleVelocity = 0;
+    this.dragging = false;
+  }
+
+  drag() {
+    if (this.dragging) {
+      let diff = p5.Vector.sub(this.pivot, createVector(mouseX, mouseY));
+      this.angle = atan2(-1 * diff.y, diff.x) - radians(90);
+    }
+  }
+}
+
+// -------------------- FUNCIÓN ESTRELLA DEFORME --------------------
+function irregularStar(x, y, radius1, radius2, npoints) {
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    // radio interno con variación
+    let r1 = radius1 + random(-4, 4);
+    let sx = x + cos(a) * r1;
+    let sy = y + sin(a) * r1;
+    vertex(sx, sy);
+
+    // radio externo con variación
+    let r2 = radius2 + random(-6, 6);
+    let sx2 = x + cos(a + halfAngle) * r2;
+    let sy2 = y + sin(a + halfAngle) * r2;
+    vertex(sx2, sy2);
+  }
+  endShape(CLOSE);
+}
+
+// -------------------- CLASE PARTICLE --------------------
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0);
+    this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.lifespan = 255.0;
+  }
+
+  run() {
+    let gravity = createVector(0, 0.05);
+    this.applyForce(gravity);
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+    this.acceleration.mult(0);
+  }
+
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(color(248, 255, 171), this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+// -------------------- CLASE EMITTER --------------------
+class Emitter {
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    let r = random(1);
+    if (r < 0.5) {
+      this.particles.push(new Particle(this.origin.x, this.origin.y));
+    } else {
+      this.particles.push(new Confetti(this.origin.x, this.origin.y));
+    }
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+      p.run();
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// -------------------- CLASE CONFETTI --------------------
+class Confetti extends Particle {
+  show() {
+    let angle = map(this.position.x, 0, width, 0, TWO_PI * 2);
+    rectMode(CENTER);
+    fill(color(255, 210, 171), this.lifespan);
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(angle);
+    square(0, 0, 12);
+    pop();
+  }
+}
 ```
 `a Particle System with Forces`
 ``` js
@@ -766,7 +983,7 @@ function keyPressed() {
 `Simulación 2`
 <img width="724" height="270" alt="image" src="https://github.com/user-attachments/assets/a44e5028-7953-407f-9f34-553e1f1391d0" />
 `Simulación 3`
-
+<img width="719" height="274" alt="image" src="https://github.com/user-attachments/assets/15d4abb1-2363-4e9e-95ad-bc188c307bd1" />
 `Simulación 4`
 
 `Simulación 5`
@@ -824,3 +1041,4 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ```
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
+
