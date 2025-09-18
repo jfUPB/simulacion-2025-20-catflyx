@@ -278,7 +278,7 @@ class Confetti extends Particle {
 ```
 `a Particle System with Forces`
 ####
-**Concepto:** ...
+**Concepto:** Resorte, gravedad y salto de Lévy (U4, U3 y U1)
 ``` js
 let emitter;
 
@@ -517,7 +517,7 @@ Cada partícula "nace" con un tiempo de vida predeterminado. En la función `upd
 - **simulación 1:** Cuando se crea una partícula, tiene dos nuevos factores. Tiene un salto de lévy que define su vector de velocidad usando `random()`, así como cada partícula tiene un tiempo de vida diferente de tal forma que, `randomGaussian(255.0, 100.0);` controla la longevidad de la partícula.
 - **simulación 2:** Cuando las partículas se crean, estas tienen dos colores predeterminados entre los cuales interpolar usando `lerpColor()`. Además, ahora hay una fuerza de viento constante que obliga a las partículas a moverse. Esta fuerza se puede modificar con `z` y `x`.
 - **simulación 3:** Hice que se creara un péndulo del cual se generarían las partículas, además de incentivar mejor lo del "confetti" con colores saturados tanto en el fondo como en la estrella que marca el final del péndulo y el origen de las partículas. Usando `lerpColor()` únicamente para el fondo. Y se puede mover el péndulo con el mouse.
-- **simulación 4:** ...
+- **simulación 4:** Usa un resorte unido por cuadrados para definir la gravedad con la que caen las partículas. De igual forma, tiene un salto de lévy con el cual puede que la gravedad aumente drásticamente.
 - **simulación 5:** ...
 ####
 4. Incluye un enlace a tu código en el editor de p5.js.
@@ -969,7 +969,221 @@ class Confetti extends Particle {
 ```
 `a Particle System with Forces`
 ``` js
+let bob;
+let spring;
 
+function setup() {
+  createCanvas(680, 480);
+  spring = new Spring(width / 2, 50, 100);
+  bob = new Emitter(width / 2, 200); // Bob ahora es un emisor
+}
+
+function draw() {
+  background(150, 30);
+
+  // Distancia actual del resorte
+  let stretch = p5.Vector.dist(bob.origin, spring.anchor) - spring.restLength;
+
+  // Gravedad base
+  let gravityStrength = 0.1;
+
+  // Si está muy estirado → gravedad lunar (más lenta)
+  if (abs(stretch) > 50) {
+    gravityStrength = 0.001;
+  }
+
+  // Salto de Lévy → pequeña probabilidad de aumentar gravedad (hacia abajo, nunca arriba)
+  if (random(1) < 0.001) {
+    gravityStrength = 1; console.log("Salto de lévy");
+  }
+
+  // Aplicar gravedad hacia abajo
+  let gravity = createVector(0, gravityStrength);
+  bob.applyForce(gravity);
+
+  // Actualizar emisor (si no está arrastrando)
+  if (!bob.dragging) {
+    bob.update();
+    spring.connect(bob);
+    spring.constrainLength(bob, 30, 250);
+  } else {
+    // Si está arrastrando, la física se pausa
+    bob.drag(mouseX, mouseY);
+  }
+
+  // Dibujar todo
+  spring.showLine(bob);
+  bob.addParticle();
+  bob.run();
+  spring.show();
+}
+
+// -------------------- INTERACCIÓN MOUSE --------------------
+function mousePressed() {
+  bob.clicked(mouseX, mouseY);
+}
+
+function mouseReleased() {
+  bob.stopDragging();
+}
+
+// -------------------- CLASE PARTICLE --------------------
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0.0);
+    //this.velocity = createVector(random(-1, 1), random(-2, 0));
+    this.velocity = createVector(random(-1, 1), random(0, 2));
+    this.lifespan = 255.0;
+    this.mass = 1;
+  }
+
+  run() {
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    let f = force.copy();
+    f.div(this.mass);
+    this.acceleration.add(f);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+    this.lifespan -= 2.0;
+  }
+
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+// -------------------- CLASE EMITTER (el Bob modificado) --------------------
+class Emitter {
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+    this.velocity = createVector();
+    this.acceleration = createVector();
+    this.mass = 24;
+    this.damping = 0.98;
+
+    // Interactividad
+    this.dragging = false;
+    this.dragOffset = createVector();
+  }
+
+  applyForce(force) {
+    let f = force.copy();
+    f.div(this.mass);
+    this.acceleration.add(f);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.velocity.mult(this.damping);
+    this.origin.add(this.velocity);
+    this.acceleration.mult(0);
+  }
+
+  addParticle() {
+    this.particles.push(new Particle(this.origin.x, this.origin.y));
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+      p.run();
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+
+  // -------------------- INTERACCIÓN --------------------
+  clicked(mx, my) {
+    let d = dist(mx, my, this.origin.x, this.origin.y);
+    if (d < this.mass) {
+      this.dragging = true;
+      this.dragOffset.x = this.origin.x - mx;
+      this.dragOffset.y = this.origin.y - my;
+    }
+  }
+
+  stopDragging() {
+    this.dragging = false;
+    this.velocity.mult(0); // Al soltar, resetea la velocidad
+  }
+
+  drag(mx, my) {
+    if (this.dragging) {
+      this.origin.x = mx + this.dragOffset.x;
+      this.origin.y = my + this.dragOffset.y;
+    }
+  }
+}
+
+// -------------------- CLASE SPRING --------------------
+class Spring {
+  constructor(x, y, length) {
+    this.anchor = createVector(x, y);
+    this.restLength = length;
+    this.k = 0.2;
+  }
+
+  connect(bob) {
+    let force = p5.Vector.sub(bob.origin, this.anchor);
+    let currentLength = force.mag();
+    let stretch = currentLength - this.restLength;
+
+    force.setMag(-1 * this.k * stretch);
+    bob.applyForce(force);
+  }
+
+  constrainLength(bob, minlen, maxlen) {
+    let direction = p5.Vector.sub(bob.origin, this.anchor);
+    let length = direction.mag();
+
+    if (length < minlen) {
+      direction.setMag(minlen);
+      bob.origin = p5.Vector.add(this.anchor, direction);
+      bob.velocity.mult(0);
+    } else if (length > maxlen) {
+      direction.setMag(maxlen);
+      bob.origin = p5.Vector.add(this.anchor, direction);
+      bob.velocity.mult(0);
+    }
+  }
+
+  show() {
+    fill(127);
+    circle(this.anchor.x, this.anchor.y, 10);
+  }
+
+  showLine(bob) {
+    // Dibujar la cuerda como 5 cuadrados
+    let dir = p5.Vector.sub(bob.origin, this.anchor);
+    for (let i = 0; i < 5; i++) {
+      let pos = p5.Vector.add(this.anchor, p5.Vector.mult(dir, i / 5));
+      push();
+      rectMode(CENTER);
+      fill(80);
+      noStroke();
+      square(pos.x, pos.y, 10);
+      pop();
+    }
+  }
+}
 ```
 `a Particle System with a Repeller`
 ``` js
@@ -985,7 +1199,7 @@ class Confetti extends Particle {
 `Simulación 3`
 <img width="719" height="274" alt="image" src="https://github.com/user-attachments/assets/15d4abb1-2363-4e9e-95ad-bc188c307bd1" />
 `Simulación 4`
-
+<img width="761" height="544" alt="image" src="https://github.com/user-attachments/assets/eeb679c0-2eb3-4532-ad15-453fc23517b1" />
 `Simulación 5`
 
 
@@ -1041,4 +1255,5 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ```
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
+
 
