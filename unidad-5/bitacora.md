@@ -1421,6 +1421,7 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 Quiero que mi obra recuerde a esas campanas de viento que se encuentran en las casas, la lluvia, y el atardecer. Algo parecido a este boceto:
 ####
 <img width="847" height="419" alt="image" src="https://github.com/user-attachments/assets/35364d2d-cb9b-4ee3-83e8-d71956d932ab" />
+
 ####
 Quiero retratar calma, y que las interacciones lleven a una sensación de satisfacción.
 ####
@@ -1825,3 +1826,4 @@ La obra está bien pulida y posee la interactividad necesaria dentro de la idea 
 `Excelente (4.5 - 5.0)`
 ### Final
 Si cada criterio vale alrededor de 25%, la nota estaría entre `4.5 y 5.0`.
+
