@@ -510,7 +510,7 @@ class Repeller {
 ####
 2. Vas a gestionar la creación y la desaparición de las partículas y la memoria. Explica *cómo* lo hiciste (aunque es posible que la simulación ya lo haga, trata de identificarlo de nuevo y explicarlo con tus palabras).
 ####
-Cada partícula "nace" con un tiempo de vida predeterminado. En la función `update()`, se le resta un valor a este tiempo de vida. Otra función revisa si dicho tiempo llegó a cero, y una vez lo hace, se elimina la partícula. De esta forma el sistema mantiene a raya la cantidad de partículas activas. Por otro lado, este se puede variar usando tanto `random()` como `randomGaussian()`, para que este tiempo de vida varíe, pero siga siendo controlado.
+Cada partícula "nace" con un tiempo de vida predeterminado. En la función `update()`, se le resta un valor a este tiempo de vida. Otra función revisa si dicho tiempo llegó a cero, y una vez lo hace, se elimina la partícula. De esta forma el sistema mantiene a raya la cantidad de partículas activas. Además de lo mencionado en la anterior pregunta, este se puede variar usando tanto `random()` como `randomGaussian()`, para que este tiempo de vida varíe, pero siga siendo controlado.
 ####
 3. Explica qué concepto aplicaste, cómo lo aplicaste y por qué.
 ####
@@ -518,7 +518,7 @@ Cada partícula "nace" con un tiempo de vida predeterminado. En la función `upd
 - **simulación 2:** Cuando las partículas se crean, estas tienen dos colores predeterminados entre los cuales interpolar usando `lerpColor()`. Además, ahora hay una fuerza de viento constante que obliga a las partículas a moverse. Esta fuerza se puede modificar con `z` y `x`.
 - **simulación 3:** Hice que se creara un péndulo del cual se generarían las partículas, además de incentivar mejor lo del "confetti" con colores saturados tanto en el fondo como en la estrella que marca el final del péndulo y el origen de las partículas. Usando `lerpColor()` únicamente para el fondo. Y se puede mover el péndulo con el mouse.
 - **simulación 4:** Usa un resorte unido por cuadrados para definir la gravedad con la que caen las partículas. De igual forma, tiene un salto de lévy con el cual puede que la gravedad aumente drásticamente.
-- **simulación 5:** El repeller original ahora sigue al mouse en el x, además de que existen dos nuevos círculos. Uno funciona como otro repeller y el otro es una burbuja donde hay resistencia de líquido. Ambos se mueven usando `random()` por el lienzo.
+- **simulación 5:** El repeller original ahora sigue al mouse en el eje x, además de que existen dos nuevos círculos. Uno funciona como otro repeller y el otro es una burbuja donde hay resistencia de líquido. Ambos se mueven usando `random()` por el lienzo.
 ####
 4. Incluye un enlace a tu código en el editor de p5.js.
 ####
@@ -1464,5 +1464,18 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
 
-
-
+## Nota
+Tu mismo vas a propoer una nota basada en la rúbrica y justificarás cada criterio de la rúbrica indicando qué evidencias presentes en la bitácora justifican la nota que propones.
+####
+### Criterio 1: Investigación y Experimentación (Evidencia en Actividad 2)
+Se realizó todo según lo indicado en cada simulación, haciendo uso de conceptos de las 4 unidades anteriores; así como se contestarón las preguntas con los elementos y análisis requerido.
+`Excelente (4.5 - 5.0)`
+### Criterio 2: Intención y Diseño (Proceso de Actividad 3)
+...
+`...`
+### Criterio 3: Aplicación Técnica (Código de Actividad 3)
+...
+`...`
+### Criterio 4: Calidad de la Obra Final (Artefacto Entregado)
+...
+`...`
