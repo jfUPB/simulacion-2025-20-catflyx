@@ -1441,7 +1441,7 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ####
 6. Incluye un enlace a tu código en el editor de p5.js.
 ####
-...
+[https://editor.p5js.org/catflyx/sketches/6DoG4lDGu](https://editor.p5js.org/catflyx/sketches/6DoG4lDGu)
 ####
 7. Incluye el código fuente.
 ####
@@ -1479,3 +1479,4 @@ Se realizó todo según lo indicado en cada simulación, haciendo uso de concept
 ### Criterio 4: Calidad de la Obra Final (Artefacto Entregado)
 ...
 `...`
+
