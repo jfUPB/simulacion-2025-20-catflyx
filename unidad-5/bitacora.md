@@ -1418,26 +1418,26 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ####
 1. Es unidad incluye una novedad: DISEÑO. Debes intencionar tu obra. Esta vez te pediré que DISEÑES antes de generar código. Define un concepto, *haz bocetos*, define la interacción, etc. **¿Cuál es el concepto de tu obra? ¿Qué quieres comunicar con ella?**
 ####
-...
+Quiero que mi obra recuerde a esas campanas de viento que se encuentran en las casas, la lluvia, y el atardecer. Algo parecido a este boceto:
+####
+<img width="847" height="419" alt="image" src="https://github.com/user-attachments/assets/35364d2d-cb9b-4ee3-83e8-d71956d932ab" />
+####
+Quiero retratar calma, y que las interacciones lleven a una sensación de satisfacción.
 ####
 2. Debes utilizar los conceptos de herencia y polimorfismo que revisaste en la fase de investigación.
 ####
-...
-####
 3. Debes utilizar al menos un concepto de cada una de las unidades anteriores: 4 conceptos.
 ####
-- Unidad 1: ...
-- Unidad 2: ...
-- Unidad 3: ...
-- Unidad 4: ...
+- Unidad 1: random y randomGaussian().
+- Unidad 2: lerpColor().
+- Unidad 3: Resistencia al aire.
+- Unidad 4: Péndulos dobles y dirección con ángulos.
 ####
 4. Debes definir cómo vas a gestionar el tiempo de vida de las partículas y la memoria.
 ####
-...
+Usé un `randomGaussian()` para controlar la vida de todas las párticulas. Esta podrá variar, pero nunca se saldrá de control y tampoco afectará los fps.
 ####
 5. La obra debe ser interactiva en tiempo real. Puedes usar teclado, mouse, música, el micrófono, video, sensor o cualquier otro dispositivo de entrada.
-####
-...
 ####
 6. Incluye un enlace a tu código en el editor de p5.js.
 ####
@@ -1445,24 +1445,368 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ####
 7. Incluye el código fuente.
 ####
-`Versión 1`
 ``` js
+let pendulums = [];
+let emitters = [];
+let useMouseX = true; // alterna entre X o Y para dirección del aire
+let inter = 0, inter2 = 0, back = false;
 
-```
-`Versión 2`
-``` js
+let palette;
+let windStrength = 1; // fuerza del viento
+let c1Index = 0;
+let c2Index = 1;
+let forward1 = true;
+let forward2 = true;
+let transitionSpeed = 0.003;
 
-```
-`Versión 3`
-``` js
+function setup() {
+  createCanvas(800, 400);
 
-```
-`Versión 4`
-``` js
+  // 4 péndulos dobles distribuidos horizontalmente
+  let spacing = width / 5;
+  for (let i = 1; i <= 4; i++) {
+    let baseX = spacing * i;
+    let p1 = new Pendulum(baseX, 0, 120, true);  // primer péndulo con campana
+    let p2 = new Pendulum(0, 0, 100, false);     // segundo péndulo con hoja
+    pendulums.push({ p1, p2 });
+    emitters.push(new Emitter(0, 0));
+  }
 
+  palette = [
+    color(214, 154, 43),
+    color(224, 79, 161),
+    color(86, 65, 191),
+    color(46, 150, 179),
+  ];
+}
+
+function draw() {
+  drawGradientBackground();
+
+  for (let i = 0; i < pendulums.length; i++) {
+    let { p1, p2 } = pendulums[i];
+    let emitter = emitters[i];
+
+    // actualizar primer péndulo con resistencia
+    p1.update();
+    p1.show();
+
+    // actualizar segundo péndulo con resistencia
+    p2.pivot = p1.bob.copy();
+    p2.update();
+    p2.show();
+
+    // sincronizar emisor con el bob del segundo péndulo
+    emitter.origin.set(p2.bob.x, p2.bob.y);
+
+    // emitir partículas
+    emitter.addParticle();
+    emitter.run();
+
+    // arrastrar con mouse
+    p1.drag();
+    p2.drag();
+  }
+
+  // Mostrar qué control se usa (X o Y) y viento
+  fill(255);
+  noStroke();
+  textSize(14);
+  text("Resistencia depende de: " + (useMouseX ? "mouseX" : "mouseY"), 10, height - 25);
+  text("Viento: " + windStrength.toFixed(2), 10, height - 10);
+  
+    if (inter2 >= 1){ //venga y vuelva
+        back = true;
+      } else if (inter2 <= 0){
+        back = false;
+      }
+  
+  if (back){
+        inter2 -= 0.003;
+      } else {
+        inter2 += 0.003;
+      }    
+}
+
+function mousePressed() {
+  for (let { p1, p2 } of pendulums) {
+    p1.clicked(mouseX, mouseY);
+    p2.clicked(mouseX, mouseY);
+  }
+}
+
+function mouseReleased() {
+  for (let { p1, p2 } of pendulums) {
+    p1.stopDragging();
+    p2.stopDragging();
+  }
+}
+
+// -------------------- CLASE PENDULUM --------------------
+class Pendulum {
+  constructor(x, y, r, isBell) {
+    this.pivot = createVector(x, y);
+    this.bob = createVector();
+    this.r = r;
+    this.angle = PI / 4;
+    this.angleVelocity = 0.0;
+    this.angleAcceleration = 0.0;
+    this.damping = 0.995;
+    this.ballr = 20.0;
+    this.isBell = isBell; // true = campana, false = hoja
+  }
+
+  update() {
+    if (!this.dragging) {
+      let gravity = 0.4;
+      this.angleAcceleration = ((-1 * gravity) / this.r) * sin(this.angle);
+
+      // aplicar resistencia del aire
+      this.applyAirResistance();
+
+      this.angleVelocity += this.angleAcceleration;
+      this.angle += this.angleVelocity;
+      this.angleVelocity *= this.damping;
+    }
+  }
+
+  applyAirResistance() {
+    let airForce;
+    if (useMouseX) {
+      airForce = map(mouseX, 0, width, -0.002, 0.002);
+    } else {
+      airForce = map(mouseY, 0, height, -0.002, 0.002);
+    }
+    this.angleAcceleration += airForce * windStrength;
+  }
+
+  show() {
+    this.bob.set(this.r * sin(this.angle), this.r * cos(this.angle));
+    this.bob.add(this.pivot);
+
+    stroke(color(179, 46, 126));
+    strokeWeight(4);
+    line(this.pivot.x, this.pivot.y, this.bob.x, this.bob.y);
+
+    // formas personalizadas
+    if (this.isBell) {
+      drawBell(this.bob.x, this.bob.y, this.angle);
+    } else {
+      drawLeaf(this.bob.x, this.bob.y, this.angle);
+    }
+  }
+
+  clicked(mx, my) {
+    let d = dist(mx, my, this.bob.x, this.bob.y);
+    if (d < this.ballr) {
+      this.dragging = true;
+    }
+  }
+
+  stopDragging() {
+    this.angleVelocity = 0;
+    this.dragging = false;
+  }
+
+  drag() {
+    if (this.dragging) {
+      let diff = p5.Vector.sub(this.pivot, createVector(mouseX, mouseY));
+      this.angle = atan2(-1 * diff.y, diff.x) - radians(90);
+    }
+  }
+}
+
+// -------------------- FORMAS PERSONALIZADAS --------------------
+function drawBell(x, y, angle) {
+  push();
+  translate(x, y);
+  rotate(angle);
+  fill(184, 186, 209);
+  stroke(color(179, 46, 126));
+  strokeWeight(4);
+  rectMode(CORNER);
+  // pivote arriba: arranca en ( -ancho/2 , 0 )
+  rect(-8, 0, 16, 40, 6);
+  pop();
+}
+
+function drawLeaf(x, y, angle) {
+  push();
+  translate(x, y);
+  rotate(angle);
+  fill(196, 47, 69);
+  stroke(color(179, 46, 126));
+  strokeWeight(4);
+  beginShape();
+  vertex(0, -30);                 // punta superior
+  bezierVertex(20, -10, 30, 10, 15, 25); // lado derecho ancho
+  vertex(5, 15);                  // corte interior derecho
+  bezierVertex(3, 20, -3, 20, -5, 15); // hacia interior izquierdo
+  vertex(-15, 25);                // corte interior izquierdo
+  bezierVertex(-30, 10, -20, -10, 0, -30); // lado izquierdo ancho
+  endShape(CLOSE);
+  pop();
+}
+
+// -------------------- CLASE PARTICLE --------------------
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0);
+    this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.lifespan = randomGaussian(255.0, 100.0);
+  }
+
+  run() {
+    let gravity = createVector(0, 0.05);
+    this.applyForce(gravity);
+
+    // resistencia al aire basada en mouse
+    let dir;
+    if (useMouseX) {
+      dir = map(mouseX, 0, width, -0.1, 0.1);
+      this.applyForce(createVector(dir * windStrength, 0));
+    } else {
+      dir = map(mouseY, 0, height, -0.1, 0.1);
+      this.applyForce(createVector(0, dir * windStrength));
+    }
+
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+    this.acceleration.mult(0);
+  }
+
+  show() {
+    stroke(color(179, 46, 126), this.lifespan);
+    strokeWeight(2);
+    fill(lerpColor(color(52, 62, 201), color(52, 201, 181), inter2), this.lifespan);
+    circle(this.position.x, this.position.y, random(6, 10));
+  }
+
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+// -------------------- CLASE CONFETTI --------------------
+class Confetti extends Particle {
+  show() {
+    let angle = map(this.position.x, 0, width, 0, TWO_PI * 2);
+    rectMode(CENTER);
+    fill(lerpColor(color(52, 201, 181), color(52, 62, 201), inter2), this.lifespan);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(angle);
+    square(0, 0, random(10, 15));
+    pop();
+  }
+}
+
+// -------------------- CLASE EMITTER --------------------
+class Emitter {
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    let r = random(1);
+    if (r < 0.5) {
+      this.particles.push(new Particle(this.origin.x, this.origin.y));
+    } else {
+      this.particles.push(new Confetti(this.origin.x, this.origin.y));
+    }
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+      p.run();
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// -------------------- FONDO DEGRADADO --------------------
+function drawGradientBackground() {
+  inter += transitionSpeed;
+  if (inter >= 1) {
+    inter = 0;
+
+    // control superior (c1): ping pong completo
+    if (forward1) {
+      c1Index++;
+      if (c1Index >= palette.length - 1) {
+        forward1 = false;
+      }
+    } else {
+      c1Index--;
+      if (c1Index <= 0) {
+        forward1 = true;
+      }
+    }
+
+    // control inferior (c2): solo rebota entre 1 y último
+    if (forward2) {
+      c2Index++;
+      if (c2Index >= palette.length - 1) {
+        forward2 = false;
+      }
+    } else {
+      c2Index--;
+      if (c2Index <= 1) {
+        forward2 = true;
+      }
+    }
+  }
+
+  // easing para suavizar transición
+  let t = inter * inter * (3 - 2 * inter);
+
+  let c1 = palette[c1Index];
+  let c2 = palette[c2Index];
+  let interColor1 = lerpColor(c1, palette[(c1Index + 1) % palette.length], t);
+  let interColor2 = lerpColor(c2, palette[(c2Index + 1) % palette.length], t);
+
+  for (let y = 0; y < height; y++) {
+    let amt = map(y, 0, height, 0, 1);
+    let c = lerpColor(interColor1, interColor2, amt);
+    stroke(c);
+    line(0, y, width, y);
+  }
+}
+
+// -------------------- TECLAS --------------------
+function keyPressed() {
+  if (key === 'y' || key === 'Y') {
+    useMouseX = !useMouseX;
+  }
+  if (key === 'z' || key === 'Z') {
+    windStrength = max(0, windStrength - 0.1);
+  }
+  if (key === 'x' || key === 'X') {
+    windStrength += 0.1;
+  }
+}
 ```
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
+<img width="871" height="446" alt="image" src="https://github.com/user-attachments/assets/c71bca96-14a1-438d-805c-3d7b63bd2faf" />
+<img width="870" height="446" alt="image" src="https://github.com/user-attachments/assets/48936159-6c11-4406-a900-43c940a2687d" />
+<img width="871" height="443" alt="image" src="https://github.com/user-attachments/assets/df2ec8c8-190d-4998-9eb8-6dda1a6f5859" />
+<img width="864" height="447" alt="image" src="https://github.com/user-attachments/assets/51299dc4-4013-437d-a222-0afc9e3b993c" />
 
 ## Nota
 Tu mismo vas a propoer una nota basada en la rúbrica y justificarás cada criterio de la rúbrica indicando qué evidencias presentes en la bitácora justifican la nota que propones.
@@ -1471,12 +1815,13 @@ Tu mismo vas a propoer una nota basada en la rúbrica y justificarás cada crite
 Se realizó todo según lo indicado en cada simulación, haciendo uso de conceptos de las 4 unidades anteriores; así como se contestarón las preguntas con los elementos y análisis requerido.
 `Excelente (4.5 - 5.0)`
 ### Criterio 2: Intención y Diseño (Proceso de Actividad 3)
-...
-`...`
+Cumple, pues la inspiración es clara, y se pueden intuir de la misma que procesos se pueden usar para llegar a esta.
+`Excelente (4.5 - 5.0)`
 ### Criterio 3: Aplicación Técnica (Código de Actividad 3)
-...
-`...`
+Cada función y proceso tiene su lugar en el código, y nada sobra para evitar el consumo innecesario de memoria.
+`Excelente (4.5 - 5.0)`
 ### Criterio 4: Calidad de la Obra Final (Artefacto Entregado)
-...
-`...`
-
+La obra está bien pulida y posee la interactividad necesaria dentro de la idea que esta desea transmitir, tanto para que el resultado siempre sea diverso, como para que sea coherente con la idea inicial.
+`Excelente (4.5 - 5.0)`
+### Final
+Si cada criterio vale alrededor de 25%, la nota estaría entre `4.5 y 5.0`.
