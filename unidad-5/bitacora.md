@@ -375,7 +375,7 @@ class Emitter {
 ```
 `a Particle System with a Repeller`
 ####
-**Concepto:** ...
+**Concepto:** Motion 101 repelente con random() y Motion 101 líquido con random() (U1 y U3)
 ``` js
 // One ParticleSystem
 let emitter;
@@ -518,7 +518,7 @@ Cada partícula "nace" con un tiempo de vida predeterminado. En la función `upd
 - **simulación 2:** Cuando las partículas se crean, estas tienen dos colores predeterminados entre los cuales interpolar usando `lerpColor()`. Además, ahora hay una fuerza de viento constante que obliga a las partículas a moverse. Esta fuerza se puede modificar con `z` y `x`.
 - **simulación 3:** Hice que se creara un péndulo del cual se generarían las partículas, además de incentivar mejor lo del "confetti" con colores saturados tanto en el fondo como en la estrella que marca el final del péndulo y el origen de las partículas. Usando `lerpColor()` únicamente para el fondo. Y se puede mover el péndulo con el mouse.
 - **simulación 4:** Usa un resorte unido por cuadrados para definir la gravedad con la que caen las partículas. De igual forma, tiene un salto de lévy con el cual puede que la gravedad aumente drásticamente.
-- **simulación 5:** ...
+- **simulación 5:** El repeller original ahora sigue al mouse en el x, además de que existen dos nuevos círculos. Uno funciona como otro repeller y el otro es una burbuja donde hay resistencia de líquido. Ambos se mueven usando `random()` por el lienzo.
 ####
 4. Incluye un enlace a tu código en el editor de p5.js.
 ####
@@ -1187,7 +1187,215 @@ class Spring {
 ```
 `a Particle System with a Repeller`
 ``` js
+// One ParticleSystem
+let emitter;
 
+// Repellers
+let repeller, autoRepeller;
+
+// Bubbles
+let bubble;
+
+let cont;
+
+function setup() {
+  createCanvas(640, 240);
+  emitter = new Emitter(width / 2, 60);
+
+  // Repeller fijo (seguirá al mouse en X)
+  repeller = new Repeller(width / 2, 250);
+
+  // Nuevo repeller que se mueve solo
+  autoRepeller = new AutoRepeller(100, 150);
+
+  // Nueva burbuja (tipo liquid) que se mueve sola
+  bubble = new Bubble(300, 120, 80);
+
+  cont = 0;
+}
+
+function draw() {
+  cont++;
+  background(150);
+
+  // Spawner
+  if (cont >= 8) {
+    emitter.addParticle();
+    cont = 0;
+  }
+
+  // Repeller fijo sigue al mouse en X
+  repeller.position.x = mouseX;
+
+  // Fuerzas
+  let gravity = createVector(0, 0.1);
+  emitter.applyForce(gravity);
+
+  // Aplicar repelentes
+  emitter.applyRepeller(repeller);
+  emitter.applyRepeller(autoRepeller);
+
+  emitter.run();
+
+  // Mostrar objetos
+  repeller.show();
+  autoRepeller.update();
+  autoRepeller.show();
+
+  bubble.update();
+  bubble.show();
+}
+
+// -------------------- CLASE PARTICLE --------------------
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.acceleration = createVector(0, 0);
+    this.lifespan = 350.0;
+  }
+
+  run() {
+    this.update();
+    this.show();
+  }
+
+  applyForce(f) {
+    this.acceleration.add(f);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+    this.acceleration.mult(0);
+  }
+
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+// -------------------- CLASE EMITTER --------------------
+class Emitter {
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    this.particles.push(new Particle(this.origin.x, this.origin.y));
+  }
+
+  applyForce(force) {
+    for (let particle of this.particles) {
+      particle.applyForce(force);
+    }
+  }
+
+  applyRepeller(repeller) {
+    for (let particle of this.particles) {
+      let force = repeller.repel(particle);
+      particle.applyForce(force);
+    }
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const particle = this.particles[i];
+      particle.run();
+      if (particle.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// -------------------- CLASE REPELLER --------------------
+class Repeller {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.power = 150;
+  }
+
+  show() {
+    stroke(0);
+    strokeWeight(2);
+    fill(200, 100, 100);
+    circle(this.position.x, this.position.y, 30);
+  }
+
+  repel(particle) {
+    let force = p5.Vector.sub(this.position, particle.position);
+    let distance = force.mag();
+    distance = constrain(distance, 5, 50);
+    let strength = (-1 * this.power) / (distance * distance);
+    force.setMag(strength);
+    return force;
+  }
+}
+
+// -------------------- CLASE AUTOREPELLER --------------------
+class AutoRepeller extends Repeller {
+  constructor(x, y) {
+    super(x, y);
+    this.velocity = p5.Vector.random2D().mult(2);
+    this.power = 50;
+  }
+
+  update() {
+    this.position.add(this.velocity);
+
+    // Rebote en bordes
+    if (this.position.x < 16 || this.position.x > width - 16) {
+      this.velocity.x *= -1;
+    }
+    if (this.position.y < 16 || this.position.y > height - 16) {
+      this.velocity.y *= -1;
+    }
+  }
+
+  show() {
+    stroke(0);
+    strokeWeight(2);
+    fill(100, 200, 100);
+    circle(this.position.x, this.position.y, 15);
+  }
+}
+
+// -------------------- CLASE BUBBLE --------------------
+class Bubble {
+  constructor(x, y, r) {
+    this.position = createVector(x, y);
+    this.r = r;
+    this.velocity = p5.Vector.random2D().mult(1.5);
+  }
+
+  update() {
+    this.position.add(this.velocity);
+
+    // Rebote en bordes
+    if (this.position.x < this.r / 2 || this.position.x > width - this.r / 2) {
+      this.velocity.x *= -1;
+    }
+    if (this.position.y < this.r / 2 || this.position.y > height - this.r / 2) {
+      this.velocity.y *= -1;
+    }
+  }
+
+  show() {
+    noStroke();
+    fill(100, 150, 255, 80);
+    ellipse(this.position.x, this.position.y, this.r, this.r);
+  }
+}
 ```
 ####
 6. Captura de pantallas de cada una de las simulaciones con las imágenes que más te gusten como resultado de la ejecución de cada una de las simulaciones.
@@ -1201,7 +1409,7 @@ class Spring {
 `Simulación 4`
 <img width="761" height="544" alt="image" src="https://github.com/user-attachments/assets/eeb679c0-2eb3-4532-ad15-453fc23517b1" />
 `Simulación 5`
-
+<img width="732" height="291" alt="image" src="https://github.com/user-attachments/assets/154ac3e7-625e-407a-8207-17999e42d27f" />
 
 ## Actividad 3
 Es hora de una nueva creación. Diseña e implementa una obra de arte generativa algorítmica interactiva en tiempo real en p5.js que cumpla con los siguientes requisitos:
@@ -1255,5 +1463,6 @@ Es hora de una nueva creación. Diseña e implementa una obra de arte generativa
 ```
 8. Captura de pantallas de tu obra con las imágenes que más te gusten
 ####
+
 
 
