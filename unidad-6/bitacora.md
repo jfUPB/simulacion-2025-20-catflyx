@@ -621,13 +621,398 @@ class X extends Star {
   }
 }
 ```
-`Versión 3`
+`Versión 3 - final`
 ``` js
+let debug = false;
 
-```
-`Versión 4`
-``` js
+// Flowfield object
+let flowfield;
+// Arrays de objetos
+let eggs = [];
+let mis = [];
+let stars = [];
+let xs = [];
 
+// Audio
+let song;
+let amp;
+let fft;
+
+// Paleta amarilla
+let palette = [];
+let lerpIndex = 0;
+let lerpSpeed = 0.01;
+
+// Fondos dinámicos
+let bgColor;
+let targetBgColor;
+let levyTimer = 0;
+
+// Cooldown para MI
+let lastMiSpawn = 0;
+
+// Fondo amarillo loop
+let yellowActive = false; 
+let levyTimer2 = 0;
+let yellowPhase = false; // false = negro, true = amarillo
+
+let eggFlash = false;
+let eggFlashTimer = 0;
+
+let vinnegars = [];
+
+function preload() {
+  soundFormats('mp3', 'ogg');
+  song = loadSound('assets/1eggs.ogg');
+}
+
+function setup() {
+  createCanvas(600, 600);
+  flowfield = new FlowField(20);
+
+  // Audio
+  amp = new p5.Amplitude();
+  fft = new p5.FFT();
+
+  // Paleta amarilla
+  palette = [
+    color(255, 204, 0),
+    color(255, 221, 51),
+    color(255, 238, 102),
+    color(230, 184, 0)
+  ];
+
+  bgColor = color(0);
+  targetBgColor = color(0);
+
+  song.loop();
+}
+
+function draw() {
+  // Fondo con transición
+  bgColor = lerpColor(bgColor, targetBgColor, 0.05);
+  background(bgColor);
+
+  let level = amp.getLevel();
+
+  // ---------------- Eggs
+  let numEggs = int(map(level, 0, 0.3, 50, 200, true));
+  while (eggs.length < numEggs) {
+    eggs.push(new Egg(random(width), random(height), random(2, 5), random(0.1, 0.5)));
+  }
+  while (eggs.length > numEggs) {
+    eggs.pop();
+  }
+
+  // ---------------- FFT análisis
+  let spectrum = fft.analyze();
+  let bassEnergy = fft.getEnergy("bass"); // graves
+
+  // Generación de MI con cooldown y límite
+  if (bassEnergy > 180 && frameCount - lastMiSpawn > 120) { 
+    for (let i = 0; i < 10; i++) {
+      mis.push(new MI(random(width), random(height), random(2, 5), random(0.1, 0.5)));
+    }
+    lastMiSpawn = frameCount;
+  }
+
+  // ---------------- Salto de Lévy (verde)
+  if (random(1) < 0.001) {
+    targetBgColor = color(95, 235, 30);
+    levyTimer = frameCount;
+  }
+  if (frameCount - levyTimer > 30) {
+    targetBgColor = color(0);
+  }
+
+   // ---------------- Fondo amarillo loop
+  if (yellowActive) {
+    targetBgColor = color(224, 203, 16);
+    levyTimer2 = frameCount;
+    
+  if (frameCount - levyTimer2 > 30) {
+    targetBgColor = color(0);
+  }
+  }
+
+  // ---------------- Dibujar objetos
+  for (let e of eggs) {
+    e.follow(flowfield);
+    e.run();
+  }
+  for (let m of mis) {
+    m.follow(flowfield);
+    m.run();
+  }
+  for (let s of stars) {
+    s.follow(flowfield);
+    s.run(level);
+  }
+  for (let x of xs) {
+    x.follow(flowfield);
+    x.run(level);
+  }
+  for (let v of vinnegars) {
+  v.update();
+  v.show();
+}
+vinnegars = vinnegars.filter(v => !v.finished); // eliminar los que tocaron el fondo
+
+}
+
+function keyPressed() {
+  if (key == "c") { // Star
+    stars.push(new Star(random(width), random(height), random(2, 4), random(0.05, 0.3)));
+  }
+  if (key == "x") { // 1 X
+    xs.push(new X(random(width), random(height), random(2, 4), random(0.05, 0.3)));
+  }
+  
+  if (key == " ") {
+  yellowActive = !yellowActive; // toggle amarillo automático
+  yellowTimer = frameCount;
+  yellowPhase = false; // empieza apagado
+  //console.log("Fondo amarillo: " + yellowActive);
+  }
+  
+  if (key == "f") { // Limpiar
+  stars.splice(0, int(stars.length / 2)); 
+  xs.splice(0, int(xs.length / 2));
+  mis.splice(0, int(mis.length / 2));
+}
+  
+  if (key == "d") { // Huevos verdes
+  eggFlash = true;
+  eggFlashTimer = frameCount;
+}
+  
+  if (key == "e") { // Salt vinnegar, and everything sinister!
+  for (let i = 0; i < 6; i++) {
+    vinnegars.push(new Vinnegar(random(width), random(height)));
+  }
+}
+  
+}
+
+function mousePressed() {
+  flowfield.init();
+}
+
+// ------------------------- CLASE FLOWFIELD -----------------------------
+class FlowField {
+  constructor(r) {
+    this.resolution = r;
+    this.cols = width / this.resolution;
+    this.rows = height / this.resolution;
+    this.field = new Array(this.cols);
+    for (let i = 0; i < this.cols; i++) {
+      this.field[i] = new Array(this.rows);
+    }
+    this.init();
+  }
+
+  init() {
+    noiseSeed(random(10000));
+    let xoff = 0;
+    for (let i = 0; i < this.cols; i++) {
+      let yoff = 0;
+      for (let j = 0; j < this.rows; j++) {
+        let angle = map(noise(xoff, yoff), 0, 1, 0, TWO_PI);
+        this.field[i][j] = p5.Vector.fromAngle(angle);
+        yoff += 0.1;
+      }
+      xoff += 0.1;
+    }
+  }
+
+  lookup(position) {
+    let column = constrain(floor(position.x / this.resolution), 0, this.cols - 1);
+    let row = constrain(floor(position.y / this.resolution), 0, this.rows - 1);
+    return this.field[column][row].copy();
+  }
+}
+
+// ------------------------- CLASE EGG -----------------------------
+class Egg {
+  constructor(x, y, ms, mf) {
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0);
+    this.velocity = createVector(0, 0);
+    this.r = 6;
+    this.maxspeed = ms;
+    this.maxforce = mf;
+  }
+
+  run() {
+    this.update();
+    this.borders();
+    this.show();
+  }
+
+  follow(flow) {
+    let desired = flow.lookup(this.position);
+    desired.mult(this.maxspeed);
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxforce);
+    this.applyForce(steer);
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxspeed);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+  }
+
+  borders() {
+    if (this.position.x < -this.r) this.position.x = width + this.r;
+    if (this.position.y < -this.r) this.position.y = height + this.r;
+    if (this.position.x > width + this.r) this.position.x = -this.r;
+    if (this.position.y > height + this.r) this.position.y = -this.r;
+  }
+
+  show() {
+  push();
+  translate(this.position.x, this.position.y);
+  rotate(this.velocity.heading());
+  noStroke();
+  if (eggFlash && frameCount - eggFlashTimer < 30) { 
+    fill(30, 224, 16); // verde
+  } else {
+    fill(255); // vuelve al blanco
+  }
+  ellipse(0, 0, this.r * 2, this.r * 2.6);
+  pop();
+}
+
+}
+
+// ------------------------- CLASE MI -----------------------------
+class MI extends Egg {
+  show() {
+    push();
+    strokeWeight(2);
+    // Probabilidad de color verde (como Lévy)
+    if (random(1) < 0.05) {
+      stroke(95, 235, 30);
+    } else {
+      stroke(255);
+    }
+    let dir = this.velocity.copy().setMag(15);
+    line(this.position.x, this.position.y, this.position.x + dir.x, this.position.y + dir.y);
+    pop();
+  }
+}
+
+// ------------------------- CLASE STAR -----------------------------
+class Star extends Egg {
+  constructor(x, y, ms, mf) {
+    super(x, y, ms, mf);
+    this.cIndex = 0;
+    this.nextIndex = 1;
+    this.t = 0;
+
+    // Cada estrella genera longitudes aleatorias para sus puntas
+    this.points = [];
+    for (let i = 0; i < 4; i++) {
+      this.points.push(random(this.r * 3, this.r * 6)); // longitud de las puntas largas
+    }
+  }
+
+  run(level) {
+    this.update();
+    this.borders();
+    this.show(level);
+  }
+
+  show(level) {
+    let c1 = palette[this.cIndex];
+    let c2 = palette[this.nextIndex];
+    let col = lerpColor(c1, c2, this.t);
+    this.t += map(level, 0, 0.5, 0.005, 0.05);
+    if (this.t >= 1) {
+      this.t = 0;
+      this.cIndex = this.nextIndex;
+      this.nextIndex = (this.nextIndex + 1) % palette.length;
+    }
+
+    push();
+    translate(this.position.x, this.position.y);
+    fill(col);
+    noStroke();
+    beginShape();
+
+    // Picos con "depresión" intermedia
+    vertex(0, -this.points[0]);   // arriba
+    vertex(this.r, -this.r);      // depresión arriba-derecha
+    vertex(this.points[1], 0);    // derecha
+    vertex(this.r, this.r);       // depresión abajo-derecha
+    vertex(0, this.points[2]);    // abajo
+    vertex(-this.r, this.r);      // depresión abajo-izquierda
+    vertex(-this.points[3], 0);   // izquierda
+    vertex(-this.r, -this.r);     // depresión arriba-izquierda
+
+    endShape(CLOSE);
+    pop();
+  }
+}
+
+// ------------------------- CLASE X -----------------------------
+class X extends Star {
+  constructor(x, y, ms, mf) {
+    super(x, y, ms, mf);
+    this.r = abs(int(randomGaussian(5, 8))); 
+    if (this.r < 6) this.r = 6; 
+  }
+
+  show(level) {
+    let c1 = palette[this.cIndex];
+    let c2 = palette[this.nextIndex];
+    let col = lerpColor(c1, c2, this.t);
+    this.t += map(level, 0, 0.5, 0.005, 0.05);
+    if (this.t >= 1) {
+      this.t = 0;
+      this.cIndex = this.nextIndex;
+      this.nextIndex = (this.nextIndex + 1) % palette.length;
+    }
+
+    push();
+    translate(this.position.x, this.position.y);
+    stroke(col);
+    strokeWeight(4);
+    line(-this.r, -this.r, this.r, this.r);
+    line(this.r, -this.r, -this.r, this.r);
+    pop();
+  }
+}
+
+// ------------------------- CLASE VINNEGAR -----------------------------
+
+class Vinnegar {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(0, random(1, 2)); // caída lenta
+    this.r = random(4, 7);
+    this.finished = false;
+  }
+
+  update() {
+    this.pos.add(this.vel);
+    if (this.pos.y > height) {
+      this.finished = true;
+    }
+  }
+
+  show() {
+    noStroke();
+    fill(95, 107, 95);
+    ellipse(this.pos.x, this.pos.y, this.r * 2);
+  }
+}
 ```
 3. Un enlace a tu sketch en el editor de p5.js.
 ####
@@ -635,10 +1020,16 @@ class X extends Star {
 ####
 4. Capturas de pantalla mostrando tu pieza en acción.
 ####
+<img width="716" height="717" alt="image" src="https://github.com/user-attachments/assets/37866d05-01e1-4038-8aae-e2bdcfcf0f51" />
+
+<img width="661" height="665" alt="image" src="https://github.com/user-attachments/assets/134a228a-eed3-47f7-a341-b6a642affaa2" />
+
+<img width="677" height="679" alt="image" src="https://github.com/user-attachments/assets/76455de3-f1ff-49c2-b148-b48a77b8e170" />
 
 # Autoevaluación
 **Nota:** 5
 ####
 Realicé todas las actividades con los requisitos pedidos, y como se ve acá realicé la autoevaluación en conjunto.
+
 
 
