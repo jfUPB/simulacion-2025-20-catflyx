@@ -317,8 +317,9 @@ let levyTimer = 0;
 let lastMiSpawn = 0;
 
 // Fondo amarillo loop
-let yellowActive = false;
-let yellowTimer = 0;
+let yellowActive = false; 
+let levyTimer2 = 0;
+let yellowPhase = false; // false = negro, true = amarillo
 
 function preload() {
   soundFormats('mp3', 'ogg');
@@ -384,15 +385,14 @@ function draw() {
     targetBgColor = color(0);
   }
 
-  // ---------------- Fondo amarillo loop
+   // ---------------- Fondo amarillo loop
   if (yellowActive) {
-    if (frameCount - yellowTimer > 300) { // cada 5 segundos (300 frames)
-      targetBgColor = color(224, 203, 16); // amarillo
-      yellowTimer = frameCount;
-    }
-    if (frameCount - yellowTimer > 30) {
-      targetBgColor = color(0);
-    }
+    targetBgColor = color(224, 203, 16);
+    levyTimer2 = frameCount;
+    
+  if (frameCount - levyTimer2 > 30) {
+    targetBgColor = color(0);
+  }
   }
 
   // ---------------- Dibujar objetos
@@ -415,15 +415,18 @@ function draw() {
 }
 
 function keyPressed() {
-  if (key == " ") {
-    yellowActive = !yellowActive; // toggle amarillo automático
-    yellowTimer = frameCount;
-  }
-  if (key == "c") {
+  if (key == "c") { // Star
     stars.push(new Star(random(width), random(height), random(2, 4), random(0.05, 0.3)));
   }
-  if (key == "x") {
+  if (key == "x") { // 1 X
     xs.push(new X(random(width), random(height), random(2, 4), random(0.05, 0.3)));
+  }
+  
+  if (key == " ") {
+  yellowActive = !yellowActive; // toggle amarillo automático
+  yellowTimer = frameCount;
+  yellowPhase = false; // empieza apagado
+  //console.log("Fondo amarillo: " + yellowActive);
   }
 }
 
@@ -543,6 +546,12 @@ class Star extends Egg {
     this.cIndex = 0;
     this.nextIndex = 1;
     this.t = 0;
+
+    // Cada estrella genera longitudes aleatorias para sus puntas
+    this.points = [];
+    for (let i = 0; i < 4; i++) {
+      this.points.push(random(this.r * 3, this.r * 6)); // longitud de las puntas largas
+    }
   }
 
   run(level) {
@@ -567,14 +576,17 @@ class Star extends Egg {
     fill(col);
     noStroke();
     beginShape();
-    curveVertex(0, -this.r * 3);
-    curveVertex(this.r * 2, -this.r);
-    curveVertex(this.r * 3, 0);
-    curveVertex(this.r * 2, this.r);
-    curveVertex(0, this.r * 3);
-    curveVertex(-this.r * 2, this.r);
-    curveVertex(-this.r * 3, 0);
-    curveVertex(-this.r * 2, -this.r);
+
+    // Picos con "depresión" intermedia
+    vertex(0, -this.points[0]);   // arriba
+    vertex(this.r, -this.r);      // depresión arriba-derecha
+    vertex(this.points[1], 0);    // derecha
+    vertex(this.r, this.r);       // depresión abajo-derecha
+    vertex(0, this.points[2]);    // abajo
+    vertex(-this.r, this.r);      // depresión abajo-izquierda
+    vertex(-this.points[3], 0);   // izquierda
+    vertex(-this.r, -this.r);     // depresión arriba-izquierda
+
     endShape(CLOSE);
     pop();
   }
@@ -628,4 +640,5 @@ class X extends Star {
 **Nota:** 5
 ####
 Realicé todas las actividades con los requisitos pedidos, y como se ve acá realicé la autoevaluación en conjunto.
+
 
