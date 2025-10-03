@@ -98,16 +98,44 @@ Ver los [pasos](https://juanferfranco.github.io/simulacion-2025-20/units/unit6/)
 ####
 1. Explica con tus palabras el objetivo y la lógica general de cálculo de cada una de las tres reglas de Flocking (Separación, Alineación, Cohesión).
 ####
-...
+- **Separación:** mantén distancia.
+- **Alineación:** mueve en la misma dirección.
+- **Cohesión:** no te quedes atrás, permanece con el grupo.
 ####
-Lista los parámetros clave identificados (radio de percepción, pesos de las reglas, maxspeed, maxforce).
+La combinación de estas tres reglas simples, balanceadas con parámetros de velocidad y fuerza máxima, genera el movimiento colectivo complejo y realista que vemos en bandadas o cardúmenes.
 ####
-...
+2. Lista los parámetros clave identificados (radio de percepción, pesos de las reglas, maxspeed, maxforce).
 ####
-Describe la modificación que realizaste al código y *explica detalladamente* el efecto que tuvo en el comportamiento colectivo del enjambre (¿Se dispersan? ¿Forman grupos compactos? ¿se mueven caóticamente?). Incluye una captura de pantalla o GIF si ilustra bien el cambio. Muestra el fragmento de código modificado.
+- **Radio de percepción:** define el “campo visual”.
+- **Pesos:** equilibran la influencia relativa de separación, alineación y cohesión.
+- **Maxspeed:** controla la rapidez máxima del movimiento.
+- **Maxforce:** limita la intensidad de los giros/correcciones.
 ####
-...
+3. Describe la modificación que realizaste al código y *explica detalladamente* el efecto que tuvo en el comportamiento colectivo del enjambre (¿Se dispersan? ¿Forman grupos compactos? ¿se mueven caóticamente?). Incluye una captura de pantalla o GIF si ilustra bien el cambio. Muestra el fragmento de código modificado.
+####
+Cambio principal: aumenté el radio de percepción de la regla de separación y el peso (influencia) de la fuerza de separación. Este cambio hace que cada boid "vea" vecinos más lejanos como amenaza de cercanía y que la fuerza de repulsión resultante tenga mayor efecto cuando se combina con las otras fuerzas.
+####
+Las líneas que cambié:
+``` js
+// parámetros (original)
+// let sepRadius = 15;
+// let sepWeight = 1.5;
 
+// parámetros (modificados)
+let sepRadius = 35;   // antes 15
+let sepWeight = 3.0;  // antes 1.5
+```
+Y en `flock()` (combinación de fuerzas):
+``` js
+sep.mult(sepWeight);   // ahora mayor influencia de separación
+ali.mult(aliWeight);
+coh.mult(cohWeight);
+
+this.applyForce(sep);
+this.applyForce(ali);
+this.applyForce(coh);
+```
+Con estos cambios se permite alternar en vivo entre el comportamiento de una bandada más compacta y una más dispersa, al cambiar solo el radio y peso de la separación.
 # Apply
 ## Actividad 5
 Ahora que entiendes los algoritmos, es tu turno de crear. Aplicarás **uno** de ellos (flow fields o flocking) para generar una pieza de arte interactivo que permita visualizar un tema musical de tu elección. La interacción del usuario debe influir en el comportamiento de los agentes.
@@ -1058,6 +1086,7 @@ class Vinnegar {
 **Nota:** 5
 ####
 Realicé todas las actividades con los requisitos pedidos, y como se ve acá realicé la autoevaluación en conjunto.
+
 
 
 
