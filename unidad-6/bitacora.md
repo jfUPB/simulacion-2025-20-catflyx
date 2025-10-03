@@ -59,8 +59,36 @@ Un agente usa su campo de percepción como un sensor: mide dónde están y cómo
 ####
 4. Describe la modificación que realizaste al código y explica detalladamente el efecto que tuvo en el movimiento y comportamiento colectivo de los agentes. Incluye una captura de pantalla o GIF si ilustra bien el cambio. Muestra el fragmento de código modificado.
 ####
-...
+Aumenté el radio de percepción de separacióm así como el peso de la separación. Esto generó que los boids mantiviesen más distancia entre sí; el enjambre se dispersa en subgrupos y se mueva más suelto; y no es caótico, porque la alineación sigue guiando la dirección común.
+``` js
+separate(boids) {
+  let desiredSeparation = 35;   // antes era 25 o 15
+  let steer = createVector(0, 0);
+  let count = 0;
 
+  for (let other of boids) {
+    let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+    if ((d > 0) && (d < desiredSeparation)) {
+      let diff = p5.Vector.sub(this.position, other.position);
+      diff.normalize();
+      diff.div(d);
+      steer.add(diff);
+      count++;
+    }
+  }
+
+  if (count > 0) {
+    steer.div(count);
+  }
+
+  if (steer.mag() > 0) {
+    steer.setMag(this.maxspeed);
+    steer.sub(this.velocity);
+    steer.limit(this.maxforce);
+  }
+  return steer;
+}
+```
 ## Actividad 4
 Ahora analizaremos el segundo algoritmo: el comportamiento de enjambre (Flocking), famoso por simular el movimiento coordinado de pájaros o peces. Nos basaremos nuevamente en “The Nature of Code” para entender las tres reglas básicas que lo gobiernan.
 - Libro “The Nature of Code” (TNoC) de Daniel Shiffman: [capítulo 5, sección “Flocking”](https://natureofcode.com/autonomous-agents/#flocking) (y ejemplos de código asociados).
@@ -96,9 +124,9 @@ Para inciar, decidí elegir uno de los chase themes de Forsaken como tema musica
 
 <img width="649" height="655" alt="image" src="https://github.com/user-attachments/assets/e64cbd2f-e9d2-4c7d-b661-77c55f1837ad" />
 
-Van a usarse flowfields que tomarán el ritmo de la música para definir la dirección de los "huevos", así como habrá momentos en que apareceran estrellas y equis. De igual forma, la paleta se limitará a solo tres colores: Negro, blanco y amarillo. Con respectivos cambios de tono en el caso del amarillo. También simplifiqué los sketchs en dos fases, que representan antes y después de que aparezca el amarillo.
+Van a usarse flowfields que tomarán el ritmo de la música para definir la dirección de los "huevos", así como habrá momentos en que apareceran estrellas y equis. De igual forma, la paleta tendrá tres colores principales: Negro, blanco y amarillo, en menor medida verde. Con respectivos cambios de tono en el caso del amarillo. También simplifiqué los sketchs en dos fases.
 
-Además, 
+Además, de agregar interactividad usando partículas, Colorlerp(), saltos de lévy, cambio en el campo de flujo, etc...
 
 ####
 2. El código fuente completo de tu sketch en p5.js.
@@ -1030,6 +1058,7 @@ class Vinnegar {
 **Nota:** 5
 ####
 Realicé todas las actividades con los requisitos pedidos, y como se ve acá realicé la autoevaluación en conjunto.
+
 
 
 
