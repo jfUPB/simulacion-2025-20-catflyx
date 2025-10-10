@@ -61,11 +61,11 @@ Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.
 ####
 ...
 ####
-Describe brevemente los aspectos técnicos clave de tu implementación: ¿Cómo formaste las letras con Matter.js? ¿Qué propiedades físicas fueron importantes? ¿Usaste restricciones?
+3. Describe brevemente los aspectos técnicos clave de tu implementación: ¿Cómo formaste las letras con Matter.js? ¿Qué propiedades físicas fueron importantes? ¿Usaste restricciones?
 ####
 ...
 ####
-Incluye el código completo de tu sketch final.
+4. Incluye el código completo de tu sketch final.
 `Versión 1`
 ``` js
 
@@ -82,8 +82,9 @@ Incluye el código completo de tu sketch final.
 ``` js
 
 ```
-Inserta una captura de pantalla estática Y un enlace a un GIF animado (¡Esencial!) que muestre tu tipografía semántica animada en acción.
+5. Inserta una captura de pantalla estática Y un enlace a un GIF animado (¡Esencial!) que muestre tu tipografía semántica animada en acción.
 ####
+
 
 
 
