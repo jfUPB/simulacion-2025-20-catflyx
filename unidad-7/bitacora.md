@@ -6,11 +6,19 @@ Vamos a explorar cómo la forma visual de las letras y palabras puede comunicar 
 ####
 1. Tu análisis de 3-4 ejemplos de Ji Lee, explicando cómo logran la conexión palabra-imagen.
 ####
-...
+- **Zipper:** El utilizar un cierre para dibujar la E es bastante ingenioso, por no decir que visualmente claro y atractivo.
+- **Exit:** El implementar literalmente la I como una puerta de salida y hacer que la X corra hacia esta, ayuda a conveer bastante el  signficado de la palabra.
+- **Eclipse:** Hacer uso de la C como una luna eclipsada y aún mejor, oscureces el fondo en torno se cubre completamente, es simplemente una forma brillante de mostrar el significado de la misma.
 ####
 Tus propias ideas (descripción o boceto simple) para representar visualmente 2-3 palabras distintas de forma estática.
 ####
-...
+- **..:** ..
+<img width="1222" height="548" alt="image" src="https://github.com/user-attachments/assets/7eaab008-0a34-40c8-9c02-95527ce487a1" />
+
+- **..:** ..
+<img width="937" height="504" alt="image" src="https://github.com/user-attachments/assets/ebd56ef7-6680-4181-a6fb-98d9aa186319" />
+
+- **..:** ..
 
 ## Actividad 2
 Para animar nuestras palabras con física, necesitamos entender Matter.js. Investigaremos sus conceptos clave y realizaremos experimentos básicos para familiarizarnos con su uso junto a p5.js.
@@ -86,6 +94,7 @@ Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.
 ####
 
 
+# Autoevaluación
+**Nota:** -
 
-
-
+....
