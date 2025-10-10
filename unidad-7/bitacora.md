@@ -1,1 +1,90 @@
 # Evidencias de la unidad 7
+_______________________________________________________________________________________________________________________________________________________________________________
+# Set y Seek
+## Actividad 1
+Vamos a explorar cómo la forma visual de las letras y palabras puede comunicar su significado intrínseco, inspirándonos en el trabajo del diseñador Ji Lee. Concepto “Word as Image” de Ji Lee: observa el trabajo de Ji Lee [“Word as Image”](https://pleaseenjoy.com/#/word-as-image/). Analiza cómo manipula la tipografía para ilustrar el significado de la palabra.
+####
+1. Tu análisis de 3-4 ejemplos de Ji Lee, explicando cómo logran la conexión palabra-imagen.
+####
+...
+####
+Tus propias ideas (descripción o boceto simple) para representar visualmente 2-3 palabras distintas de forma estática.
+####
+...
+
+## Actividad 2
+Para animar nuestras palabras con física, necesitamos entender Matter.js. Investigaremos sus conceptos clave y realizaremos experimentos básicos para familiarizarnos con su uso junto a p5.js.
+### Recursos
+#### Obligatorios:
+- Sitio web oficial de Matter.js: [https://brm.io/matter-js/ (explora los demos)](https://brm.io/matter-js/).
+- Video Tutorial de Patt Vira: [p5.js Coding Tutorial | Introduction to matter.js](https://youtu.be/cLXNxn5N-2Y?si=CahhG5XPhWaUF3vD).
+#### Opcionales:
+Documentación de la API de Matter.js (para profundizar).
+Otros tutoriales o ejemplos que encuentres.
+### Pasos:
+1. **Visualiza y lee:** mira el video de Patt Vira completo. Explora los ejemplos básicos en el sitio web de Matter.js.
+2. **Identifica conceptos clave:** mientras exploras, presta atención a estos conceptos fundamentales: `Engine`, `World`, `Bodies` (y sus tipos: rectángulos, círculos, polígonos), `Constraint`, `MouseConstraint`, `Runner/Events`.
+3. **Experimenta con código:** Intenta replicar en p5.js al menos dos experimentos básicos mostrados en el video de Patt Vira o en los ejemplos del sitio web. Por ejemplo:
+- Crear un mundo con gravedad y añadir algunos cuerpos simples (círculos, cajas) que caigan y colisionen.
+- Crear cuerpos estáticos (como el suelo).
+- Implementar `MouseConstraint` para poder interactuar con los cuerpos usando el mouse.
+- (Opcional avanzado) Crear una restricción simple (Constraint) entre dos cuerpos.
+4. **Explica los conceptos:** basándote en tu experimentación y lectura, explica con tus propias palabras qué es y para qué sirve cada uno de los conceptos clave listados en el paso 2 (`Engine`, `World`, `Bodies`, `Constraint`, `MouseConstraint`).
+####
+1. Muestra el código de los dos (o más) experimentos básicos que replicaste integrando Matter.js y p5.js.
+####
+...
+####
+Incluye una **captura de pantalla o ENLACE a un GIF (no olvides, enlace) de cada experimento funcionando.
+####
+...
+####
+Proporciona tu explicación clara y concisa de los conceptos clave (`Engine`, `World`, `Bodies`, `Constraint`, `MouseConstraint`).
+####
+...
+####
+Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.js inicialmente.
+####
+...
+
+# Apply
+## Actividad 3
+**Animando la tipografía semántica**
+####
+¡Es hora de aplicar todo! Elige una palabra y, usando p5.js y Matter.js, crea una animación donde la palabra “actúe” o se comporte físicamente de una manera que refleje su significado, inspirándote en el concepto “Word as Image”.
+####
+1. Indica claramente la palabra elegida.
+####
+...
+####
+2. Explica tu **idea conceptual**: ¿Cómo la animación física representa el significado de la palabra?
+####
+...
+####
+Describe brevemente los aspectos técnicos clave de tu implementación: ¿Cómo formaste las letras con Matter.js? ¿Qué propiedades físicas fueron importantes? ¿Usaste restricciones?
+####
+...
+####
+Incluye el código completo de tu sketch final.
+`Versión 1`
+``` js
+
+```
+`Versión 2`
+``` js
+
+```
+`Versión 3`
+``` js
+
+```
+`Versión 4`
+``` js
+
+```
+Inserta una captura de pantalla estática Y un enlace a un GIF animado (¡Esencial!) que muestre tu tipografía semántica animada en acción.
+####
+
+
+
+
