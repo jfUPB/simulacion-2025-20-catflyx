@@ -37,19 +37,21 @@ Otros tutoriales o ejemplos que encuentres.
 - (Opcional avanzado) Crear una restricción simple (Constraint) entre dos cuerpos.
 4. **Explica los conceptos:** basándote en tu experimentación y lectura, explica con tus propias palabras qué es y para qué sirve cada uno de los conceptos clave listados en el paso 2 (`Engine`, `World`, `Bodies`, `Constraint`, `MouseConstraint`).
 ####
+**Contesta...**
+####
 1. Muestra el código de los dos (o más) experimentos básicos que replicaste integrando Matter.js y p5.js.
 ####
 ...
 ####
-Incluye una **captura de pantalla o ENLACE a un GIF (no olvides, enlace) de cada experimento funcionando.
+2. Incluye una **captura de pantalla o ENLACE a un GIF (no olvides, enlace) de cada experimento funcionando.
 ####
 ...
 ####
-Proporciona tu explicación clara y concisa de los conceptos clave (`Engine`, `World`, `Bodies`, `Constraint`, `MouseConstraint`).
+3. Proporciona tu explicación clara y concisa de los conceptos clave (`Engine`, `World`, `Bodies`, `Constraint`, `MouseConstraint`).
 ####
 ...
 ####
-Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.js inicialmente.
+4. Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.js inicialmente.
 ####
 ...
 
@@ -99,5 +101,6 @@ En la animación, decidí que la letra m sea un ciempiés, siendo ideal para rep
 **Nota:** -
 
 ....
+
 
 
