@@ -90,6 +90,7 @@ En la animación, decidí que la letra m sea un ciempiés, siendo ideal para rep
 
 ```
 [https://editor.p5js.org/catflyx/sketches/KEwTswZok](https://editor.p5js.org/catflyx/sketches/KEwTswZok)
+####
 5. Inserta una captura de pantalla estática Y un enlace a un GIF animado (¡Esencial!) que muestre tu tipografía semántica animada en acción.
 ####
 
@@ -98,4 +99,5 @@ En la animación, decidí que la letra m sea un ciempiés, siendo ideal para rep
 **Nota:** -
 
 ....
+
 
