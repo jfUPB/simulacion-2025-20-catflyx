@@ -12,13 +12,11 @@ Vamos a explorar cómo la forma visual de las letras y palabras puede comunicar 
 ####
 Tus propias ideas (descripción o boceto simple) para representar visualmente 2-3 palabras distintas de forma estática.
 ####
-- **..:** ..
+- **Ciempiés:** Sería reemplazar la m con literalmente un ciempiés.
 <img width="1222" height="548" alt="image" src="https://github.com/user-attachments/assets/7eaab008-0a34-40c8-9c02-95527ce487a1" />
 
-- **..:** ..
+- **Bichos:** En un primer caso, que la i sea una hormiga y la c una hoja cortada que esta lleva. Si la b llega a ser mayúscula, esta sería un caracol.
 <img width="937" height="504" alt="image" src="https://github.com/user-attachments/assets/ebd56ef7-6680-4181-a6fb-98d9aa186319" />
-
-- **..:** ..
 
 ## Actividad 2
 Para animar nuestras palabras con física, necesitamos entender Matter.js. Investigaremos sus conceptos clave y realizaremos experimentos básicos para familiarizarnos con su uso junto a p5.js.
@@ -63,17 +61,18 @@ Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.
 ####
 1. Indica claramente la palabra elegida.
 ####
-...
+La palabra que elegí es "Ciempiés", pues son mi animal favorito y me parece que su anatomía podría demostrar una implementación compleja e interesante.
 ####
 2. Explica tu **idea conceptual**: ¿Cómo la animación física representa el significado de la palabra?
 ####
-...
+En la animación, decidí que la letra m sea un ciempiés, siendo ideal para representarlo al ser una letra larga y que se ondula; de tal forma que el ciempiés se acercaría a la palabra y luego formaría la m. Además, la tilde funcionaría como una presa (una hormiga por ejemplo) que luego el ciempués cazaría.
 ####
 3. Describe brevemente los aspectos técnicos clave de tu implementación: ¿Cómo formaste las letras con Matter.js? ¿Qué propiedades físicas fueron importantes? ¿Usaste restricciones?
 ####
 ...
 ####
 4. Incluye el código completo de tu sketch final.
+####
 `Versión 1`
 ``` js
 
@@ -90,6 +89,7 @@ Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.
 ``` js
 
 ```
+[https://editor.p5js.org/catflyx/sketches/KEwTswZok](https://editor.p5js.org/catflyx/sketches/KEwTswZok)
 5. Inserta una captura de pantalla estática Y un enlace a un GIF animado (¡Esencial!) que muestre tu tipografía semántica animada en acción.
 ####
 
@@ -98,3 +98,4 @@ Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.
 **Nota:** -
 
 ....
+
