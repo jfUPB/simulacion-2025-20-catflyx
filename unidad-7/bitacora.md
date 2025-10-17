@@ -67,40 +67,879 @@ La palabra que elegí es "Ciempiés", pues son mi animal favorito y me parece qu
 ####
 2. Explica tu **idea conceptual**: ¿Cómo la animación física representa el significado de la palabra?
 ####
-En la animación, decidí que la letra m sea un ciempiés, siendo ideal para representarlo al ser una letra larga y que se ondula; de tal forma que el ciempiés se acercaría a la palabra y luego formaría la m. Además, la tilde funcionaría como una presa (una hormiga por ejemplo) que luego el ciempués cazaría.
+En la animación, decidí que la palabra completa sea un ciempiés, de tal forma que la C son sus dos "antenas" traseras, y la S las delanteras. Las patas por otro lado, solo ocuparían la parte inferior de las letras. Respecto a qué haría, la palabra entera se movería hacia el mouse con un movimiento similar a un ciempiés.
+<img width="1529" height="512" alt="image" src="https://github.com/user-attachments/assets/a42e9e62-8f8d-4770-be57-28f6707543a8" />
+
+Este sería un sketch de cómo se vería la palabra.
+####
+Al final, las patas tuvieron que tomar una ruta diferente, pero sigue manteniendo la idea.
 ####
 3. Describe brevemente los aspectos técnicos clave de tu implementación: ¿Cómo formaste las letras con Matter.js? ¿Qué propiedades físicas fueron importantes? ¿Usaste restricciones?
 ####
-...
+Las letras fueron un desafío, pues quería un aspecto orgánico y ciertamente suave. Para hacerlas, me decidí por curvas bezier para cada letra y así formas lo más parecido a mi idea. Por otro lado, estas mismas se les aplicó un constraint de matter para luego hacer el movimiento de ellas conjuntamente. Esto dió problemas volviendose locas las letras, pero con repelsiones se pudo arreglar. Por último, tuve que asegurarme que solo la S siguiera el mouse y las demás letras se movieran de forma coherente en consecuencia; así como agregue una variable que midiera la velocidad en la que se hace esto por razones estéticas. 
+####
+Diría que lo explicado fue lo más difícil de lograr correctamente, las patitas salió con bastante rapidez a comparación, así como que se quedasen totalmente estáticas al hacer click con el mouse.
 ####
 4. Incluye el código completo de tu sketch final.
 ####
 `Versión 1`
 ``` js
+// ===========================================================
+// "ciempiés" — letras minúsculas 2D, articuladas, sin mostrar uniones
+// ===========================================================
 
+const { Engine, Bodies, Body, Composite, Constraint } = Matter;
+
+let engine, world;
+let letras = [];
+let conexiones = [];
+
+function setup() {
+  createCanvas(900, 400);
+  engine = Engine.create();
+  world = engine.world;
+
+  // Sin gravedad — flotan suspendidas
+  engine.world.gravity.y = 0;
+
+  const baseY = height / 2;
+
+  // ---- Crear letras (posición base) ----
+  letras.push(new LetraC(70, baseY));
+  letras.push(new LetraI(180, baseY));
+  letras.push(new LetraE(240, baseY));
+  letras.push(new LetraM(320, baseY));
+  letras.push(new LetraP(410, baseY));
+  letras.push(new LetraI(480, baseY));
+  letras.push(new LetraE(530, baseY));
+  letras.push(new LetraS(610, baseY));
+
+  // ---- Conectar letras con constraints (invisibles) ----
+  for (let i = 0; i < letras.length - 1; i++) {
+    let bodyA = letras[i].body;
+    let bodyB = letras[i + 1].body;
+    let c = Constraint.create({
+      bodyA,
+      pointA: { x: 25, y: 0 },
+      bodyB,
+      pointB: { x: -25, y: 0 },
+      length: 15,
+      stiffness: 0.3,
+      render: { visible: false } // las uniones no se dibujan
+    });
+    Composite.add(world, c);
+    conexiones.push(c);
+  }
+}
+
+function draw() {
+  background(255);
+  Engine.update(engine);
+
+  // Mostrar letras
+  for (let l of letras) l.display();
+}
+
+// ===========================================================
+// LETRAS SUAVES Y CONSISTENTES — estilo caligráfico limpio
+// ===========================================================
+
+class LetraBase {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  estilo() {
+    noFill();
+    stroke(20);
+    strokeWeight(10);
+    strokeCap(ROUND);
+    strokeJoin(ROUND);
+  }
+}
+
+// ---- c invertida y fluida ----
+class LetraC extends LetraBase {
+  display() {
+    push();
+    translate(this.x, this.y);
+    scale(0.8, 0.8);
+    this.estilo();
+    scale(-1, 1); // invertir horizontalmente
+    beginShape();
+    vertex(-30, -25);
+    bezierVertex(-120, -10, -120, 10, -30, 40);
+    endShape();
+    pop();
+  }
+}
+
+// ---- i minúscula (sin punto) ----
+class LetraI extends LetraBase {
+  display() {
+    push();
+    translate(this.x, this.y);
+    scale(0.8, 0.8);
+    this.estilo();
+    line(0, -25, 0, 45);
+    pop();
+  }
+}
+
+// ---- e orgánica con cola descendente (según referencia) ----
+class LetraE extends LetraBase {
+  display() {
+    push();
+    translate(this.x, this.y);
+    scale(0.8, 0.8);
+    this.estilo();
+    noFill();
+    stroke(20);
+    strokeWeight(8);
+    strokeCap(ROUND);
+
+    beginShape();
+    vertex(-20, 10);                   // inicio parte izquierda
+    bezierVertex(-10, -15, 25, -15, 20, 5);  // bucle superior
+    bezierVertex(15, 15, -10, 15, -10, 5);    // cierre del bucle
+    bezierVertex(-30, 30, 30, 35, 10, 50);     // cola descendente suave
+    endShape();
+
+    pop();
+  }
+}
+
+// ---- m fluida ----
+class LetraM extends LetraBase {
+  display() {
+    push();
+    translate(this.x, this.y);
+    scale(0.8, 0.8);
+    this.estilo();
+    beginShape();
+    vertex(-25, 45);
+    bezierVertex(-20, -15, 0, -20, 10, 5);
+    bezierVertex(15, -20, 45, -20, 40, 45);
+    endShape();
+    pop();
+  }
+}
+
+// ---- p fluida ----
+class LetraP extends LetraBase {
+  display() {
+    push();
+    translate(this.x, this.y);
+    scale(0.8, 0.8);
+    this.estilo();
+    beginShape();
+    vertex(-10, 45);
+    bezierVertex(-10, -20, 10, -20, 20, -10);
+    bezierVertex(25, 0, 10, 10, -5, 5);
+    endShape();
+    pop();
+  }
+}
+
+// ---- s alargada invertida (como tu dibujo) ----
+class LetraS extends LetraBase {
+  display() {
+    push();
+    translate(this.x, this.y);
+    scale(-0.8, 0.8); // voltea horizontalmente
+    noFill();
+    stroke(20);
+    strokeWeight(8);
+    strokeCap(ROUND);
+
+    beginShape();
+    vertex(-40, -35);                   // inicio arriba derecha (invertido)
+    bezierVertex(-10, -25, 25, -25, 30, -5);  // parte superior larga
+    bezierVertex(35, 10, 10, 20, -10, 25);    // parte inferior
+    bezierVertex(-25, 30, -10, 35, 10, 40);   // cola descendente
+    endShape();
+
+    pop();
+  }
+}
 ```
 `Versión 2`
 ``` js
+// ===========================================================
+// Ciempiés de letras — versión estable y suave
+// ===========================================================
 
+let letras = [];
+let activo = true; // movimiento activo o congelado
+let seguimientoVelocidad = 0.1; // rapidez al seguir el mouse
+let distanciaDeseada = 70; // separación entre letras
+let fuerzaRepulsion = 0.0025; // evita que se amontonen
+let delaySuavizado = 0.25; // retraso en el seguimiento
+
+function setup() {
+  createCanvas(900, 400);
+  const baseY = height / 2;
+
+  // Crear letras manualmente (sin Matter.js)
+  letras.push(new LetraC(70, baseY));
+  letras.push(new LetraI(180, baseY));
+  letras.push(new LetraE(240, baseY));
+  letras.push(new LetraM(320, baseY));
+  letras.push(new LetraP(410, baseY));
+  letras.push(new LetraI(480, baseY));
+  letras.push(new LetraE(530, baseY));
+  letras.push(new LetraS(-150, baseY)); // cabeza (última)
+}
+
+function draw() {
+  background(255);
+
+  if (activo) moverLetras();
+
+  for (let l of letras) l.display();
+}
+
+function moverLetras() {
+  let cabeza = letras[letras.length - 1];
+  let target = createVector(mouseX, mouseY);
+
+  // --- cabeza sigue al mouse ---
+  let dir = p5.Vector.sub(target, cabeza.pos);
+  dir.mult(seguimientoVelocidad);
+  cabeza.pos.add(dir);
+
+  // rotación hacia mouse
+  cabeza.ang = atan2(dir.y, dir.x);
+
+  // --- resto de letras ---
+  for (let i = letras.length - 2; i >= 0; i--) {
+    let siguiente = letras[i + 1];
+    let actual = letras[i];
+
+    let dirSeguir = p5.Vector.sub(siguiente.pos, actual.pos);
+    let dist = dirSeguir.mag();
+    dirSeguir.normalize();
+
+    // objetivo: mantener distancia deseada
+    let delta = dist - distanciaDeseada;
+    actual.pos.add(dirSeguir.mult(delta * delaySuavizado));
+
+    // rotación hacia la siguiente
+    actual.ang = atan2(
+      siguiente.pos.y - actual.pos.y,
+      siguiente.pos.x - actual.pos.x
+    );
+  }
+
+  // --- repulsión suave (solo si están muy cerca) ---
+  for (let i = 0; i < letras.length; i++) {
+    for (let j = i + 1; j < letras.length; j++) {
+      let a = letras[i];
+      let b = letras[j];
+      let diff = p5.Vector.sub(a.pos, b.pos);
+      let dist = diff.mag();
+      let minDist = 45;
+      if (dist < minDist) {
+        diff.normalize();
+        let fuerza = (minDist - dist) * fuerzaRepulsion;
+        a.pos.add(diff.mult(fuerza * 400));
+        b.pos.sub(diff.mult(fuerza * 400));
+      }
+    }
+  }
+}
+
+// 🖱️ Click → alternar movimiento
+function mousePressed() {
+  activo = !activo;
+}
+
+// ===========================================================
+// LETRAS SUAVES (sin física, solo dibujo)
+// ===========================================================
+
+class LetraBase {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.ang = 0;
+  }
+
+  estilo() {
+    noFill();
+    stroke(20);
+    strokeWeight(8);
+    strokeCap(ROUND);
+    strokeJoin(ROUND);
+  }
+}
+
+class LetraC extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-30, -25);
+    bezierVertex(-70, -10, -70, 10, -30, 40);
+    endShape();
+    pop();
+  }
+}
+
+class LetraI extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    line(0, -25, 0, 45);
+    pop();
+  }
+}
+
+class LetraE extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-20, 10);
+    bezierVertex(-10, -15, 25, -15, 20, 5);
+    bezierVertex(15, 15, -10, 15, -10, 5);
+    bezierVertex(-25, 30, 25, 35, 10, 50);
+    endShape();
+    pop();
+  }
+}
+
+class LetraM extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-25, 45);
+    bezierVertex(-20, -15, 0, -20, 10, 5);
+    bezierVertex(15, -20, 45, -20, 40, 45);
+    endShape();
+    pop();
+  }
+}
+
+class LetraP extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-10, 45);
+    bezierVertex(-10, -20, 10, -20, 20, -10);
+    bezierVertex(25, 0, 10, 10, -5, 5);
+    endShape();
+    pop();
+  }
+}
+
+class LetraS extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    scale(-0.8, 0.8);
+    beginShape();
+    vertex(-40, -35);
+    bezierVertex(-10, -25, 25, -25, 30, -5);
+    bezierVertex(35, 10, 10, 20, -10, 25);
+    bezierVertex(-25, 30, -10, 35, 10, 40);
+    endShape();
+    pop();
+  }
+}
 ```
 `Versión 3`
 ``` js
+// ===========================================================
+// Ciempiés de letras — versión estable y suave con patas animadas
+// ===========================================================
 
+let letras = [];
+let activo = true; // movimiento activo o congelado
+let seguimientoVelocidad = 0.1; // rapidez al seguir el mouse
+let distanciaDeseada = 70; // separación entre letras
+let fuerzaRepulsion = 0.0025; // evita que se amontonen
+let delaySuavizado = 0.25; // retraso en el seguimiento
+let tiempo = 0; // contador para animación de patas
+
+function setup() {
+  createCanvas(900, 400);
+  const baseY = height / 2;
+
+  // Crear letras manualmente (sin Matter.js)
+  letras.push(new LetraC(30, baseY));
+  letras.push(new LetraI(180, baseY));
+  letras.push(new LetraE(240, baseY));
+  letras.push(new LetraM(320, baseY));
+  letras.push(new LetraP(410, baseY));
+  letras.push(new LetraI(480, baseY));
+  letras.push(new LetraE(530, baseY));
+  letras.push(new LetraS(-150, baseY)); // cabeza (última)
+}
+
+function draw() {
+  background(255);
+  tiempo += 0.02;
+
+  if (activo) moverLetras();
+
+  for (let l of letras) l.display();
+}
+
+function moverLetras() {
+  let cabeza = letras[letras.length - 1];
+  let target = createVector(mouseX, mouseY);
+
+  // --- cabeza sigue al mouse ---
+  let dir = p5.Vector.sub(target, cabeza.pos);
+  dir.mult(seguimientoVelocidad);
+  cabeza.pos.add(dir);
+
+  // rotación hacia mouse
+  cabeza.ang = atan2(dir.y, dir.x);
+
+  // --- resto de letras ---
+  for (let i = letras.length - 2; i >= 0; i--) {
+    let siguiente = letras[i + 1];
+    let actual = letras[i];
+
+    let dirSeguir = p5.Vector.sub(siguiente.pos, actual.pos);
+    let dist = dirSeguir.mag();
+    dirSeguir.normalize();
+
+    // objetivo: mantener distancia deseada
+    let delta = dist - distanciaDeseada;
+    actual.pos.add(dirSeguir.mult(delta * delaySuavizado));
+
+    // rotación hacia la siguiente
+    actual.ang = atan2(
+      siguiente.pos.y - actual.pos.y,
+      siguiente.pos.x - actual.pos.x
+    );
+  }
+
+  // --- repulsión suave (solo si están muy cerca) ---
+  for (let i = 0; i < letras.length; i++) {
+    for (let j = i + 1; j < letras.length; j++) {
+      let a = letras[i];
+      let b = letras[j];
+      let diff = p5.Vector.sub(a.pos, b.pos);
+      let dist = diff.mag();
+      let minDist = 45;
+      if (dist < minDist) {
+        diff.normalize();
+        let fuerza = (minDist - dist) * fuerzaRepulsion;
+        a.pos.add(diff.mult(fuerza * 400));
+        b.pos.sub(diff.mult(fuerza * 400));
+      }
+    }
+  }
+}
+
+// 🖱️ Click → alternar movimiento
+function mousePressed() {
+  activo = !activo;
+}
+
+// ===========================================================
+// LETRAS SUAVES (sin física, solo dibujo)
+// ===========================================================
+
+class LetraBase {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.ang = 0;
+  }
+
+  estilo() {
+    noFill();
+    stroke(20);
+    strokeWeight(8);
+    strokeCap(ROUND);
+    strokeJoin(ROUND);
+  }
+}
+
+// ---- C original restaurada ----
+class LetraC extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    scale(0.8, 0.8);
+    this.estilo();
+    scale(-1, 1); // invertir horizontalmente
+    beginShape();
+    vertex(-30, -25);
+    bezierVertex(-170, -10, -170, 10, -30, 40);
+    endShape();
+    pop();
+  }
+}
+
+class LetraI extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    line(0, -25, 0, 45);
+
+    // patas
+    let fase = this.pos.x * 0.1;
+    let osc = activo ? sin(tiempo * 5 + fase) * 6 : 0;
+
+    line(0, 45, -10 + osc, 60);
+    line(0, 45, 10 - osc, 60);
+    pop();
+  }
+}
+
+class LetraE extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-20, 10);
+    bezierVertex(-10, -15, 25, -15, 20, 5);
+    bezierVertex(15, 15, -10, 15, -10, 5);
+    bezierVertex(-25, 30, 25, 35, 10, 50);
+    endShape();
+
+    // patas
+    let fase = this.pos.x * 0.1;
+    let osc = activo ? sin(tiempo * 5 + fase) * 8 : 0;
+
+    line(5, 50, 15 + osc, 65);
+    line(-5, 50, -15 - osc, 65);
+    pop();
+  }
+}
+
+class LetraM extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-25, 45);
+    bezierVertex(-20, -15, 0, -20, 10, 5);
+    bezierVertex(15, -20, 45, -20, 40, 45);
+    endShape();
+
+    // patas
+    let fase = this.pos.x * 0.15;
+    let osc = activo ? sin(tiempo * 5 + fase) * 8 : 0;
+
+    line(-20, 45, -30 + osc, 60);
+    line(0, 45, 0 + osc, 60);
+    line(25, 45, 35 - osc, 60);
+    pop();
+  }
+}
+
+class LetraP extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-10, 45);
+    bezierVertex(-10, -20, 10, -20, 20, -10);
+    bezierVertex(25, 0, 10, 10, -5, 5);
+    endShape();
+
+    // patas
+    let fase = this.pos.x * 0.1;
+    let osc = activo ? sin(tiempo * 5 + fase) * 8 : 0;
+
+    line(-10, 45, -20 + osc, 60);
+    line(5, 45, 15 - osc, 60);
+    pop();
+  }
+}
+
+class LetraS extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    scale(-0.8, 0.8);
+    beginShape();
+    vertex(-40, -35);
+    bezierVertex(-10, -25, 25, -25, 30, -5);
+    bezierVertex(35, 10, 10, 20, -10, 25);
+    bezierVertex(-25, 30, -10, 35, 10, 40);
+    endShape();
+    pop();
+  }
+}
 ```
 `Versión 4`
 ``` js
+// ===========================================================
+// Ciempiés de letras — versión estable y suave con patas animadas
+// ===========================================================
 
+let letras = [];
+let activo = false; // movimiento activo o congelado
+let seguimientoVelocidad = 0.1; // rapidez al seguir el mouse
+let distanciaDeseada = 70; // separación entre letras
+let fuerzaRepulsion = 0.0025; // evita que se amontonen
+let delaySuavizado = 0.25; // retraso en el seguimiento
+let tiempo = 0; // contador para animación de patas
+
+function setup() {
+  createCanvas(900, 400);
+  const baseY = 800;  // fuera del canvas (abajo)
+  const baseX = 1100; // fuera del canvas (derecha)
+
+  // Crear letras con separación ajustada (C más separada de la I)
+  letras.push(new LetraC(baseX, baseY));        // C
+  letras.push(new LetraI(baseX - 240, baseY));  // I — más separada
+  letras.push(new LetraE(baseX - 310, baseY));  // E
+  letras.push(new LetraM(baseX - 390, baseY));  // M
+  letras.push(new LetraP(baseX - 480, baseY));  // P
+  letras.push(new LetraI(baseX - 550, baseY));  // I
+  letras.push(new LetraE(baseX - 600, baseY));  // E
+  letras.push(new LetraS(baseX + 100, baseY));  // S (cabeza, adelante)
+}
+
+function draw() {
+  background(255);
+  tiempo += 0.02;
+
+  if (activo) moverLetras();
+
+  for (let l of letras) l.display();
+}
+
+function moverLetras() {
+  let cabeza = letras[letras.length - 1];
+  let target = createVector(mouseX, mouseY);
+
+  // --- cabeza sigue al mouse ---
+  let dir = p5.Vector.sub(target, cabeza.pos);
+  dir.mult(seguimientoVelocidad);
+  cabeza.pos.add(dir);
+
+  // rotación hacia mouse
+  cabeza.ang = atan2(dir.y, dir.x);
+
+  // --- resto de letras ---
+  for (let i = letras.length - 2; i >= 0; i--) {
+    let siguiente = letras[i + 1];
+    let actual = letras[i];
+
+    let dirSeguir = p5.Vector.sub(siguiente.pos, actual.pos);
+    let dist = dirSeguir.mag();
+    dirSeguir.normalize();
+
+    // mantener distancia deseada
+    let delta = dist - distanciaDeseada;
+    actual.pos.add(dirSeguir.mult(delta * delaySuavizado));
+
+    // rotación hacia la siguiente
+    actual.ang = atan2(
+      siguiente.pos.y - actual.pos.y,
+      siguiente.pos.x - actual.pos.x
+    );
+  }
+
+  // --- repulsión suave (solo si están muy cerca) ---
+  for (let i = 0; i < letras.length; i++) {
+    for (let j = i + 1; j < letras.length; j++) {
+      let a = letras[i];
+      let b = letras[j];
+      let diff = p5.Vector.sub(a.pos, b.pos);
+      let dist = diff.mag();
+      let minDist = 45;
+      if (dist < minDist) {
+        diff.normalize();
+        let fuerza = (minDist - dist) * fuerzaRepulsion;
+        a.pos.add(diff.mult(fuerza * 400));
+        b.pos.sub(diff.mult(fuerza * 400));
+      }
+    }
+  }
+}
+
+// 🖱️ Click → alternar movimiento
+function mousePressed() {
+  activo = !activo;
+}
+
+// ===========================================================
+// LETRAS SUAVES (sin física, solo dibujo)
+// ===========================================================
+
+class LetraBase {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.ang = 0;
+  }
+
+  estilo() {
+    noFill();
+    stroke(20);
+    strokeWeight(8);
+    strokeCap(ROUND);
+    strokeJoin(ROUND);
+  }
+}
+
+// ---- C original restaurada ----
+class LetraC extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    scale(0.8, 0.8);
+    this.estilo();
+    scale(-1, 1); // invertir horizontalmente
+    beginShape();
+    vertex(-30, -25);
+    bezierVertex(-170, -10, -170, 10, -30, 40);
+    endShape();
+    pop();
+  }
+}
+
+class LetraI extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    line(0, -25, 0, 45);
+
+    // patas
+    let fase = this.pos.x * 0.1;
+    let osc = activo ? sin(tiempo * 5 + fase) * 6 : 0;
+
+    line(0, 45, -10 + osc, 60);
+    line(0, 45, 10 - osc, 60);
+    pop();
+  }
+}
+
+class LetraE extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-20, 10);
+    bezierVertex(-10, -15, 25, -15, 20, 5);
+    bezierVertex(15, 15, -10, 15, -10, 5);
+    bezierVertex(-25, 30, 25, 35, 10, 50);
+    endShape();
+
+    // patas
+    let fase = this.pos.x * 0.1;
+    let osc = activo ? sin(tiempo * 5 + fase) * 8 : 0;
+
+    line(5, 50, 15 + osc, 65);
+    line(-5, 50, -15 - osc, 65);
+    pop();
+  }
+}
+
+class LetraM extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-25, 45);
+    bezierVertex(-20, -15, 0, -20, 10, 5);
+    bezierVertex(15, -20, 45, -20, 40, 45);
+    endShape();
+
+    // patas
+    let fase = this.pos.x * 0.15;
+    let osc = activo ? sin(tiempo * 5 + fase) * 8 : 0;
+
+    line(-20, 45, -30 + osc, 60);
+    line(0, 45, 0 + osc, 60);
+    line(25, 45, 35 - osc, 60);
+    pop();
+  }
+}
+
+class LetraP extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    beginShape();
+    vertex(-10, 45);
+    bezierVertex(-10, -20, 10, -20, 20, -10);
+    bezierVertex(25, 0, 10, 10, -5, 5);
+    endShape();
+
+    // patas
+    let fase = this.pos.x * 0.1;
+    let osc = activo ? sin(tiempo * 5 + fase) * 8 : 0;
+
+    line(-10, 45, -20 + osc, 60);
+    line(5, 45, 15 - osc, 60);
+    pop();
+  }
+}
+
+class LetraS extends LetraBase {
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.ang);
+    this.estilo();
+    scale(-0.8, 0.8);
+    beginShape();
+    vertex(-40, -35);
+    bezierVertex(-10, -25, 25, -25, 30, -5);
+    bezierVertex(35, 10, 10, 20, -10, 25);
+    bezierVertex(-25, 30, -10, 35, 10, 40);
+    endShape();
+    pop();
+  }
+}
 ```
 [https://editor.p5js.org/catflyx/sketches/KEwTswZok](https://editor.p5js.org/catflyx/sketches/KEwTswZok)
 ####
 5. Inserta una captura de pantalla estática Y un enlace a un GIF animado (¡Esencial!) que muestre tu tipografía semántica animada en acción.
 ####
+<img width="920" height="398" alt="image" src="https://github.com/user-attachments/assets/48aaef9f-ca01-4ffd-aa41-a26a10fe8b84" />
 
+![ciempies](https://github.com/user-attachments/assets/6f4e97e3-6218-49d5-8081-202610000ac4)
 
 # Autoevaluación
 **Nota:** -
 
 ....
+
 
 
 
