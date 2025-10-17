@@ -41,19 +41,314 @@ Otros tutoriales o ejemplos que encuentres.
 ####
 1. Muestra el código de los dos (o más) experimentos básicos que replicaste integrando Matter.js y p5.js.
 ####
-...
+`Experimento 1`
+``` js
+// --- importar Matter.js ---
+const { Engine, World, Bodies, Body, Constraint, Mouse, MouseConstraint } = Matter;
+
+let engine, world;
+let ground, plataforma, pivote, bola;
+let bloques = [];
+let mConstraint;
+
+function setup() {
+  createCanvas(900, 500);
+  engine = Engine.create();
+  world = engine.world;
+
+  // --- suelo ---
+  ground = Bodies.rectangle(width / 2, height - 10, width, 20, {
+    isStatic: true,
+  });
+  World.add(world, ground);
+
+  // --- plataforma (balancín) ---
+  plataforma = Bodies.rectangle(width / 2, height - 80, 300, 20, {
+    friction: 0.5,
+    restitution: 0.2,
+  });
+  World.add(world, plataforma);
+
+  // --- pivote central ---
+  pivote = Constraint.create({
+    pointA: { x: width / 2, y: height - 80 },
+    bodyB: plataforma,
+    length: 0,
+    stiffness: 1,
+  });
+  World.add(world, pivote);
+
+  // --- bloques en el extremo izquierdo ---
+  const startX = width / 2 - 100;
+  const startY = height - 120;
+  for (let i = 0; i < 5; i++) {
+    let color = i % 2 == 0 ? "#ffb347" : "#0d3b66";
+    let b = Bodies.rectangle(startX - i * 25, startY - i * 20, 30, 30, {
+      restitution: 0.4,
+      friction: 0.3,
+    });
+    b.customColor = color;
+    bloques.push(b);
+    World.add(world, b);
+  }
+
+  // --- esfera grande en el extremo derecho ---
+  bola = Bodies.circle(width / 2 + 130, height - 200, 40, {
+    restitution: 0.4,
+    density: 0.02,
+  });
+  bola.customColor = "#0d3b66";
+  World.add(world, bola);
+
+  // --- MouseConstraint para arrastrar ---
+  const canvasMouse = Mouse.create(canvas.elt);
+  const opciones = {
+    mouse: canvasMouse,
+    constraint: {
+      stiffness: 0.2,
+      render: { visible: false }, // no mostrar línea
+    },
+  };
+  mConstraint = MouseConstraint.create(engine, opciones);
+  World.add(world, mConstraint);
+}
+
+function draw() {
+  background(255);
+  Engine.update(engine);
+
+  // --- suelo ---
+  noStroke();
+  fill(230);
+  rectMode(CENTER);
+  rect(ground.position.x, ground.position.y, width, 20);
+
+  // --- plataforma ---
+  push();
+  translate(plataforma.position.x, plataforma.position.y);
+  rotate(plataforma.angle);
+  fill("#f6cf57");
+  rectMode(CENTER);
+  rect(0, 0, 300, 20);
+  pop();
+
+  // --- bloques ---
+  for (let b of bloques) {
+    push();
+    translate(b.position.x, b.position.y);
+    rotate(b.angle);
+    fill(b.customColor);
+    rectMode(CENTER);
+    rect(0, 0, 30, 30);
+    pop();
+  }
+
+  // --- bola ---
+  push();
+  translate(bola.position.x, bola.position.y);
+  fill(bola.customColor);
+  ellipse(0, 0, 80);
+  pop();
+
+  // --- debug visual: resaltar cuerpo agarrado ---
+  if (mConstraint.body) {
+    const pos = mConstraint.body.position;
+    push();
+    stroke(255, 0, 0);
+    strokeWeight(2);
+    noFill();
+    ellipse(pos.x, pos.y, 100);
+    pop();
+  }
+}
+```
+`Experimento 2`
+``` js
+// --- importar módulos de Matter.js ---
+const { Engine, World, Bodies, Body, Constraint, Composites, Composite, Mouse, MouseConstraint } = Matter;
+
+let engine, world;
+let trampolin = [];
+let constraints = [];
+let cubos = [];
+let mConstraint;
+
+function setup() {
+  createCanvas(900, 500);
+  engine = Engine.create();
+  world = engine.world;
+
+  // --- parámetros del trampolín ---
+  const xInicio = 200;
+  const yBase = 400;
+  const segmentos = 10;
+  const anchoSegmento = 50;
+  const altura = 20;
+
+  // --- crear segmentos del trampolín ---
+  for (let i = 0; i < segmentos; i++) {
+    let x = xInicio + i * anchoSegmento;
+    let s = Bodies.rectangle(x, yBase, anchoSegmento, altura, {
+      restitution: 0.2,
+      friction: 0.4,
+      density: 0.002,
+    });
+    trampolin.push(s);
+    World.add(world, s);
+
+    // conectar con el anterior (constraint tipo resorte)
+    if (i > 0) {
+      let prev = trampolin[i - 1];
+      let c = Constraint.create({
+        bodyA: prev,
+        pointA: { x: anchoSegmento / 2, y: 0 },
+        bodyB: s,
+        pointB: { x: -anchoSegmento / 2, y: 0 },
+        stiffness: 0.5,
+        damping: 0.1,
+      });
+      constraints.push(c);
+      World.add(world, c);
+    }
+  }
+
+  // --- anclar extremos (como en la imagen) ---
+  const izquierda = Constraint.create({
+    pointA: { x: xInicio - 25, y: yBase },
+    bodyB: trampolin[0],
+    pointB: { x: -anchoSegmento / 2, y: 0 },
+    stiffness: 1,
+  });
+  const derecha = Constraint.create({
+    pointA: { x: xInicio + segmentos * anchoSegmento + 25, y: yBase },
+    bodyB: trampolin[segmentos - 1],
+    pointB: { x: anchoSegmento / 2, y: 0 },
+    stiffness: 1,
+  });
+  World.add(world, [izquierda, derecha]);
+
+  // --- cubos que caen ---
+  for (let i = 0; i < 10; i++) {
+    let c = Bodies.rectangle(350 + random(-100, 100), 100 - i * 35, 40, 40, {
+      restitution: 0.4,
+      friction: 0.3,
+      density: 0.002,
+    });
+    c.customColor = random(["#ff6f59", "#f7cb15", "#f7b267", "#0d3b66", "#fdfcdc"]);
+    cubos.push(c);
+    World.add(world, c);
+  }
+
+  // --- mouse interactivo ---
+  const canvasMouse = Mouse.create(canvas.elt);
+  const opciones = {
+    mouse: canvasMouse,
+    constraint: {
+      stiffness: 0.2,
+      render: { visible: false },
+    },
+  };
+  mConstraint = MouseConstraint.create(engine, opciones);
+  World.add(world, mConstraint);
+}
+
+function draw() {
+  background(255);
+  Engine.update(engine);
+
+  // --- trampolín ---
+  stroke(20);
+  strokeWeight(3);
+  noFill();
+  beginShape();
+  for (let s of trampolin) {
+    vertex(s.position.x, s.position.y);
+  }
+  endShape();
+
+  // --- dibujar cada segmento ---
+  fill("#000820");
+  noStroke();
+  for (let s of trampolin) {
+    push();
+    translate(s.position.x, s.position.y);
+    rotate(s.angle);
+    rectMode(CENTER);
+    rect(0, 0, 50, 20);
+    pop();
+  }
+
+  // --- cubos ---
+  for (let c of cubos) {
+    push();
+    translate(c.position.x, c.position.y);
+    rotate(c.angle);
+    fill(c.customColor);
+    rectMode(CENTER);
+    rect(0, 0, 40, 40);
+    pop();
+  }
+
+  // --- debug: cuerpo agarrado ---
+  if (mConstraint.body) {
+    const pos = mConstraint.body.position;
+    push();
+    noFill();
+    stroke(255, 0, 0);
+    ellipse(pos.x, pos.y, 80);
+    pop();
+  }
+}
+```
 ####
-2. Incluye una **captura de pantalla o ENLACE a un GIF (no olvides, enlace) de cada experimento funcionando.
+2. Incluye una captura de pantalla o ENLACE a un GIF (no olvides, enlace) de cada experimento funcionando.
 ####
-...
+![Palanca](https://github.com/user-attachments/assets/7693a287-6129-40b1-b0eb-35450baca977)
+
+![Trampolin](https://github.com/user-attachments/assets/bc38a0e6-8ed9-46f2-ab98-bfa9f0c89209)
+
 ####
 3. Proporciona tu explicación clara y concisa de los conceptos clave (`Engine`, `World`, `Bodies`, `Constraint`, `MouseConstraint`).
 ####
-...
+- **Engine: **Es el motor de física que calcula todas las fuerzas, colisiones y movimientos. Actualiza las posiciones y velocidades de los cuerpos en cada frame.
+####
+Se crea con `Matter.Engine.create()` y se actualiza con `Matter.Engine.update(engine)` en `draw()` o `update()`.
+####
+- **World: **Es el contenedor de todos los cuerpos físicos (objetos, muros, partículas, etc.). Pertenece al engine: engine.world
+####
+Aquí se “viven” los objetos que la simulación debe tener en cuenta.
+####
+- **Bodies: **Son los objetos físicos del mundo: círculos, rectángulos, polígonos o figuras personalizadas. Se crean con funciones como:
+``` js
+Bodies.circle(x, y, radius)`
+Bodies.rectangle(x, y, width, height)`
+```
+####
+Cada cuerpo tiene propiedades físicas:
+- mass (masa)
+- friction (fricción)
+- restitution (rebote)
+- isStatic (si se mueve o no)
+####
+- **Constraint: **Son conectores entre cuerpos, como resortes o barras rígidas. Permiten simular uniones flexibles, cuerdas, huesos o patas, y se crean con:
+``` js
+Constraint.create({
+  bodyA: body1,
+  bodyB: body2,
+  stiffness: 0.9,
+  length: 100
+})
+```
+- **MouseConstraint: **Permite interactuar con el mundo físico usando el mouse. Detecta clics y arrastres sobre los cuerpos. Se añade al mundo con:
+``` js
+const mouse = Mouse.create(canvas.elt);
+const mouseConstraint = MouseConstraint.create(engine, { mouse });
+World.add(world, mouseConstraint);
+```
 ####
 4. Menciona brevemente cualquier dificultad encontrada al configurar o usar Matter.js inicialmente.
 ####
-...
+Entender cómo hacer funcionar los bodies principalmente, así como los constraints.
 
 # Apply
 ## Actividad 3
@@ -939,6 +1234,7 @@ class LetraS extends LetraBase {
 **Nota:** -
 
 ....
+
 
 
 
