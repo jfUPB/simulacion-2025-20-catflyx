@@ -358,7 +358,7 @@ Entender cómo hacer funcionar los bodies principalmente, así como los constrai
 ####
 1. Indica claramente la palabra elegida.
 ####
-La palabra que elegí es "Ciempiés", pues son mi animal favorito y me parece que su anatomía podría demostrar una implementación compleja e interesante.
+La palabra que elegí es "ciempiés", pues son mi animal favorito y me parece que su anatomía podría demostrar una implementación compleja e interesante.
 ####
 2. Explica tu **idea conceptual**: ¿Cómo la animación física representa el significado de la palabra?
 ####
@@ -1231,9 +1231,10 @@ class LetraS extends LetraBase {
 ![ciempies](https://github.com/user-attachments/assets/6f4e97e3-6218-49d5-8081-202610000ac4)
 
 # Autoevaluación
-**Nota:** -
+**Nota:** 5
+####
+Cumplí con las 3 actividades completas, siguiendo cada uno de los puntos que se exigían. Además, están puestas las evidencias de las mismas como es debido. Por último, estoy haciendo la autoevaluación.
 
-....
 
 
 
