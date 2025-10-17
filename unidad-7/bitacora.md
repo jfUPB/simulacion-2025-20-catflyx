@@ -303,9 +303,9 @@ function draw() {
 ####
 2. Incluye una captura de pantalla o ENLACE a un GIF (no olvides, enlace) de cada experimento funcionando.
 ####
-![Palanca](https://github.com/user-attachments/assets/7693a287-6129-40b1-b0eb-35450baca977)
+![Trampolin](https://github.com/user-attachments/assets/248310b7-daf6-4c8f-bb48-8f8b958cb0d9)
 
-![Trampolin](https://github.com/user-attachments/assets/bc38a0e6-8ed9-46f2-ab98-bfa9f0c89209)
+![Palanca](https://github.com/user-attachments/assets/eba140dd-f6b3-4844-8fc5-fbf897aa9dd2)
 
 ####
 3. Proporciona tu explicación clara y concisa de los conceptos clave (`Engine`, `World`, `Bodies`, `Constraint`, `MouseConstraint`).
@@ -1234,6 +1234,7 @@ class LetraS extends LetraBase {
 **Nota:** -
 
 ....
+
 
 
 
