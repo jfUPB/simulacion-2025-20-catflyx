@@ -2,7 +2,24 @@
 _______________________________________________________________________________________________________________________________________________________________________________
 # Set y Seek
 ## Actividad 1
-
+**Explora fragmentos de al menos 2-3 de estos enlaces:**
+- Blog de Alba G. Corral: [https://blog.albagcorral.com/](https://blog.albagcorral.com/) (navega por sus proyectos).
+- Sónar+D CCCB 2020: [Carles Viarnès & Alba G. Corral 360º AV Show](https://youtu.be/EMO45Y0Jazs?si=mtWqXb2IBZTwiF9K)
+- Le Parody & Alba G. Corral:[ En directo en el Teatro Principal de Zaragoza](https://youtu.be/eEQPHICafbs?si=rCgcmiR0t4mJQAw7)
+- Dimension N: [Alba G Corral & Makaruk - Performance at Festival des Bains Numeriques #9](https://youtu.be/r0lZ83wvgvs?si=MUkJCBFb6fm5RXzr)
+####
+1. Describe tus observaciones sobre la conexión sonido-imagen en al menos dos de las performances vistas.
+####
+- La modificación de lienzos ya "pre hechos", pero con cambios que se hacen en vivo con el programa.
+- El uso de diferentes formas de noise para recorrer las formas y las ondas de sonido.
+####
+2. Explica qué elementos te parecieron generativos y por qué crees que cada visualización sería única.
+####
+Los ángulos, algunos tamaños y la dirección que tomaban las formas que se modificaban, haciendo una obra única con cada input.
+####
+3. Comparte tu reflexión sobre la sensación de “liveness”.
+####
+Es una sensación que se da por una combinación meticulosa entre el talento humano en vivo, y la capacidad de cierta forma, restringida, de la máquina para crear algo siguiendo el mismo flow del artista. Tiene su vida propia, y se modifica con un ámbito tanto predecible, pero con un resultado inesperado y que, en las manos correctas, resulta llamativo y no solo una generación de código.
 
 ## Actividad 2
 1. La pieza musical elegida (con enlace/archivo si es posible).
@@ -12,7 +29,21 @@ Domino Effect de Forsaken: [DOMINO EFFECT | 1X1X1X1 CHASE THEME (FORSAKEN)](http
 La descripción de tu concepto visual.
 ####
 Quiero que de una sensación caótica y amenazadora, así como que se vea enérgitica y representativa del personaje al que pertenece la canción. De igual forma, quería separar visualmente cada capa de forma significativa.
-
+####
+Los inputs seleccionados y la justificación de por qué los elegiste.
+####
+- Ondas difuminadas para las "ondas", triangulares y que aumentan su opacidad manualmente. La opacidad es interactuable.
+- "Mass infections" recorriendo la pantalla, se crean. Y costillas representadas con 3 líneas blancas. Estos usarán flowfiels y interactuan con el click.
+- Se agregan "Entanglements", más rápidos que los MI. Se crean también.
+- X negras lloviendo. Son partículas con vida limitada que se activan y desactivan manualmente.
+- Difuminado general verde que se activa.
+- Estrellas rojas que aparecen cada cierto tiempo y se van borrando gradualmente.
+- Onda roja que se activa y desactiva manualmente.
+####
+¿Qué algoritmos o técnicas planeas usar (ej: flow fields, flocking, física, partículas, etc.) y por qué?
+Tus bocetos y una explicación de cómo los inputs influirán en los visuales.
+####
+Planeo hacer uso de flowfields, partículas, ondas, entre otros. Basándome en los siguientes bocetos en orden de "capas":
 <img width="498" height="374" alt="image" src="https://github.com/user-attachments/assets/610c1d8f-8df3-4d75-ba95-65c8eff932f1" />
 
 <img width="496" height="371" alt="image" src="https://github.com/user-attachments/assets/55215ce2-2596-421d-8c56-03432402703e" />
@@ -20,21 +51,6 @@ Quiero que de una sensación caótica y amenazadora, así como que se vea enérg
 <img width="499" height="372" alt="image" src="https://github.com/user-attachments/assets/e67d7146-1898-45d8-bbdf-0732c91ff94a" />
 
 <img width="495" height="372" alt="image" src="https://github.com/user-attachments/assets/ed8b4146-534f-4cef-a5da-7358a4822875" />
-
-Como agregado, me dió pereza dibujarlo pero las lineas negras de la capa 4 serán remplazadas por X negras cayendo.
-####
-Los inputs seleccionados y la justificación de por qué los elegiste.
-####
-- Ondas difuminadas para las "ondas", triangulares y que aumentan su opacidad manualmente. En la capa 4 aparecería unas segundas ondas con efecto de capa 2.
-- "Mass infections" recorriendo la pantalla, y costillas representadas con 3 líneas blancas.
-- Se agregan "Entanglements", más rápidos que los MI.
-- X negras lloviendo.
-- Estrellas rojas que aparecen cada cierto tiempo y se van borrando gradualmente.
-####
-¿Qué algoritmos o técnicas planeas usar (ej: flow fields, flocking, física, partículas, etc.) y por qué?
-Tus bocetos y una explicación de cómo los inputs influirán en los visuales.
-####
-...
 
 # Apply
 ## Actividad 3
@@ -2344,7 +2360,8 @@ Capturas de pantalla mostrando tu pieza en acción.
 <img width="842" height="634" alt="image" src="https://github.com/user-attachments/assets/ca5bd77c-8366-4ecc-b5ec-d7e73de9034c" />
 
 # Autoevaluación
-**Nota:** -
+**Nota:** 2
 ####
 ....
+
 
