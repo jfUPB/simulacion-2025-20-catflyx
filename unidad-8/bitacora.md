@@ -53,7 +53,7 @@ Planeo hacer uso de flowfields, partículas, ondas, entre otros. Basándome en l
 
 # Apply
 ## Actividad 3
-El código fuente completo de tu sketch en p5.js.
+1. El código fuente completo de tu sketch en p5.js.
 ####
 `Versión 1`
 ``` js
@@ -2346,11 +2346,11 @@ function levyStep(scale = 100) {
 }
 ```
 ####
-Un enlace a tu sketch en el editor de p5.js.
+2. Un enlace a tu sketch en el editor de p5.js.
 ####
 [https://editor.p5js.org/catflyx/sketches/5AMlGGjwO](https://editor.p5js.org/catflyx/sketches/5AMlGGjwO)
 ####
-Capturas de pantalla mostrando tu pieza en acción.
+3. Capturas de pantalla mostrando tu pieza en acción.
 ####
 <img width="849" height="638" alt="image" src="https://github.com/user-attachments/assets/501e5f5b-e9b2-49db-9dd8-20b3d5c28136" />
 
@@ -2359,9 +2359,10 @@ Capturas de pantalla mostrando tu pieza en acción.
 <img width="842" height="634" alt="image" src="https://github.com/user-attachments/assets/ca5bd77c-8366-4ecc-b5ec-d7e73de9034c" />
 
 # Autoevaluación
-**Nota:** 2
+**Nota:** 5
 ####
-....
+Completé las actividades con lo que se pedía, y satisfací las necesidades de cada una.
+
 
 
 
