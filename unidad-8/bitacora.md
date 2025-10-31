@@ -26,11 +26,11 @@ Es una sensación que se da por una combinación meticulosa entre el talento hum
 ####
 Domino Effect de Forsaken: [DOMINO EFFECT | 1X1X1X1 CHASE THEME (FORSAKEN)](https://youtu.be/D9tLX2mIxkQ?si=O_iYP_cf8u1SNM96)
 ####
-La descripción de tu concepto visual.
+2. La descripción de tu concepto visual.
 ####
 Quiero que de una sensación caótica y amenazadora, así como que se vea enérgitica y representativa del personaje al que pertenece la canción. De igual forma, quería separar visualmente cada capa de forma significativa.
 ####
-Los inputs seleccionados y la justificación de por qué los elegiste.
+3. Los inputs seleccionados y la justificación de por qué los elegiste.
 ####
 - Ondas difuminadas para las "ondas", triangulares y que aumentan su opacidad manualmente. La opacidad es interactuable.
 - "Mass infections" recorriendo la pantalla, se crean. Y costillas representadas con 3 líneas blancas. Estos usarán flowfiels y interactuan con el click.
@@ -40,8 +40,7 @@ Los inputs seleccionados y la justificación de por qué los elegiste.
 - Estrellas rojas que aparecen cada cierto tiempo y se van borrando gradualmente.
 - Onda roja que se activa y desactiva manualmente.
 ####
-¿Qué algoritmos o técnicas planeas usar (ej: flow fields, flocking, física, partículas, etc.) y por qué?
-Tus bocetos y una explicación de cómo los inputs influirán en los visuales.
+4. ¿Qué algoritmos o técnicas planeas usar (ej: flow fields, flocking, física, partículas, etc.) y por qué? Tus bocetos y una explicación de cómo los inputs influirán en los visuales.
 ####
 Planeo hacer uso de flowfields, partículas, ondas, entre otros. Basándome en los siguientes bocetos en orden de "capas":
 <img width="498" height="374" alt="image" src="https://github.com/user-attachments/assets/610c1d8f-8df3-4d75-ba95-65c8eff932f1" />
@@ -2363,5 +2362,6 @@ Capturas de pantalla mostrando tu pieza en acción.
 **Nota:** 2
 ####
 ....
+
 
 
